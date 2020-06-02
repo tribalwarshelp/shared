@@ -47,8 +47,26 @@ func (lt LanguageTag) MarshalGQL(w io.Writer) {
 }
 
 type LangVersion struct {
+	tableName struct{} `pg:"alias:lang_version"`
+
 	Tag      LanguageTag `pg:",pk" json:"tag" gqlgen:"tag"`
 	Name     string      `json:"name" gqlgen:"name" pg:",unique"`
 	Host     string      `json:"host" gqlgen:"host"`
 	Timezone string      `json:"timezone" gqlgen:"timezone"`
+}
+
+type LangVersionFilter struct {
+	tableName struct{} `urlstruct:"lang_version"`
+
+	Tag    []LanguageTag
+	TagNEQ []LanguageTag
+
+	Host      []string `json:"host" gqlgen:"host"`
+	HostNEQ   []string `json:"hostNEQ" gqlgen:"hostNEQ"`
+	HostMATCH string   `json:"hostMATCH" gqlgen:"hostMATCH"`
+	HostIEQ   string   `json:"hostIEQ" gqlgen:"hostIEQ"`
+
+	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset"`
+	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit"`
+	Sort   string `urlstruct:",nowhere" json:"sort" gqlgen:"sort"`
 }
