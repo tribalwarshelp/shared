@@ -69,8 +69,8 @@ type ServerFilter struct {
 	Status    []ServerStatus `json:"status" gqlgen:"status"`
 	StatusNEQ []ServerStatus `json:"statusNEQ" gqlgen:"statusNEQ"`
 
-	LangVersionTag    []string `json:"langVersionTag" gqlgen:"langVersionTag"`
-	LangVersionTagNEQ []string `json:"langVersionTagNEQ" gqlgen:"langVersionTagNEQ"`
+	LangVersionTag    []LanguageTag `json:"langVersionTag" gqlgen:"langVersionTag"`
+	LangVersionTagNEQ []LanguageTag `json:"langVersionTagNEQ" gqlgen:"langVersionTagNEQ"`
 
 	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset"`
 	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit"`
