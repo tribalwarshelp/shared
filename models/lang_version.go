@@ -58,8 +58,8 @@ type LangVersion struct {
 type LangVersionFilter struct {
 	tableName struct{} `urlstruct:"lang_version"`
 
-	Tag    []LanguageTag
-	TagNEQ []LanguageTag
+	Tag    []LanguageTag `json:"tag" gqlgen:"tag"`
+	TagNEQ []LanguageTag `json:"tagNEQ" gqlgen:"tagNEQ"`
 
 	Host      []string `json:"host" gqlgen:"host"`
 	HostNEQ   []string `json:"hostNEQ" gqlgen:"hostNEQ"`

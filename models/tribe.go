@@ -36,26 +36,31 @@ type TribeFilter struct {
 
 	TotalMembers    int `json:"totalMembers" gqlgen:"totalMembers"`
 	TotalMembersGT  int `json:"totalMembersGT" gqlgen:"totalMembersGT"`
+	TotalMembersGTE int `json:"totalMembersGTE" gqlgen:"totalMembersGTE"`
 	TotalMembersLT  int `json:"totalMembersLT" gqlgen:"totalMembersLT"`
 	TotalMembersLTE int `json:"totalMembersLTE" gqlgen:"totalMembersLTE"`
 
 	TotalVillages    int `json:"totalVillages" gqlgen:"totalVillages"`
 	TotalVillagesGT  int `json:"totalVillagesGT" gqlgen:"totalVillagesGT"`
+	TotalVillagesGTE int `json:"totalVillagesGTE" gqlgen:"totalVillagesGTE"`
 	TotalVillagesLT  int `json:"totalVillagesLT" gqlgen:"totalVillagesLT"`
 	TotalVillagesLTE int `json:"totalVillagesLTE" gqlgen:"totalVillagesLTE"`
 
 	Points    int `json:"points" gqlgen:"points"`
 	PointsGT  int `json:"pointsGT" gqlgen:"pointsGT"`
+	PointsGTE int `json:"pointsGTE" gqlgen:"pointsGTE"`
 	PointsLT  int `json:"pointsLT" gqlgen:"pointsLT"`
 	PointsLTE int `json:"pointsLTE" gqlgen:"pointsLTE"`
 
 	AllPoints    int `json:"allPoints" gqlgen:"allPoints"`
 	AllPointsGT  int `json:"allPointsGT" gqlgen:"allPointsGT"`
+	AllPointsGTE int `json:"allPointsGTE" gqlgen:"allPointsGTE"`
 	AllPointsLT  int `json:"allPointsLT" gqlgen:"allPointsLT"`
 	AllPointsLTE int `json:"allPointsLTE" gqlgen:"allPointsLTE"`
 
 	Rank    int `json:"rank" gqlgen:"rank"`
 	RankGT  int `json:"rankGT" gqlgen:"rankGT"`
+	RankGTE int `json:"rankGTE" gqlgen:"rankGTE"`
 	RankLT  int `json:"rankLT" gqlgen:"rankLT"`
 	RankLTE int `json:"rankLTE" gqlgen:"rankLTE"`
 

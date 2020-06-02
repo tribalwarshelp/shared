@@ -27,11 +27,13 @@ type VillageFilter struct {
 
 	Points    int `json:"points" gqlgen:"points"`
 	PointsGT  int `json:"pointsGT" gqlgen:"pointsGT"`
+	PointsGTE int `json:"pointsGTE" gqlgen:"pointsGTE"`
 	PointsLT  int `json:"pointsLT" gqlgen:"pointsLT"`
 	PointsLTE int `json:"pointsLTE" gqlgen:"pointsLTE"`
 
 	Bonus    int `json:"bonus" gqlgen:"bonus"`
 	BonusGT  int `json:"bonusGT" gqlgen:"bonusGT"`
+	BonusGTE int `json:"bonusGTE" gqlgen:"bonusGTE"`
 	BonusLT  int `json:"bonusLT" gqlgen:"bonusLT"`
 	BonusLTE int `json:"bonusLTE" gqlgen:"bonusLTE"`
 

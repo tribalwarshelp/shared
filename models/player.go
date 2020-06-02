@@ -30,16 +30,19 @@ type PlayerFilter struct {
 
 	TotalVillages    int `json:"totalVillages" gqlgen:"totalVillages"`
 	TotalVillagesGT  int `json:"totalVillagesGT" gqlgen:"totalVillagesGT"`
+	TotalVillagesGTE int `json:"totalVillagesGTE" gqlgen:"totalVillagesGTE"`
 	TotalVillagesLT  int `json:"totalVillagesLT" gqlgen:"totalVillagesLT"`
 	TotalVillagesLTE int `json:"totalVillagesLTE" gqlgen:"totalVillagesLTE"`
 
 	Points    int `json:"points" gqlgen:"points"`
 	PointsGT  int `json:"pointsGT" gqlgen:"pointsGT"`
+	PointsGTE int `json:"pointsGTE" gqlgen:"pointsGTE"`
 	PointsLT  int `json:"pointsLT" gqlgen:"pointsLT"`
 	PointsLTE int `json:"pointsLTE" gqlgen:"pointsLTE"`
 
 	Rank    int `json:"rank" gqlgen:"rank"`
 	RankGT  int `json:"rankGT" gqlgen:"rankGT"`
+	RankGTE int `json:"rankGTE" gqlgen:"rankGTE"`
 	RankLT  int `json:"rankLT" gqlgen:"rankLT"`
 	RankLTE int `json:"rankLTE" gqlgen:"rankLTE"`
 
