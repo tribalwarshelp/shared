@@ -10,14 +10,14 @@ import (
 type ServerStatus string
 
 const (
-	ServerStatusOpen  ServerStatus = "open"
-	ServerStatusClose ServerStatus = "close"
+	ServerStatusOpen   ServerStatus = "open"
+	ServerStatusClosed ServerStatus = "closed"
 )
 
 func (ss ServerStatus) IsValid() bool {
 	switch ss {
 	case ServerStatusOpen,
-		ServerStatusClose:
+		ServerStatusClosed:
 		return true
 	}
 	return false
@@ -67,10 +67,10 @@ type ServerFilter struct {
 	KeyIEQ   string   `json:"keyIEQ" gqlgen:"keyIEQ"`
 
 	Status    []string `json:"status" gqlgen:"status"`
-	StatusNIN []string `json:"statusNIN" gqlgen:"statusNIN"`
+	StatusNEQ []string `json:"statusNEQ" gqlgen:"statusNEQ"`
 
 	LangVersionTag    []string `json:"langVersionTag" gqlgen:"langVersionTag"`
-	LangVersionTagNIN []string `json:"langVersionTagNIN" gqlgen:"langVersionTagNIN"`
+	LangVersionTagNEQ []string `json:"langVersionTagNEQ" gqlgen:"langVersionTagNEQ"`
 
 	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset"`
 	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit"`
