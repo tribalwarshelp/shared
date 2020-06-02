@@ -66,8 +66,8 @@ type ServerFilter struct {
 	KeyMATCH string   `json:"keyMATCH" gqlgen:"keyMATCH"`
 	KeyIEQ   string   `json:"keyIEQ" gqlgen:"keyIEQ"`
 
-	Status    []string `json:"status" gqlgen:"status"`
-	StatusNEQ []string `json:"statusNEQ" gqlgen:"statusNEQ"`
+	Status    []ServerStatus `json:"status" gqlgen:"status"`
+	StatusNEQ []ServerStatus `json:"statusNEQ" gqlgen:"statusNEQ"`
 
 	LangVersionTag    []string `json:"langVersionTag" gqlgen:"langVersionTag"`
 	LangVersionTagNEQ []string `json:"langVersionTagNEQ" gqlgen:"langVersionTagNEQ"`

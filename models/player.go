@@ -47,5 +47,10 @@ type PlayerFilter struct {
 	RankLTE int `json:"rankLTE" gqlgen:"rankLTE"`
 
 	TribeID []int `json:"tribe" gqlgen:"tribe"`
+
+	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset"`
+	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit"`
+	Sort   string `urlstruct:",nowhere" json:"sort" gqlgen:"sort"`
+
 	OpponentsDefeatedFilter
 }
