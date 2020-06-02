@@ -1,11 +1,48 @@
 package models
 
+import (
+	"fmt"
+	"io"
+	"strconv"
+	"strings"
+)
+
 type ServerStatus string
 
 const (
-	ServerStatusOpen  = "open"
-	ServerStatusClose = "close"
+	ServerStatusOpen  ServerStatus = "open"
+	ServerStatusClose ServerStatus = "close"
 )
+
+func (ss ServerStatus) IsValid() bool {
+	switch ss {
+	case ServerStatusOpen,
+		ServerStatusClose:
+		return true
+	}
+	return false
+}
+
+func (ss ServerStatus) String() string {
+	return string(ss)
+}
+
+func (ss *ServerStatus) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*ss = ServerStatus(strings.ToLower(str))
+	if !ss.IsValid() {
+		return fmt.Errorf("%s is not a valid ServerStatus", str)
+	}
+	return nil
+}
+
+func (ss ServerStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(ss.String()))
+}
 
 type Server struct {
 	tableName struct{} `pg:"alias:server"`
