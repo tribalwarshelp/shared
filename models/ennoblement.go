@@ -3,11 +3,11 @@ package models
 import "time"
 
 type Ennoblement struct {
-	VillageID  int       `json:"-" gqlgen:"-"`
-	Village    *Village  `json:"-" gqlgen:"-"`
-	NewOwnerID int       `json:"-" gqlgen:"-"`
-	NewOwner   *Player   `json:"-" gqlgen:"-"`
-	OldOwnerID int       `json:"-" gqlgen:"-"`
-	OldOwner   *Player   `json:"-" gqlgen:"-"`
+	VillageID  int       `gqlgen:"-" json:"villageID"`
+	Village    *Village  `gqlgen:"-" json:"village"`
+	NewOwnerID int       `gqlgen:"-" json:"newOwnerID"`
+	NewOwner   *Player   `gqlgen:"-" json:"newOwner"`
+	OldOwnerID int       `gqlgen:"-" json:"oldOwnerID"`
+	OldOwner   *Player   `gqlgen:"-" json:"oldOwner"`
 	EnnobledAt time.Time `json:"ennobledAt" gqlgen:"ennobledAt"`
 }
