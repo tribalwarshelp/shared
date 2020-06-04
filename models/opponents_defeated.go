@@ -7,8 +7,8 @@ type OpponentsDefeated struct {
 	ScoreDef   int `pg:",use_zero" json:"scoreDef" gqlgen:"scoreDef"`
 	RankTotal  int `pg:",use_zero" json:"rankTotal" gqlgen:"rankTotal"`
 	ScoreTotal int `pg:",use_zero" json:"scoreTotal" gqlgen:"scoreTotal"`
-	RankSup    int `pg:",use_zero" json:"rankSup" gqlgen:"rankSup"`
-	ScoreSup   int `pg:",use_zero" json:"scoreSup" gqlgen:"scoreSup"`
+	RankSup    int `pg:",use_zero" json:"rankSup,omitempty" gqlgen:"rankSup"`
+	ScoreSup   int `pg:",use_zero" json:"scoreSup,omitempty" gqlgen:"scoreSup"`
 }
 
 type OpponentsDefeatedFilter struct {
