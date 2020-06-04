@@ -42,14 +42,14 @@ type OpponentsDefeatedFilter struct {
 	ScoreTotalGTE int `json:"scoreTotalGTE" gqlgen:"scoreTotalGTE"`
 	ScoreTotalLT  int `json:"scoreTotalLT" gqlgen:"scoreTotalLT"`
 	ScoreTotalLTE int `json:"scoreTotalLTE" gqlgen:"scoreTotalLTE"`
-	ScoreSup      int `json:"scoreSup" gqlgen:"scoreSup"`
-	ScoreSupGT    int `json:"scoreSupGT" gqlgen:"scoreSupGT"`
-	ScoreSupGTE   int `json:"scoreSupGTE" gqlgen:"scoreSupGTE"`
-	ScoreSupLT    int `json:"scoreSupLT" gqlgen:"scoreSupLT"`
-	ScoreSupLTE   int `json:"scoreSupLTE" gqlgen:"scoreSupLTE"`
-	RankSup       int `json:"rankSup" gqlgen:"rankSup"`
-	RankSupGT     int `json:"rankSupGT" gqlgen:"rankSupGT"`
-	RankSupGTE    int `json:"rankSupGTE" gqlgen:"rankSupGTE"`
-	RankSupLT     int `json:"rankSupLT" gqlgen:"rankSupLT"`
-	RankSupLTE    int `json:"rankSupLTE" gqlgen:"rankSupLTE"`
+	ScoreSup      int `json:"scoreSup,omitempty" gqlgen:"scoreSup"`
+	ScoreSupGT    int `json:"scoreSupGT,omitempty" gqlgen:"scoreSupGT"`
+	ScoreSupGTE   int `json:"scoreSupGTE,omitempty" gqlgen:"scoreSupGTE"`
+	ScoreSupLT    int `json:"scoreSupLT,omitempty" gqlgen:"scoreSupLT"`
+	ScoreSupLTE   int `json:"scoreSupLTE,omitempty" gqlgen:"scoreSupLTE"`
+	RankSup       int `json:"rankSup,omitempty" gqlgen:"rankSup"`
+	RankSupGT     int `json:"rankSupGT,omitempty" gqlgen:"rankSupGT"`
+	RankSupGTE    int `json:"rankSupGTE,omitempty" gqlgen:"rankSupGTE"`
+	RankSupLT     int `json:"rankSupLT,omitempty" gqlgen:"rankSupLT"`
+	RankSupLTE    int `json:"rankSupLTE,omitempty" gqlgen:"rankSupLTE"`
 }
