@@ -1,5 +1,10 @@
 package models
 
+import (
+	"fmt"
+	"strconv"
+)
+
 type Village struct {
 	tableName struct{} `pg:"?SERVER.villages,alias:village"`
 
@@ -12,6 +17,13 @@ type Village struct {
 
 	PlayerID int     `json:"-" pg:",use_zero" gqlgen:"playerID"`
 	Player   *Player `json:"player,omitempty" gqlgen:"-"`
+}
+
+func (v *Village) Continent() string {
+	if v == nil {
+		return ""
+	}
+	return fmt.Sprintf("k%c%c", strconv.FormatInt(int64(v.Y), 10)[0], strconv.FormatInt(int64(v.y), 10)[0]))
 }
 
 type VillageFilter struct {
