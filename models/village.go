@@ -37,14 +37,14 @@ type VillageFilter struct {
 	NameMATCH string   `json:"nameMATCH" gqlgen:"nameMATCH"`
 	NameIEQ   string   `json:"nameIEQ" gqlgen:"nameIEQ"`
 
-	XCoordGT  int `urlstruct:"x" json:"xGT" gqlgen:"xGT"`
-	XCoordGTE int `urlstruct:"x" json:"xGTE" gqlgen:"xGTE"`
-	XCoordLT  int `urlstruct:"x" json:"xLT" gqlgen:"xLT"`
-	XCoordLTE int `urlstruct:"x" json:"xLTE" gqlgen:"xLTE"`
-	YCoordGT  int `urlstruct:"y" json:"yGT" gqlgen:"yGT"`
-	YCoordGTE int `urlstruct:"y" json:"yGTE" gqlgen:"yGTE"`
-	YCoordLT  int `urlstruct:"y" json:"yLT" gqlgen:"yLT"`
-	YCoordLTE int `urlstruct:"y" json:"yLTE" gqlgen:"yLTE"`
+	XCoordGT  int `urlstruct:"xGT" json:"xGT" gqlgen:"xGT"`
+	XCoordGTE int `urlstruct:"xGTE" json:"xGTE" gqlgen:"xGTE"`
+	XCoordLT  int `urlstruct:"xLT" json:"xLT" gqlgen:"xLT"`
+	XCoordLTE int `urlstruct:"xLTE" json:"xLTE" gqlgen:"xLTE"`
+	YCoordGT  int `urlstruct:"yGT" json:"yGT" gqlgen:"yGT"`
+	YCoordGTE int `urlstruct:"yGTE" json:"yGTE" gqlgen:"yGTE"`
+	YCoordLT  int `urlstruct:"yLT" json:"yLT" gqlgen:"yLT"`
+	YCoordLTE int `urlstruct:"yLTE" json:"yLTE" gqlgen:"yLTE"`
 
 	Points    int `json:"points" gqlgen:"points"`
 	PointsGT  int `json:"pointsGT" gqlgen:"pointsGT"`
