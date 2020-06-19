@@ -3,8 +3,8 @@ package models
 import "encoding/xml"
 
 type ServerConfigBuild struct {
-	Text    string  `xml:",chardata" json:"-" gqlgen:"text"`
-	Destroy float64 `xml:"destroy" json:"destroy" gqlgen:"destroy"`
+	Text    string `xml:",chardata" json:"-" gqlgen:"text"`
+	Destroy int    `xml:"destroy" json:"destroy" gqlgen:"destroy"`
 }
 
 type ServerConfigMisc struct {
@@ -151,7 +151,7 @@ type ServerConfig struct {
 	Text      string                `xml:",chardata" json:"-" gqlgen:"text"`
 	Speed     float64               `xml:"speed" json:"speed" gqlgen:"speed"`
 	UnitSpeed float64               `xml:"unit_speed" json:"unit_speed" gqlgen:"unitSpeed"`
-	Moral     float64               `xml:"moral" json:"moral" gqlgen:"moral"`
+	Moral     int                   `xml:"moral" json:"moral" gqlgen:"moral"`
 	Build     ServerConfigBuild     `xml:"build" json:"build" gqlgen:"build"`
 	Misc      ServerConfigMisc      `xml:"misc" json:"misc" gqlgen:"misc"`
 	Commands  ServerConfigCommands  `xml:"commands" json:"commands" gqlgen:"commands"`
