@@ -4,7 +4,7 @@ import "encoding/xml"
 
 type Unit struct {
 	Text           string  `xml:",chardata" json:"-" gqlgen:"text"`
-	BuildTime      int     `xml:"build_time" json:"build_time" gqlgen:"buildTime"`
+	BuildTime      float64 `xml:"build_time" json:"build_time" gqlgen:"buildTime"`
 	Pop            int     `xml:"pop" json:"pop" gqlgen:"pop"`
 	Speed          float64 `xml:"speed" json:"speed" gqlgen:"speed"`
 	Attack         int     `xml:"attack" json:"attack" gqlgen:"attack"`
