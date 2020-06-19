@@ -5,12 +5,12 @@ import "encoding/xml"
 type ServerConfig struct {
 	XMLName   xml.Name `xml:"config" json:"-" gqlgen:"xmlName"`
 	Text      string   `xml:",chardata" json:"-" gqlgen:"text"`
-	Speed     float32  `xml:"speed" json:"speed" gqlgen:"speed"`
-	UnitSpeed float32  `xml:"unit_speed" json:"unit_speed" gqlgen:"unitSpeed"`
-	Moral     float32  `xml:"moral" json:"moral" gqlgen:"moral"`
+	Speed     float64  `xml:"speed" json:"speed" gqlgen:"speed"`
+	UnitSpeed float64  `xml:"unit_speed" json:"unit_speed" gqlgen:"unitSpeed"`
+	Moral     float64  `xml:"moral" json:"moral" gqlgen:"moral"`
 	Build     struct {
 		Text    string  `xml:",chardata" json:"-" gqlgen:"text"`
-		Destroy float32 `xml:"destroy" json:"destroy" gqlgen:"destroy"`
+		Destroy float64 `xml:"destroy" json:"destroy" gqlgen:"destroy"`
 	} `xml:"build" json:"build" gqlgen:"build"`
 	Misc struct {
 		Text            string `xml:",chardata" json:"-" gqlgen:"text"`
@@ -42,7 +42,7 @@ type ServerConfig struct {
 		Watchtower         int     `xml:"watchtower" json:"watchtower" gqlgen:"watchtower"`
 		Stronghold         int     `xml:"stronghold" json:"stronghold" gqlgen:"stronghold"`
 		FakeLimit          int     `xml:"fake_limit" json:"fake_limit" gqlgen:"fakeLimit"`
-		BarbarianRise      float32 `xml:"barbarian_rise" json:"barbarian_rise" gqlgen:"barbarianRise"`
+		BarbarianRise      float64 `xml:"barbarian_rise" json:"barbarian_rise" gqlgen:"barbarianRise"`
 		BarbarianShrink    int     `xml:"barbarian_shrink" json:"barbarian_shrink" gqlgen:"barbarianShrink"`
 		BarbarianMaxPoints int     `xml:"barbarian_max_points" json:"barbarian_max_points" gqlgen:"barbarianMaxPoints"`
 		Hauls              int     `xml:"hauls" json:"hauls" gqlgen:"hauls"`
@@ -79,7 +79,7 @@ type ServerConfig struct {
 		CheapRebuild  int     `xml:"cheap_rebuild" json:"cheap_rebuild" gqlgen:"cheapRebuild"`
 		Rise          int     `xml:"rise" json:"rise" gqlgen:"rise"`
 		MaxDist       int     `xml:"max_dist" json:"max_dist" gqlgen:"maxDist"`
-		Factor        float32 `xml:"factor" json:"factor" gqlgen:"factor"`
+		Factor        float64 `xml:"factor" json:"factor" gqlgen:"factor"`
 		CoinWood      int     `xml:"coin_wood" json:"coin_wood" gqlgen:"coinWood"`
 		CoinStone     int     `xml:"coin_stone" json:"coin_stone" gqlgen:"coinStone"`
 		CoinIron      int     `xml:"coin_iron" json:"coin_iron" gqlgen:"coinIron"`
