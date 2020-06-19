@@ -5,6 +5,7 @@ import (
 	"io"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type ServerStatus string
@@ -57,6 +58,8 @@ type Server struct {
 
 	LangVersionTag LanguageTag  `json:"langVersionTag" gqlgen:"langVersionTag" xml:"langVersionTag"`
 	LangVersion    *LangVersion `json:"langVersion,omitempty" gqlgen:"-" xml:"langVersion"`
+
+	DataUpdatedAt time.Time `pg:"default:now(),use_zero" json:"dataUpdatedAt" gqlgen:"dataUpdatedAt" xml:"dataUpdatedAt"`
 }
 
 type ServerFilter struct {
