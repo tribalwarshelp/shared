@@ -52,7 +52,7 @@ type Server struct {
 	Key    string       `json:"key" gqlgen:"key" pg:",unique" xml:"key"`
 	Status ServerStatus `json:"status" gqlgen:"status" xml:"status"`
 
-	Config         Config         `json:"config" gqlgen:"config" xml:"config"`
+	Config         ServerConfig   `json:"config" gqlgen:"config" xml:"config"`
 	BuildingConfig BuildingConfig `json:"buildingConfig" gqlgen:"buildingConfig" xml:"buildingConfig"`
 	UnitConfig     UnitConfig     `json:"unitConfig" gqlgen:"unitConfig" xml:"unitConfig"`
 

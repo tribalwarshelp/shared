@@ -2,7 +2,7 @@ package models
 
 import "encoding/xml"
 
-type Config struct {
+type ServerConfig struct {
 	XMLName   xml.Name `xml:"config" json:"-" gqlgen:"xmlName"`
 	Text      string   `xml:",chardata" json:"-" gqlgen:"text"`
 	Speed     float32  `xml:"speed" json:"speed" gqlgen:"speed"`
