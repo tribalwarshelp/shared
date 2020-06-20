@@ -5,15 +5,15 @@ import "time"
 type Ennoblement struct {
 	tableName struct{} `pg:"?SERVER.ennoblements,alias:ennoblement"`
 
-	VillageID       int       `gqlgen:"-" json:"villageID" xml:"villageID"`
+	VillageID       int       `pg:",use_zero" gqlgen:"-" json:"villageID" xml:"villageID"`
 	Village         *Village  `gqlgen:"-" json:"village,omitempty" xml:"village"`
-	NewOwnerID      int       `gqlgen:"-" json:"newOwnerID" xml:"newOwnerID"`
+	NewOwnerID      int       `pg:",use_zero" gqlgen:"-" json:"newOwnerID" xml:"newOwnerID"`
 	NewOwner        *Player   `gqlgen:"-" json:"newOwner,omitempty" xml:"newOwner"`
-	NewOwnerTribeID int       `json:"newOwnerTribeID" gqlgen:"newOwnerTribeID" xml:"newOwnerTribeID"`
+	NewOwnerTribeID int       `pg:",use_zero" json:"newOwnerTribeID" gqlgen:"newOwnerTribeID" xml:"newOwnerTribeID"`
 	NewOwnerTribe   *Tribe    `json:"newOwnerTribe,omitempty" gqlgen:"-" xml:"newOwnerTribe"`
-	OldOwnerID      int       `gqlgen:"-" json:"oldOwnerID" xml:"oldOwnerID"`
+	OldOwnerID      int       `pg:",use_zero" gqlgen:"-" json:"oldOwnerID" xml:"oldOwnerID"`
 	OldOwner        *Player   `gqlgen:"-" json:"oldOwner,omitempty" xml:"oldOwner"`
-	OldOwnerTribeID int       `json:"oldOwnerTribeID" gqlgen:"oldOwnerTribeID" xml:"oldOwnerTribeID"`
+	OldOwnerTribeID int       `pg:",use_zero" json:"oldOwnerTribeID" gqlgen:"oldOwnerTribeID" xml:"oldOwnerTribeID"`
 	OldOwnerTribe   *Tribe    `json:"oldOwnerTribe,omitempty" gqlgen:"-" xml:"oldOwnerTribe"`
 	EnnobledAt      time.Time `pg:"default:now(),use_zero" json:"ennobledAt" gqlgen:"ennobledAt" xml:"ennobledAt"`
 }

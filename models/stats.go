@@ -8,9 +8,9 @@ import (
 type Stats struct {
 	tableName struct{} `pg:"stats,alias:stats"`
 
-	ActiveServers   int `json:"activeServers" gqlgen:"activeServers" xml:"activeServers"`
-	InactiveServers int `json:"inactiveServers" gqlgen:"inactiveServers" xml:"inactiveServers"`
-	Servers         int `json:"servers" gqlgen:"servers" xml:"servers"`
+	ActiveServers   int `pg:",use_zero" json:"activeServers" gqlgen:"activeServers" xml:"activeServers"`
+	InactiveServers int `pg:",use_zero" json:"inactiveServers" gqlgen:"inactiveServers" xml:"inactiveServers"`
+	Servers         int `pg:",use_zero" json:"servers" gqlgen:"servers" xml:"servers"`
 	ServerStats
 }
 
