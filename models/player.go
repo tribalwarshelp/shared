@@ -5,7 +5,7 @@ type Player struct {
 
 	ID            int    `json:"id" pg:",pk" gqlgen:"id"`
 	Name          string `json:"name" gqlgen:"name"`
-	TotalVillages int    `json:"total_villages" pg:",use_zero" gqlgen:"totalVillages"`
+	TotalVillages int    `json:"totalVillages" pg:",use_zero" gqlgen:"totalVillages"`
 	Points        int    `json:"points" pg:",use_zero" gqlgen:"points"`
 	Rank          int    `json:"rank" pg:",use_zero" gqlgen:"rank"`
 	Exist         *bool  `json:"exist" pg:",use_zero" gqlgen:"exist"`

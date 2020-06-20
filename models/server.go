@@ -59,7 +59,9 @@ type Server struct {
 	LangVersionTag LanguageTag  `json:"langVersionTag" gqlgen:"langVersionTag" xml:"langVersionTag"`
 	LangVersion    *LangVersion `json:"langVersion,omitempty" gqlgen:"-" xml:"langVersion"`
 
-	DataUpdatedAt time.Time `pg:"default:now(),use_zero" json:"dataUpdatedAt" gqlgen:"dataUpdatedAt" xml:"dataUpdatedAt"`
+	DataUpdatedAt    time.Time `pg:"default:now(),use_zero" json:"dataUpdatedAt" gqlgen:"dataUpdatedAt" xml:"dataUpdatedAt"`
+	HistoryUpdatedAt time.Time `pg:"default:now(),use_zero" json:"historyUpdatedAt" gqlgen:"historyUpdatedAt" xml:"historyUpdatedAt"`
+	StatsUpdatedAt   time.Time `pg:"default:now(),use_zero" json:"statsUpdatedAt" gqlgen:"statsUpdatedAt" xml:"statsUpdatedAt"`
 }
 
 type ServerFilter struct {
