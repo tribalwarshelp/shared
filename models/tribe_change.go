@@ -3,6 +3,8 @@ package models
 import "time"
 
 type TribeChange struct {
+	tableName struct{} `pg:"?SERVER.tribe_changes,alias:tribe_change"`
+
 	ID         int       `json:"id" gqlgen:"id" xml:"id"`
 	PlayerID   int       `json:"playerID" gqlgen:"playerID" xml:"playerID"`
 	Player     *Player   `json:"player,omitempty" gqlgen:"-" xml:"player"`
@@ -14,6 +16,8 @@ type TribeChange struct {
 }
 
 type TribeChangeFilter struct {
+	tableName struct{} `pg:"tribe_change"`
+
 	ID    []int `json:"id" gqlgen:"id" xml:"id"`
 	IdNEQ []int `json:"idNEQ" gqlgen:"idNEQ" xml:"idNEQ"`
 

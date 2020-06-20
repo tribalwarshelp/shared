@@ -6,7 +6,7 @@ import (
 )
 
 type Stats struct {
-	tableName struct{} `pg:"stats,alias:stats" json:"tableName" gqlgen:"tableName" xml:"tableName"`
+	tableName struct{} `pg:"stats,alias:stats"`
 
 	ActiveServers   int `json:"activeServers" gqlgen:"activeServers" xml:"activeServers"`
 	InactiveServers int `json:"inactiveServers" gqlgen:"inactiveServers" xml:"inactiveServers"`
