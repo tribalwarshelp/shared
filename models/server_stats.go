@@ -28,3 +28,17 @@ func (s *ServerStats) BeforeInsert(ctx context.Context) (context.Context, error)
 
 	return ctx, nil
 }
+
+type ServerStatsFilter struct {
+	tableName struct{} `urlstruct:"stats"`
+
+	CreatedAt    time.Time `json:"createdAt" gqlgen:"createdAt" xml:"createdAt"`
+	CreatedAtGT  time.Time `json:"createdAtGT" gqlgen:"createdAtGT" xml:"createdAtGT"`
+	CreatedAtGTE time.Time `json:"createdAtGTE" gqlgen:"createdAtGTE" xml:"createdAtGTE"`
+	CreatedAtLT  time.Time `json:"createdAtLT" gqlgen:"createdAtLT" xml:"createdAtLT"`
+	CreatedAtLTE time.Time `json:"createdAtLTE" gqlgen:"createdAtLTE" xml:"createdAtLTE"`
+
+	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset"`
+	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit"`
+	Sort   string `urlstruct:",nowhere" json:"sort" gqlgen:"sort"`
+}

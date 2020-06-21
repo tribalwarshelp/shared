@@ -27,7 +27,7 @@ func (v *Village) Continent() string {
 }
 
 type VillageFilter struct {
-	tableName struct{} `urlstruct:"village" json:"tableName" gqlgen:"tableName"`
+	tableName struct{} `urlstruct:"village"`
 
 	ID    []int `json:"id" gqlgen:"id"`
 	IdNEQ []int `json:"idNEQ" gqlgen:"idNEQ"`
