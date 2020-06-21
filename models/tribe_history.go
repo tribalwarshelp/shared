@@ -14,6 +14,7 @@ type TribeHistory struct {
 	Points        int       `json:"points" gqlgen:"points" pg:",use_zero"`
 	AllPoints     int       `json:"allPoints" gqlgen:"allPoints" pg:",use_zero"`
 	Rank          int       `json:"rank" gqlgen:"rank" pg:",use_zero"`
+	Dominance     float64   `json:"dominance" gqlgen:"dominance" pg:",use_zero"`
 	CreatedAt     time.Time `pg:"default:now(),use_zero" json:"createdAt" gqlgen:"createdAt" xml:"createdAt"`
 }
 
