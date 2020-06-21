@@ -53,5 +53,5 @@ type PlayerFilter struct {
 	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit" xml:"limit"`
 	Sort   string `urlstruct:",nowhere" json:"sort" gqlgen:"sort" xml:"sort"`
 
-	OpponentsDefeatedFilter `json:"opponentsDefeatedFilter" gqlgen:"opponentsDefeatedFilter" xml:"opponentsDefeatedFilter"`
+	OpponentsDefeatedFilter
 }
