@@ -3,15 +3,16 @@ package models
 type Tribe struct {
 	tableName struct{} `pg:"?SERVER.tribes,alias:tribe"`
 
-	ID            int    `json:"id" gqlgen:"id"`
-	Name          string `json:"name" gqlgen:"name"`
-	Tag           string `json:"tag" gqlgen:"tag"`
-	TotalMembers  int    `json:"totalMembers" gqlgen:"totalMembers" pg:",use_zero"`
-	TotalVillages int    `json:"totalVillages" gqlgen:"totalVillages" pg:",use_zero"`
-	Points        int    `json:"points" gqlgen:"points" pg:",use_zero"`
-	AllPoints     int    `json:"allPoints" gqlgen:"allPoints" pg:",use_zero"`
-	Rank          int    `json:"rank" gqlgen:"rank" pg:",use_zero"`
-	Exist         *bool  `json:"exist" gqlgen:"exist" pg:",use_zero"`
+	ID            int     `json:"id" gqlgen:"id"`
+	Name          string  `json:"name" gqlgen:"name"`
+	Tag           string  `json:"tag" gqlgen:"tag"`
+	TotalMembers  int     `json:"totalMembers" gqlgen:"totalMembers" pg:",use_zero"`
+	TotalVillages int     `json:"totalVillages" gqlgen:"totalVillages" pg:",use_zero"`
+	Points        int     `json:"points" gqlgen:"points" pg:",use_zero"`
+	AllPoints     int     `json:"allPoints" gqlgen:"allPoints" pg:",use_zero"`
+	Rank          int     `json:"rank" gqlgen:"rank" pg:",use_zero"`
+	Dominance     float64 `json:"dominance" gqlgen:"dominance" pg:",use_zero"`
+	Exist         *bool   `json:"exist" gqlgen:"exist" pg:",use_zero"`
 
 	OpponentsDefeated
 }

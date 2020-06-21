@@ -18,39 +18,40 @@ type Player struct {
 type PlayerFilter struct {
 	tableName struct{} `urlstruct:"player"`
 
-	ID    []int `json:"id" gqlgen:"id"`
-	IdNEQ []int `json:"idNEQ" gqlgen:"idNEQ"`
+	ID    []int `json:"id" gqlgen:"id" xml:"id"`
+	IdNEQ []int `json:"idNEQ" gqlgen:"idNEQ" xml:"idNEQ"`
 
-	Exist *bool `urlstruct:",nowhere" json:"exist" gqlgen:"exist"`
+	Exist *bool `urlstruct:",nowhere" json:"exist" gqlgen:"exist" xml:"exist"`
 
-	Name      []string `json:"name" gqlgen:"name"`
-	NameNEQ   []string `json:"nameNEQ" gqlgen:"nameNEQ"`
-	NameMATCH string   `json:"nameMATCH" gqlgen:"nameMATCH"`
-	NameIEQ   string   `json:"nameIEQ" gqlgen:"nameIEQ"`
+	Name      []string `json:"name" gqlgen:"name" xml:"name"`
+	NameNEQ   []string `json:"nameNEQ" gqlgen:"nameNEQ" xml:"nameNEQ"`
+	NameMATCH string   `json:"nameMATCH" gqlgen:"nameMATCH" xml:"nameMATCH"`
+	NameIEQ   string   `json:"nameIEQ" gqlgen:"nameIEQ" xml:"nameIEQ"`
 
-	TotalVillages    int `json:"totalVillages" gqlgen:"totalVillages"`
-	TotalVillagesGT  int `json:"totalVillagesGT" gqlgen:"totalVillagesGT"`
-	TotalVillagesGTE int `json:"totalVillagesGTE" gqlgen:"totalVillagesGTE"`
-	TotalVillagesLT  int `json:"totalVillagesLT" gqlgen:"totalVillagesLT"`
-	TotalVillagesLTE int `json:"totalVillagesLTE" gqlgen:"totalVillagesLTE"`
+	TotalVillages    int `json:"totalVillages" gqlgen:"totalVillages" xml:"totalVillages"`
+	TotalVillagesGT  int `json:"totalVillagesGT" gqlgen:"totalVillagesGT" xml:"totalVillagesGT"`
+	TotalVillagesGTE int `json:"totalVillagesGTE" gqlgen:"totalVillagesGTE" xml:"totalVillagesGTE"`
+	TotalVillagesLT  int `json:"totalVillagesLT" gqlgen:"totalVillagesLT" xml:"totalVillagesLT"`
+	TotalVillagesLTE int `json:"totalVillagesLTE" gqlgen:"totalVillagesLTE" xml:"totalVillagesLTE"`
 
-	Points    int `json:"points" gqlgen:"points"`
-	PointsGT  int `json:"pointsGT" gqlgen:"pointsGT"`
-	PointsGTE int `json:"pointsGTE" gqlgen:"pointsGTE"`
-	PointsLT  int `json:"pointsLT" gqlgen:"pointsLT"`
-	PointsLTE int `json:"pointsLTE" gqlgen:"pointsLTE"`
+	Points    int `json:"points" gqlgen:"points" xml:"points"`
+	PointsGT  int `json:"pointsGT" gqlgen:"pointsGT" xml:"pointsGT"`
+	PointsGTE int `json:"pointsGTE" gqlgen:"pointsGTE" xml:"pointsGTE"`
+	PointsLT  int `json:"pointsLT" gqlgen:"pointsLT" xml:"pointsLT"`
+	PointsLTE int `json:"pointsLTE" gqlgen:"pointsLTE" xml:"pointsLTE"`
 
-	Rank    int `json:"rank" gqlgen:"rank"`
-	RankGT  int `json:"rankGT" gqlgen:"rankGT"`
-	RankGTE int `json:"rankGTE" gqlgen:"rankGTE"`
-	RankLT  int `json:"rankLT" gqlgen:"rankLT"`
-	RankLTE int `json:"rankLTE" gqlgen:"rankLTE"`
+	Rank    int `json:"rank" gqlgen:"rank" xml:"rank"`
+	RankGT  int `json:"rankGT" gqlgen:"rankGT" xml:"rankGT"`
+	RankGTE int `json:"rankGTE" gqlgen:"rankGTE" xml:"rankGTE"`
+	RankLT  int `json:"rankLT" gqlgen:"rankLT" xml:"rankLT"`
+	RankLTE int `json:"rankLTE" gqlgen:"rankLTE" xml:"rankLTE"`
 
-	TribeID []int `json:"tribeID" gqlgen:"tribeID"`
+	TribeID     []int        `json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`
+	TribeFilter *TribeFilter `urlstruct:",nowhere" json:"tribeFilter" gqlgen:"tribeFilter" xml:"tribeFilter"`
 
-	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset"`
-	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit"`
-	Sort   string `urlstruct:",nowhere" json:"sort" gqlgen:"sort"`
+	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset" xml:"offset"`
+	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit" xml:"limit"`
+	Sort   string `urlstruct:",nowhere" json:"sort" gqlgen:"sort" xml:"sort"`
 
-	OpponentsDefeatedFilter
+	OpponentsDefeatedFilter `json:"opponentsDefeatedFilter" gqlgen:"opponentsDefeatedFilter" xml:"opponentsDefeatedFilter"`
 }
