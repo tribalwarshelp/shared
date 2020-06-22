@@ -1,16 +1,20 @@
 package models
 
+import "time"
+
 type Player struct {
 	tableName struct{} `pg:"?SERVER.players,alias:player"`
 
-	ID            int    `json:"id" pg:",pk" gqlgen:"id"`
-	Name          string `json:"name" gqlgen:"name"`
-	TotalVillages int    `json:"totalVillages" pg:",use_zero" gqlgen:"totalVillages"`
-	Points        int    `json:"points" pg:",use_zero" gqlgen:"points"`
-	Rank          int    `json:"rank" pg:",use_zero" gqlgen:"rank"`
-	Exist         *bool  `json:"exist" pg:",use_zero" gqlgen:"exist"`
-	TribeID       int    `json:"-" pg:",use_zero" gqlgen:"tribeID"`
-	Tribe         *Tribe `json:"tribe,omitempty" gqlgen:"-"`
+	ID            int       `json:"id" pg:",pk" gqlgen:"id"`
+	Name          string    `json:"name" gqlgen:"name"`
+	Exist         *bool     `json:"exist" pg:",use_zero" gqlgen:"exist"`
+	TotalVillages int       `json:"totalVillages" pg:",use_zero" gqlgen:"totalVillages"`
+	Points        int       `json:"points" pg:",use_zero" gqlgen:"points"`
+	Rank          int       `json:"rank" pg:",use_zero" gqlgen:"rank"`
+	TribeID       int       `json:"-" pg:",use_zero" gqlgen:"tribeID"`
+	Tribe         *Tribe    `json:"tribe,omitempty" gqlgen:"-"`
+	DailyGrowth   int       `json:"dailyGrowth" pg:",use_zero" gqlgen:"dailyGrowth"`
+	JoinedAt      time.Time `json:"joinedAt" pg:"default:now(),use_zero" gqlgen:"joinedAt"`
 
 	OpponentsDefeated
 }
@@ -45,6 +49,18 @@ type PlayerFilter struct {
 	RankGTE int `json:"rankGTE" gqlgen:"rankGTE" xml:"rankGTE"`
 	RankLT  int `json:"rankLT" gqlgen:"rankLT" xml:"rankLT"`
 	RankLTE int `json:"rankLTE" gqlgen:"rankLTE" xml:"rankLTE"`
+
+	DailyGrowth    int `json:"dailyGrowth" gqlgen:"dailyGrowth" xml:"dailyGrowth"`
+	DailyGrowthGT  int `json:"dailyGrowthGT" gqlgen:"dailyGrowthGT" xml:"dailyGrowthGT"`
+	DailyGrowthGTE int `json:"dailyGrowthGTE" gqlgen:"dailyGrowthGTE" xml:"dailyGrowthGTE"`
+	DailyGrowthLT  int `json:"dailyGrowthLT" gqlgen:"dailyGrowthLT" xml:"dailyGrowthLT"`
+	DailyGrowthLTE int `json:"dailyGrowthLTE" gqlgen:"dailyGrowthLTE" xml:"dailyGrowthLTE"`
+
+	JoinedAt    time.Time `json:"joinedAt" gqlgen:"joinedAt" xml:"joinedAt"`
+	JoinedAtGT  time.Time `json:"joinedAtGT" gqlgen:"joinedAtGT" xml:"joinedAtGT"`
+	JoinedAtGTE time.Time `json:"joinedAtGTE" gqlgen:"joinedAtGTE" xml:"joinedAtGTE"`
+	JoinedAtLT  time.Time `json:"joinedAtLT" gqlgen:"joinedAtLT" xml:"joinedAtLT"`
+	JoinedAtLTE time.Time `json:"joinedAtLTE" gqlgen:"joinedAtLTE" xml:"joinedAtLTE"`
 
 	TribeID     []int        `json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`
 	TribeFilter *TribeFilter `urlstruct:",nowhere" json:"tribeFilter" gqlgen:"tribeFilter" xml:"tribeFilter"`
