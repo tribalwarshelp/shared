@@ -1,7 +1,7 @@
 package models
 
 type PlayerToServer struct {
-	ServerKey string  `json:"serverKey" gqlgen:"serverKey" xml:"serverKey"`
+	ServerKey string  `pg:",unique:group_1" json:"serverKey" gqlgen:"serverKey" xml:"serverKey"`
 	Server    *Server `pg:"fk:server_key" json:"server" gqlgen:"server" xml:"server"`
-	PlayerID  int     `json:"playerID" gqlgen:"playerID" xml:"playerID"`
+	PlayerID  int     `pg:",unique:group_1" json:"playerID" gqlgen:"playerID" xml:"playerID"`
 }
