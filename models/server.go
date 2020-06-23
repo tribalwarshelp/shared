@@ -48,8 +48,7 @@ func (ss ServerStatus) MarshalGQL(w io.Writer) {
 type Server struct {
 	tableName struct{} `pg:"alias:server"`
 
-	ID               int          `json:"id" gqlgen:"id" xml:"id"`
-	Key              string       `json:"key" gqlgen:"key" pg:",unique" xml:"key"`
+	Key              string       `json:"key" gqlgen:"key" pg:",pk,unique" xml:"key"`
 	Status           ServerStatus `json:"status" gqlgen:"status" xml:"status"`
 	NumberOfPlayers  int          `pg:",use_zero" json:"numberOfPlayers" gqlgen:"numberOfPlayers" xml:"numberOfPlayers"`
 	NumberOfTribes   int          `pg:",use_zero" json:"numberOfTribes" gqlgen:"numberOfTribes" xml:"numberOfTribes"`
