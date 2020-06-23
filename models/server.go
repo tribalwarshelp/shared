@@ -69,9 +69,6 @@ type Server struct {
 type ServerFilter struct {
 	tableName struct{} `urlstruct:"server"`
 
-	ID    []int `json:"id" gqlgen:"id"`
-	IdNEQ []int `json:"idNEQ" gqlgen:"idNEQ"`
-
 	Key      []string `json:"key" gqlgen:"key"`
 	KeyNEQ   []string `json:"keyNEQ" gqlgen:"keyNEQ"`
 	KeyMATCH string   `json:"keyMATCH" gqlgen:"keyMATCH"`
