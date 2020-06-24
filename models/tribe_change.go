@@ -5,7 +5,6 @@ import "time"
 type TribeChange struct {
 	tableName struct{} `pg:"?SERVER.tribe_changes,alias:tribe_change"`
 
-	ID         int       `json:"id" gqlgen:"id" xml:"id"`
 	PlayerID   int       `pg:",use_zero" json:"playerID" gqlgen:"playerID" xml:"playerID"`
 	Player     *Player   `json:"player,omitempty" gqlgen:"-" xml:"player"`
 	OldTribeID int       `pg:",use_zero" json:"oldTribeID" gqlgen:"oldTribeID" xml:"oldTribeID"`
@@ -18,8 +17,8 @@ type TribeChange struct {
 type TribeChangeFilter struct {
 	tableName struct{} `pg:"tribe_change"`
 
-	ID    []int `json:"id" gqlgen:"id" xml:"id"`
-	IdNEQ []int `json:"idNEQ" gqlgen:"idNEQ" xml:"idNEQ"`
+	PlayerID    []int `json:"id" gqlgen:"id" xml:"id"`
+	PlayerIdNEQ []int `json:"idNEQ" gqlgen:"idNEQ" xml:"idNEQ"`
 
 	OldTribeID    []int `json:"oldTribeID" gqlgen:"oldTribeID" xml:"oldTribeID"`
 	OldTribeIdNEQ []int `json:"oldTribeIDNEQ" gqlgen:"oldTribeIDNEQ" xml:"oldTribeIDNEQ"`
