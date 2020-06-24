@@ -16,6 +16,7 @@ type Tribe struct {
 	Dominance     float64   `json:"dominance" gqlgen:"dominance" pg:",use_zero"`
 	Exist         *bool     `json:"exist" gqlgen:"exist" pg:",use_zero"`
 	CreatedAt     time.Time `json:"createdAt" pg:"default:now(),use_zero" gqlgen:"createdAt"`
+	DeletedAt     time.Time `json:"deletedAt" pg:",use_zero" gqlgen:"deletedAt"`
 
 	OpponentsDefeated
 }
@@ -79,6 +80,12 @@ type TribeFilter struct {
 	CreatedAtGTE time.Time `json:"createdAtGTE" gqlgen:"createdAtGTE" xml:"createdAtGTE"`
 	CreatedAtLT  time.Time `json:"createdAtLT" gqlgen:"createdAtLT" xml:"createdAtLT"`
 	CreatedAtLTE time.Time `json:"createdAtLTE" gqlgen:"createdAtLTE" xml:"createdAtLTE"`
+
+	DeletedAt    time.Time `json:"deletedAt" gqlgen:"deletedAt" xml:"deletedAt"`
+	DeletedAtGT  time.Time `json:"deletedAtGT" gqlgen:"deletedAtGT" xml:"deletedAtGT"`
+	DeletedAtGTE time.Time `json:"deletedAtGTE" gqlgen:"deletedAtGTE" xml:"deletedAtGTE"`
+	DeletedAtLT  time.Time `json:"deletedAtLT" gqlgen:"deletedAtLT" xml:"deletedAtLT"`
+	DeletedAtLTE time.Time `json:"deletedAtLTE" gqlgen:"deletedAtLTE" xml:"deletedAtLTE"`
 
 	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset"`
 	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit"`

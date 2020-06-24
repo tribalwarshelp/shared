@@ -15,6 +15,7 @@ type Player struct {
 	Tribe         *Tribe    `json:"tribe,omitempty" gqlgen:"-"`
 	DailyGrowth   int       `json:"dailyGrowth" pg:",use_zero" gqlgen:"dailyGrowth"`
 	JoinedAt      time.Time `json:"joinedAt" pg:"default:now(),use_zero" gqlgen:"joinedAt"`
+	DeletedAt     time.Time `json:"deletedAt" pg:",use_zero" gqlgen:"deletedAt"`
 
 	OpponentsDefeated
 }
@@ -61,6 +62,12 @@ type PlayerFilter struct {
 	JoinedAtGTE time.Time `json:"joinedAtGTE" gqlgen:"joinedAtGTE" xml:"joinedAtGTE"`
 	JoinedAtLT  time.Time `json:"joinedAtLT" gqlgen:"joinedAtLT" xml:"joinedAtLT"`
 	JoinedAtLTE time.Time `json:"joinedAtLTE" gqlgen:"joinedAtLTE" xml:"joinedAtLTE"`
+
+	DeletedAt    time.Time `json:"deletedAt" gqlgen:"deletedAt" xml:"deletedAt"`
+	DeletedAtGT  time.Time `json:"deletedAtGT" gqlgen:"deletedAtGT" xml:"deletedAtGT"`
+	DeletedAtGTE time.Time `json:"deletedAtGTE" gqlgen:"deletedAtGTE" xml:"deletedAtGTE"`
+	DeletedAtLT  time.Time `json:"deletedAtLT" gqlgen:"deletedAtLT" xml:"deletedAtLT"`
+	DeletedAtLTE time.Time `json:"deletedAtLTE" gqlgen:"deletedAtLTE" xml:"deletedAtLTE"`
 
 	TribeID     []int        `json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`
 	TribeFilter *TribeFilter `urlstruct:",nowhere" json:"tribeFilter" gqlgen:"tribeFilter" xml:"tribeFilter"`
