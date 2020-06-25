@@ -18,7 +18,7 @@ type TribeDailyStats struct {
 	OpponentsDefeated
 }
 
-type TribesDailyStatsFilter struct {
+type TribeDailyStatsFilter struct {
 	tableName struct{} `urlstruct:"tribe_daily_stats"`
 
 	TribeID    []int `json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`

@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type PlayersDailyStats struct {
+type PlayerDailyStats struct {
 	tableName struct{} `pg:"?SERVER.players_daily_stats,alias:player_daily_stats"`
 
 	PlayerID  int       `pg:",unique:group_1" json:"playerID" gqlgen:"playerID" xml:"playerID"`
@@ -15,7 +15,7 @@ type PlayersDailyStats struct {
 	OpponentsDefeated
 }
 
-type PlayersDailyStatsFilter struct {
+type PlayerDailyStatsFilter struct {
 	tableName struct{} `urlstruct:"player_daily_stats"`
 
 	PlayerID    []int `json:"playerID" gqlgen:"playerID" xml:"playerID"`
