@@ -7,7 +7,7 @@ type Player struct {
 
 	ID             int       `json:"id" pg:",pk" gqlgen:"id"`
 	Name           string    `json:"name" gqlgen:"name"`
-	Exist          *bool     `json:"exist" pg:",use_zero" gqlgen:"exist"`
+	Exists         *bool     `json:"exists" pg:",use_zero" gqlgen:"exists"`
 	TotalVillages  int       `json:"totalVillages" pg:",use_zero" gqlgen:"totalVillages"`
 	Points         int       `json:"points" pg:",use_zero" gqlgen:"points"`
 	Rank           int       `json:"rank" pg:",use_zero" gqlgen:"rank"`
@@ -32,7 +32,7 @@ type PlayerFilter struct {
 	ID    []int `json:"id" gqlgen:"id" xml:"id"`
 	IdNEQ []int `json:"idNEQ" gqlgen:"idNEQ" xml:"idNEQ"`
 
-	Exist *bool `urlstruct:",nowhere" json:"exist" gqlgen:"exist" xml:"exist"`
+	Exists *bool `urlstruct:",nowhere" json:"exists" gqlgen:"exists" xml:"exists"`
 
 	Name      []string `json:"name" gqlgen:"name" xml:"name"`
 	NameNEQ   []string `json:"nameNEQ" gqlgen:"nameNEQ" xml:"nameNEQ"`

@@ -8,7 +8,7 @@ type Tribe struct {
 	ID             int       `json:"id" gqlgen:"id"`
 	Name           string    `json:"name" gqlgen:"name"`
 	Tag            string    `json:"tag" gqlgen:"tag"`
-	Exist          *bool     `json:"exist" gqlgen:"exist" pg:",use_zero"`
+	Exists         *bool     `json:"exists" gqlgen:"exists" pg:",use_zero"`
 	TotalMembers   int       `json:"totalMembers" gqlgen:"totalMembers" pg:",use_zero"`
 	TotalVillages  int       `json:"totalVillages" gqlgen:"totalVillages" pg:",use_zero"`
 	Points         int       `json:"points" gqlgen:"points" pg:",use_zero"`
@@ -33,7 +33,7 @@ type TribeFilter struct {
 	ID    []int `json:"id" gqlgen:"id"`
 	IdNEQ []int `json:"idNEQ" gqlgen:"idNEQ"`
 
-	Exist *bool `urlstruct:",nowhere" json:"exist" gqlgen:"exist"`
+	Exists *bool `urlstruct:",nowhere" json:"exists" gqlgen:"exists"`
 
 	Tag      []string `json:"tag" gqlgen:"tag"`
 	TagNEQ   []string `json:"tagNEQ" gqlgen:"tagNEQ"`
