@@ -5,18 +5,24 @@ import "time"
 type Tribe struct {
 	tableName struct{} `pg:"?SERVER.tribes,alias:tribe"`
 
-	ID            int       `json:"id" gqlgen:"id"`
-	Name          string    `json:"name" gqlgen:"name"`
-	Tag           string    `json:"tag" gqlgen:"tag"`
-	TotalMembers  int       `json:"totalMembers" gqlgen:"totalMembers" pg:",use_zero"`
-	TotalVillages int       `json:"totalVillages" gqlgen:"totalVillages" pg:",use_zero"`
-	Points        int       `json:"points" gqlgen:"points" pg:",use_zero"`
-	AllPoints     int       `json:"allPoints" gqlgen:"allPoints" pg:",use_zero"`
-	Rank          int       `json:"rank" gqlgen:"rank" pg:",use_zero"`
-	Dominance     float64   `json:"dominance" gqlgen:"dominance" pg:",use_zero"`
-	Exist         *bool     `json:"exist" gqlgen:"exist" pg:",use_zero"`
-	CreatedAt     time.Time `json:"createdAt" pg:"default:now(),use_zero" gqlgen:"createdAt"`
-	DeletedAt     time.Time `json:"deletedAt" pg:",use_zero" gqlgen:"deletedAt"`
+	ID             int       `json:"id" gqlgen:"id"`
+	Name           string    `json:"name" gqlgen:"name"`
+	Tag            string    `json:"tag" gqlgen:"tag"`
+	Exist          *bool     `json:"exist" gqlgen:"exist" pg:",use_zero"`
+	TotalMembers   int       `json:"totalMembers" gqlgen:"totalMembers" pg:",use_zero"`
+	TotalVillages  int       `json:"totalVillages" gqlgen:"totalVillages" pg:",use_zero"`
+	Points         int       `json:"points" gqlgen:"points" pg:",use_zero"`
+	AllPoints      int       `json:"allPoints" gqlgen:"allPoints" pg:",use_zero"`
+	Rank           int       `json:"rank" gqlgen:"rank" pg:",use_zero"`
+	Dominance      float64   `json:"dominance" gqlgen:"dominance" pg:",use_zero"`
+	BestRank       int       `json:"bestRank" pg:",use_zero" gqlgen:"bestRank"`
+	BestRankAt     time.Time `json:"bestRankAt" pg:"default:now(),use_zero" gqlgen:"bestRankAt"`
+	MostPoints     int       `json:"mostPoints" pg:",use_zero" gqlgen:"mostPoints"`
+	MostPointsAt   time.Time `json:"mostPointsAt" pg:"default:now(),use_zero" gqlgen:"mostPointsAt"`
+	MostVillages   int       `json:"mostVillages" pg:",use_zero" gqlgen:"mostVillages"`
+	MostVillagesAt time.Time `json:"mostVillagesAt" pg:"default:now(),use_zero" gqlgen:"mostVillagesAt"`
+	CreatedAt      time.Time `json:"createdAt" pg:"default:now(),use_zero" gqlgen:"createdAt"`
+	DeletedAt      time.Time `json:"deletedAt" pg:",use_zero" gqlgen:"deletedAt"`
 
 	OpponentsDefeated
 }

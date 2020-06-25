@@ -5,17 +5,23 @@ import "time"
 type Player struct {
 	tableName struct{} `pg:"?SERVER.players,alias:player"`
 
-	ID            int       `json:"id" pg:",pk" gqlgen:"id"`
-	Name          string    `json:"name" gqlgen:"name"`
-	Exist         *bool     `json:"exist" pg:",use_zero" gqlgen:"exist"`
-	TotalVillages int       `json:"totalVillages" pg:",use_zero" gqlgen:"totalVillages"`
-	Points        int       `json:"points" pg:",use_zero" gqlgen:"points"`
-	Rank          int       `json:"rank" pg:",use_zero" gqlgen:"rank"`
-	TribeID       int       `json:"-" pg:",use_zero" gqlgen:"tribeID"`
-	Tribe         *Tribe    `json:"tribe,omitempty" gqlgen:"-"`
-	DailyGrowth   int       `json:"dailyGrowth" pg:",use_zero" gqlgen:"dailyGrowth"`
-	JoinedAt      time.Time `json:"joinedAt" pg:"default:now(),use_zero" gqlgen:"joinedAt"`
-	DeletedAt     time.Time `json:"deletedAt" pg:",use_zero" gqlgen:"deletedAt"`
+	ID             int       `json:"id" pg:",pk" gqlgen:"id"`
+	Name           string    `json:"name" gqlgen:"name"`
+	Exist          *bool     `json:"exist" pg:",use_zero" gqlgen:"exist"`
+	TotalVillages  int       `json:"totalVillages" pg:",use_zero" gqlgen:"totalVillages"`
+	Points         int       `json:"points" pg:",use_zero" gqlgen:"points"`
+	Rank           int       `json:"rank" pg:",use_zero" gqlgen:"rank"`
+	TribeID        int       `json:"-" pg:",use_zero" gqlgen:"tribeID"`
+	Tribe          *Tribe    `json:"tribe,omitempty" gqlgen:"-"`
+	DailyGrowth    int       `json:"dailyGrowth" pg:",use_zero" gqlgen:"dailyGrowth"`
+	BestRank       int       `json:"bestRank" pg:",use_zero" gqlgen:"bestRank"`
+	BestRankAt     time.Time `json:"bestRankAt" pg:"default:now(),use_zero" gqlgen:"bestRankAt"`
+	MostPoints     int       `json:"mostPoints" pg:",use_zero" gqlgen:"mostPoints"`
+	MostPointsAt   time.Time `json:"mostPointsAt" pg:"default:now(),use_zero" gqlgen:"mostPointsAt"`
+	MostVillages   int       `json:"mostVillages" pg:",use_zero" gqlgen:"mostVillages"`
+	MostVillagesAt time.Time `json:"mostVillagesAt" pg:"default:now(),use_zero" gqlgen:"mostVillagesAt"`
+	JoinedAt       time.Time `json:"joinedAt" pg:"default:now(),use_zero" gqlgen:"joinedAt"`
+	DeletedAt      time.Time `json:"deletedAt" pg:",use_zero" gqlgen:"deletedAt"`
 
 	OpponentsDefeated
 }
