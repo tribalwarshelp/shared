@@ -1,11 +1,13 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type TribeDailyStats struct {
 	tableName struct{} `pg:"?SERVER.tribes_daily_stats,alias:tribe_daily_stats"`
 
-	TribeID   int       `json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`
+	TribeID   int       `pg:",unique:group_1" json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`
 	Tribe     *Tribe    `json:"tribe" gqlgen:"-" xml:"tribe"`
 	Members   int       `json:"members" gqlgen:"members" pg:",use_zero" xml:"members"`
 	Villages  int       `json:"villages" gqlgen:"villages" pg:",use_zero" xml:"villages"`
