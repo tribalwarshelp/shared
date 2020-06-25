@@ -7,14 +7,14 @@ type PlayerHistory struct {
 
 	OpponentsDefeated
 
-	PlayerID      int       `json:"playerID" gqlgen:"playerID" xml:"playerID"`
+	PlayerID      int       `pg:",unique:group_1" json:"playerID" gqlgen:"playerID" xml:"playerID"`
 	Player        *Player   `json:"player" gqlgen:"-" xml:"player"`
 	TotalVillages int       `json:"totalVillages" pg:",use_zero" gqlgen:"totalVillages" xml:"totalVillages"`
 	Points        int       `json:"points" pg:",use_zero" gqlgen:"points" xml:"points"`
 	Rank          int       `json:"rank" pg:",use_zero" gqlgen:"rank" xml:"rank"`
 	TribeID       int       `json:"-" pg:",use_zero" gqlgen:"tribeID" xml:"tribeID"`
 	Tribe         *Tribe    `json:"tribe,omitempty" gqlgen:"-" xml:"tribe"`
-	CreatedAt     time.Time `pg:"default:now(),use_zero" json:"createdAt" gqlgen:"createdAt" xml:"createdAt"`
+	CreatedAt     time.Time `pg:"default:now(),type:DATE,unique:group_1,use_zero" json:"createdAt" gqlgen:"createdAt" xml:"createdAt"`
 }
 
 type PlayerHistoryFilter struct {

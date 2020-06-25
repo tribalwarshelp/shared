@@ -7,7 +7,7 @@ type TribeHistory struct {
 
 	OpponentsDefeated
 
-	TribeID       int       `json:"-" pg:",use_zero" gqlgen:"tribeID" xml:"tribeID"`
+	TribeID       int       `pg:",unique:group_1" json:"-" pg:",use_zero" gqlgen:"tribeID" xml:"tribeID"`
 	Tribe         *Tribe    `json:"tribe,omitempty" gqlgen:"-" xml:"tribe"`
 	TotalMembers  int       `json:"totalMembers" gqlgen:"totalMembers" pg:",use_zero"`
 	TotalVillages int       `json:"totalVillages" gqlgen:"totalVillages" pg:",use_zero"`
@@ -15,7 +15,7 @@ type TribeHistory struct {
 	AllPoints     int       `json:"allPoints" gqlgen:"allPoints" pg:",use_zero"`
 	Rank          int       `json:"rank" gqlgen:"rank" pg:",use_zero"`
 	Dominance     float64   `json:"dominance" gqlgen:"dominance" pg:",use_zero"`
-	CreatedAt     time.Time `pg:"default:now(),use_zero" json:"createdAt" gqlgen:"createdAt" xml:"createdAt"`
+	CreatedAt     time.Time `pg:"default:now(),type:DATE,unique:group_1,use_zero" json:"createdAt" gqlgen:"createdAt" xml:"createdAt"`
 }
 
 type TribeHistoryFilter struct {
