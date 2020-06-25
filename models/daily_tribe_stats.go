@@ -4,8 +4,8 @@ import (
 	"time"
 )
 
-type TribeDailyStats struct {
-	tableName struct{} `pg:"?SERVER.tribes_daily_stats,alias:tribe_daily_stats"`
+type DailyTribeStats struct {
+	tableName struct{} `pg:"?SERVER.daily_tribe_stats,alias:daily_tribe_stats"`
 
 	TribeID   int       `pg:",unique:group_1" json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`
 	Tribe     *Tribe    `json:"tribe" gqlgen:"-" xml:"tribe"`
@@ -20,8 +20,8 @@ type TribeDailyStats struct {
 	OpponentsDefeated
 }
 
-type TribeDailyStatsFilter struct {
-	tableName struct{} `urlstruct:"tribe_daily_stats"`
+type DailyTribeStatsFilter struct {
+	tableName struct{} `urlstruct:"daily_tribe_stats"`
 
 	TribeID    []int `json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`
 	TribeIdNEQ []int `json:"tribeIDNEQ" gqlgen:"tribeIDNEQ" xml:"tribeIDNEQ"`

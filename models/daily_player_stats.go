@@ -2,8 +2,8 @@ package models
 
 import "time"
 
-type PlayerDailyStats struct {
-	tableName struct{} `pg:"?SERVER.players_daily_stats,alias:player_daily_stats"`
+type DailyPlayerStats struct {
+	tableName struct{} `pg:"?SERVER.daily_player_stats,alias:daily_player_stats"`
 
 	PlayerID  int       `pg:",unique:group_1" json:"playerID" gqlgen:"playerID" xml:"playerID"`
 	Player    *Player   `json:"player" gqlgen:"-" xml:"player"`
@@ -15,8 +15,8 @@ type PlayerDailyStats struct {
 	OpponentsDefeated
 }
 
-type PlayerDailyStatsFilter struct {
-	tableName struct{} `urlstruct:"player_daily_stats"`
+type DailyPlayerStatsFilter struct {
+	tableName struct{} `urlstruct:"daily_player_stats"`
 
 	PlayerID    []int `json:"playerID" gqlgen:"playerID" xml:"playerID"`
 	PlayerIdNEQ []int `json:"playerIDNEQ" gqlgen:"playerIDNEQ" xml:"playerIDNEQ"`
