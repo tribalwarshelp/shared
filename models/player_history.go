@@ -14,7 +14,7 @@ type PlayerHistory struct {
 	Rank          int       `json:"rank" pg:",use_zero" gqlgen:"rank" xml:"rank"`
 	TribeID       int       `json:"-" pg:",use_zero" gqlgen:"tribeID" xml:"tribeID"`
 	Tribe         *Tribe    `json:"tribe,omitempty" gqlgen:"-" xml:"tribe"`
-	CreatedAt     time.Time `pg:"default:now(),type:DATE,unique:group_1,use_zero" json:"createdAt" gqlgen:"createdAt" xml:"createdAt"`
+	CreateDate    time.Time `pg:"default:now(),type:DATE,unique:group_1,use_zero" json:"createDate" gqlgen:"createDate" xml:"createDate"`
 }
 
 type PlayerHistoryFilter struct {
@@ -23,11 +23,11 @@ type PlayerHistoryFilter struct {
 	PlayerID    []int `json:"playerID" gqlgen:"playerID" xml:"playerID"`
 	PlayerIdNEQ []int `json:"playerIDNEQ" gqlgen:"playerIDNEQ" xml:"playerIDNEQ"`
 
-	CreatedAt    time.Time `json:"createdAt" gqlgen:"createdAt" xml:"createdAt"`
-	CreatedAtGT  time.Time `json:"createdAtGT" gqlgen:"createdAtGT" xml:"createdAtGT"`
-	CreatedAtGTE time.Time `json:"createdAtGTE" gqlgen:"createdAtGTE" xml:"createdAtGTE"`
-	CreatedAtLT  time.Time `json:"createdAtLT" gqlgen:"createdAtLT" xml:"createdAtLT"`
-	CreatedAtLTE time.Time `json:"createdAtLTE" gqlgen:"createdAtLTE" xml:"createdAtLTE"`
+	CreateDate    time.Time `json:"createDate" gqlgen:"createDate" xml:"createDate"`
+	CreateDateGT  time.Time `json:"createDateGT" gqlgen:"createDateGT" xml:"createDateGT"`
+	CreateDateGTE time.Time `json:"createDateGTE" gqlgen:"createDateGTE" xml:"createDateGTE"`
+	CreateDateLT  time.Time `json:"createDateLT" gqlgen:"createDateLT" xml:"createDateLT"`
+	CreateDateLTE time.Time `json:"createDateLTE" gqlgen:"createDateLTE" xml:"createDateLTE"`
 
 	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset" xml:"offset"`
 	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit" xml:"limit"`

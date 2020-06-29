@@ -18,12 +18,12 @@ type ServerStats struct {
 	BonusVillages     int       `pg:",use_zero" json:"bonusVillages" gqlgen:"bonusVillages" xml:"bonusVillages"`
 	BarbarianVillages int       `pg:",use_zero" json:"barbarianVillages" gqlgen:"barbarianVillages" xml:"barbarianVillages"`
 	PlayerVillages    int       `pg:",use_zero" json:"playerVillages" gqlgen:"playerVillages" xml:"playerVillages"`
-	CreatedAt         time.Time `pg:"default:now(),type:DATE,unique:group_1,use_zero" json:"createdAt" gqlgen:"createdAt" xml:"createdAt"`
+	CreateDate        time.Time `pg:"default:now(),type:DATE,unique:group_1,use_zero" json:"createDate" gqlgen:"createDate" xml:"createDate"`
 }
 
 func (s *ServerStats) BeforeInsert(ctx context.Context) (context.Context, error) {
-	if s.CreatedAt.IsZero() {
-		s.CreatedAt = time.Now()
+	if s.CreateDate.IsZero() {
+		s.CreateDate = time.Now()
 	}
 
 	return ctx, nil
@@ -32,11 +32,11 @@ func (s *ServerStats) BeforeInsert(ctx context.Context) (context.Context, error)
 type ServerStatsFilter struct {
 	tableName struct{} `urlstruct:"stats"`
 
-	CreatedAt    time.Time `json:"createdAt" gqlgen:"createdAt" xml:"createdAt"`
-	CreatedAtGT  time.Time `json:"createdAtGT" gqlgen:"createdAtGT" xml:"createdAtGT"`
-	CreatedAtGTE time.Time `json:"createdAtGTE" gqlgen:"createdAtGTE" xml:"createdAtGTE"`
-	CreatedAtLT  time.Time `json:"createdAtLT" gqlgen:"createdAtLT" xml:"createdAtLT"`
-	CreatedAtLTE time.Time `json:"createdAtLTE" gqlgen:"createdAtLTE" xml:"createdAtLTE"`
+	CreateDate    time.Time `json:"createDate" gqlgen:"createDate" xml:"createDate"`
+	CreateDateGT  time.Time `json:"createDateGT" gqlgen:"createDateGT" xml:"createDateGT"`
+	CreateDateGTE time.Time `json:"createDateGTE" gqlgen:"createDateGTE" xml:"createDateGTE"`
+	CreateDateLT  time.Time `json:"createDateLT" gqlgen:"createDateLT" xml:"createDateLT"`
+	CreateDateLTE time.Time `json:"createDateLTE" gqlgen:"createDateLTE" xml:"createDateLTE"`
 
 	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset"`
 	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit"`
