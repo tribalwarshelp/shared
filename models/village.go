@@ -8,7 +8,7 @@ import (
 type Village struct {
 	tableName struct{} `pg:"?SERVER.villages,alias:village"`
 
-	ID     int    `json:"id" pg:",pk" gqlgen:"id"`
+	ID     int    `json:"id" pg:"type:bigint,pk" gqlgen:"id"`
 	Name   string `json:"name" gqlgen:"name"`
 	Points int    `json:"points" pg:",use_zero" gqlgen:"points"`
 	X      int    `json:"x" pg:",use_zero" gqlgen:"x"`

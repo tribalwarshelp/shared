@@ -5,7 +5,7 @@ import "time"
 type Tribe struct {
 	tableName struct{} `pg:"?SERVER.tribes,alias:tribe"`
 
-	ID             int       `json:"id" gqlgen:"id"`
+	ID             int       `json:"id" pg:"type:bigint,pk" gqlgen:"id"`
 	Name           string    `json:"name" gqlgen:"name"`
 	Tag            string    `json:"tag" gqlgen:"tag"`
 	Exists         *bool     `json:"exists" gqlgen:"exists" pg:",use_zero"`

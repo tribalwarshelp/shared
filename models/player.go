@@ -5,7 +5,7 @@ import "time"
 type Player struct {
 	tableName struct{} `pg:"?SERVER.players,alias:player"`
 
-	ID             int       `json:"id" pg:",pk" gqlgen:"id"`
+	ID             int       `json:"id" pg:"type:bigint,pk" gqlgen:"id"`
 	Name           string    `json:"name" gqlgen:"name"`
 	Exists         *bool     `json:"exists" pg:",use_zero" gqlgen:"exists"`
 	TotalVillages  int       `json:"totalVillages" pg:",use_zero" gqlgen:"totalVillages"`
