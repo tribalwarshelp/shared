@@ -134,11 +134,11 @@ type ServerConfigSleep struct {
 }
 
 type ServerConfigNight struct {
-	Text      string `xml:",chardata" json:"-" gqlgen:"text"`
-	Active    int    `xml:"active" json:"active" gqlgen:"active"`
-	StartHour int    `xml:"start_hour" json:"start_hour" gqlgen:"startHour"`
-	EndHour   int    `xml:"end_hour" json:"end_hour" gqlgen:"endHour"`
-	DefFactor int    `xml:"def_factor" json:"def_factor" gqlgen:"defFactor"`
+	Text      string  `xml:",chardata" json:"-" gqlgen:"text"`
+	Active    int     `xml:"active" json:"active" gqlgen:"active"`
+	StartHour int     `xml:"start_hour" json:"start_hour" gqlgen:"startHour"`
+	EndHour   int     `xml:"end_hour" json:"end_hour" gqlgen:"endHour"`
+	DefFactor float64 `xml:"def_factor" json:"def_factor" gqlgen:"defFactor"`
 }
 
 type ServerConfigWin struct {

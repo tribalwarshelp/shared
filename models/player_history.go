@@ -14,7 +14,7 @@ type PlayerHistory struct {
 	Rank          int       `json:"rank" pg:",use_zero" gqlgen:"rank" xml:"rank"`
 	TribeID       int       `json:"-" pg:",use_zero" gqlgen:"tribeID" xml:"tribeID"`
 	Tribe         *Tribe    `json:"tribe,omitempty" gqlgen:"-" xml:"tribe"`
-	CreateDate    time.Time `pg:"default:now(),type:DATE,unique:group_1,use_zero" json:"createDate" gqlgen:"createDate" xml:"createDate"`
+	CreateDate    time.Time `pg:"default:CURRENT_DATE,type:DATE,unique:group_1,use_zero" json:"createDate" gqlgen:"createDate" xml:"createDate"`
 }
 
 type PlayerHistoryFilter struct {
