@@ -23,8 +23,9 @@ type DailyTribeStats struct {
 type DailyTribeStatsFilter struct {
 	tableName struct{} `urlstruct:"daily_tribe_stats"`
 
-	TribeID    []int `json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`
-	TribeIdNEQ []int `json:"tribeIDNEQ" gqlgen:"tribeIDNEQ" xml:"tribeIDNEQ"`
+	TribeID     []int        `json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`
+	TribeIdNEQ  []int        `json:"tribeIDNEQ" gqlgen:"tribeIDNEQ" xml:"tribeIDNEQ"`
+	TribeFilter *TribeFilter `urlstruct:",nowhere" json:"tribeFilter" gqlgen:"tribeFilter" xml:"tribeFilter"`
 
 	CreateDate    time.Time `json:"createDate" gqlgen:"createDate" xml:"createDate"`
 	CreateDateGT  time.Time `json:"createDateGT" gqlgen:"createDateGT" xml:"createDateGT"`

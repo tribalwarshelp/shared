@@ -18,8 +18,9 @@ type DailyPlayerStats struct {
 type DailyPlayerStatsFilter struct {
 	tableName struct{} `urlstruct:"daily_player_stats"`
 
-	PlayerID    []int `json:"playerID" gqlgen:"playerID" xml:"playerID"`
-	PlayerIdNEQ []int `json:"playerIDNEQ" gqlgen:"playerIDNEQ" xml:"playerIDNEQ"`
+	PlayerID     []int         `json:"playerID" gqlgen:"playerID" xml:"playerID"`
+	PlayerIdNEQ  []int         `json:"playerIDNEQ" gqlgen:"playerIDNEQ" xml:"playerIDNEQ"`
+	PlayerFilter *PlayerFilter `urlstruct:",nowhere" json:"playerFilter" gqlgen:"playerFilter" xml:"playerFilter"`
 
 	CreateDate    time.Time `json:"createDate" gqlgen:"createDate" xml:"createDate"`
 	CreateDateGT  time.Time `json:"createDateGT" gqlgen:"createDateGT" xml:"createDateGT"`

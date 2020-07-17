@@ -18,6 +18,13 @@ type Ennoblement struct {
 	EnnobledAt      time.Time `pg:"default:now(),use_zero" json:"ennobledAt" gqlgen:"ennobledAt" xml:"ennobledAt"`
 }
 
+type EnnoblementFilterOr struct {
+	NewOwnerID      []int `json:"newOwnerID" gqlgen:"newOwnerID" xml:"newOwnerID"`
+	NewOwnerTribeID []int `json:"newOwnerTribeID" gqlgen:"newOwnerTribeID" xml:"newOwnerTribeID"`
+	OldOwnerID      []int `json:"oldOwnerID" gqlgen:"oldOwnerID" xml:"oldOwnerID"`
+	OldOwnerTribeID []int `json:"oldOwnerTribeID" gqlgen:"oldOwnerTribeID" xml:"oldOwnerTribeID"`
+}
+
 type EnnoblementFilter struct {
 	tableName struct{} `urlstruct:"ennoblement"`
 
@@ -39,6 +46,8 @@ type EnnoblementFilter struct {
 	EnnobledAtGTE time.Time `json:"ennobledAtGTE" gqlgen:"ennobledAtGTE" xml:"ennobledAtGTE"`
 	EnnobledAtLT  time.Time `json:"ennobledAtLT" gqlgen:"ennobledAtLT" xml:"ennobledAtLT"`
 	EnnobledAtLTE time.Time `json:"ennobledAtLTE" gqlgen:"ennobledAtLTE" xml:"ennobledAtLTE"`
+
+	Or *EnnoblementFilterOr `urlstruct:",nowhere" json:"or" gqlgen:"or" xml:"or"`
 
 	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset" xml:"offset"`
 	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit" xml:"limit"`
