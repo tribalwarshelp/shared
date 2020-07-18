@@ -14,6 +14,11 @@ type TribeChange struct {
 	CreatedAt  time.Time `pg:"default:now(),use_zero" json:"createdAt" gqlgen:"createdAt" xml:"createdAt"`
 }
 
+type TribeChangeFilterOr struct {
+	OldTribeID []int `json:"oldTribeID" gqlgen:"oldTribeID" xml:"oldTribeID"`
+	NewTribeID []int `json:"newTribeID" gqlgen:"newTribeID" xml:"newTribeID"`
+}
+
 type TribeChangeFilter struct {
 	tableName struct{} `pg:"tribe_change"`
 
@@ -31,6 +36,8 @@ type TribeChangeFilter struct {
 	CreatedAtGTE time.Time `json:"createdAtGTE" gqlgen:"createdAtGTE" xml:"createdAtGTE"`
 	CreatedAtLT  time.Time `json:"createdAtLT" gqlgen:"createdAtLT" xml:"createdAtLT"`
 	CreatedAtLTE time.Time `json:"createdAtLTE" gqlgen:"createdAtLTE" xml:"createdAtLTE"`
+
+	Or *TribeChangeFilterOr `urlstruct:",nowhere" json:"or" gqlgen:"or" xml:"or"`
 
 	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset" xml:"offset"`
 	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit" xml:"limit"`
