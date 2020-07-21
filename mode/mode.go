@@ -1,9 +1,11 @@
 package mode
 
-import "os"
+import (
+	"os"
+)
 
 const (
-	EnvMode         = "mode"
+	EnvMode         = "MODE"
 	DevelopmentMode = "development"
 	ProductionMode  = "production"
 	TestMode        = "test"
