@@ -22,6 +22,10 @@ type allServersCache struct {
 	client redis.UniversalClient
 }
 
+func New(client redis.UniversalClient) AllServersCache {
+	return &allServersCache{client}
+}
+
 func (c *allServersCache) Get() ([]*models.Server, bool) {
 	sJSON, err := c.client.Get(context.Background(), key).Result()
 	if sJSON == "" || err != nil {
