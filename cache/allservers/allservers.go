@@ -13,20 +13,20 @@ const (
 	key = "all_servers"
 )
 
-type AllServersCache interface {
+type Cache interface {
 	Get() ([]*models.Server, bool)
 	Clear() error
 }
 
-type allServersCache struct {
+type cache struct {
 	client redis.UniversalClient
 }
 
-func New(client redis.UniversalClient) AllServersCache {
-	return &allServersCache{client}
+func New(client redis.UniversalClient) Cache {
+	return &cache{client}
 }
 
-func (c *allServersCache) Get() ([]*models.Server, bool) {
+func (c *cache) Get() ([]*models.Server, bool) {
 	sJSON, err := c.client.Get(context.Background(), key).Result()
 	if sJSON == "" || err != nil {
 		return []*models.Server{}, false
@@ -39,7 +39,7 @@ func (c *allServersCache) Get() ([]*models.Server, bool) {
 	return servers, true
 }
 
-func (c *allServersCache) Clear() error {
+func (c *cache) Clear() error {
 	if err := c.client.Del(context.Background(), key).Err(); err != nil {
 		return errors.Wrap(err, "All servers cache")
 	}
