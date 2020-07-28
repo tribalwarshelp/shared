@@ -3,6 +3,7 @@ package allservers
 import (
 	"context"
 	"encoding/json"
+	"time"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/pkg/errors"
@@ -14,6 +15,7 @@ const (
 )
 
 type Cache interface {
+	Set(servers []*models.Server) error
 	Get() ([]*models.Server, bool)
 	Clear() error
 }
@@ -37,6 +39,17 @@ func (c *cache) Get() ([]*models.Server, bool) {
 		return []*models.Server{}, false
 	}
 	return servers, true
+}
+
+func (c *cache) Set(servers []*models.Server) error {
+	js, err := json.Marshal(&servers)
+	if err != nil {
+		return errors.Wrap(err, "All servers cache")
+	}
+	if err := c.client.Set(context.Background(), key, string(js), 24*time.Hour).Err(); err != nil {
+		return errors.Wrap(err, "All servers cache")
+	}
+	return nil
 }
 
 func (c *cache) Clear() error {
