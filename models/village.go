@@ -23,7 +23,15 @@ func (v *Village) Continent() string {
 	if v == nil {
 		return ""
 	}
-	return fmt.Sprintf("k%c%c", strconv.FormatInt(int64(v.Y), 10)[0], strconv.FormatInt(int64(v.X), 10)[0])
+	return fmt.Sprintf("K%c%c", strconv.FormatInt(int64(v.Y), 10)[0], strconv.FormatInt(int64(v.X), 10)[0])
+}
+
+func (v *Village) FullName() string {
+	return fmt.Sprintf("%s (%d|%d) %s",
+		v.Name,
+		v.X,
+		v.Y,
+		v.Continent())
 }
 
 type VillageFilter struct {
