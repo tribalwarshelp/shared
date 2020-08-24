@@ -3,9 +3,9 @@ package models
 type SpecialServer struct {
 	tableName struct{} `pg:"special_servers,alias:special_server"`
 
-	LangVersionTag LanguageTag  `json:"langVersionTag" gqlgen:"langVersionTag" xml:"langVersionTag"`
+	LangVersionTag LanguageTag  `pg:",unique:group_1" json:"langVersionTag" gqlgen:"langVersionTag" xml:"langVersionTag"`
 	LangVersion    *LangVersion `pg:"fk:lang_version_tag" json:"omitempty,langVersion" gqlgen:"-" xml:"langVersion"`
-	Key            string       `json:"key" gqlgen:"key" xml:"key"`
+	Key            string       `pg:",unique:group_1" json:"key" gqlgen:"key" xml:"key"`
 }
 
 type SpecialServers []*SpecialServer
