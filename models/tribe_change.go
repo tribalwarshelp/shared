@@ -6,11 +6,11 @@ type TribeChange struct {
 	tableName struct{} `pg:"?SERVER.tribe_changes,alias:tribe_change"`
 
 	PlayerID   int       `pg:",use_zero" json:"playerID" gqlgen:"playerID" xml:"playerID"`
-	Player     *Player   `json:"player,omitempty" gqlgen:"-" xml:"player"`
+	Player     *Player   `json:"player,omitempty" gqlgen:"-" xml:"player" pg:"rel:has-one"`
 	OldTribeID int       `pg:",use_zero" json:"oldTribeID" gqlgen:"oldTribeID" xml:"oldTribeID"`
-	OldTribe   *Tribe    `json:"oldTribe,omitempty" gqlgen:"-" xml:"oldTribe"`
+	OldTribe   *Tribe    `json:"oldTribe,omitempty" gqlgen:"-" xml:"oldTribe" pg:"rel:has-one"`
 	NewTribeID int       `pg:",use_zero" json:"newTribeID" gqlgen:"newTribeID" xml:"newTribeID"`
-	NewTribe   *Tribe    `json:"newTribe,omitempty" gqlgen:"-" xml:"newTribe"`
+	NewTribe   *Tribe    `json:"newTribe,omitempty" gqlgen:"-" xml:"newTribe" pg:"rel:has-one"`
 	CreatedAt  time.Time `pg:"default:now(),use_zero" json:"createdAt" gqlgen:"createdAt" xml:"createdAt"`
 }
 

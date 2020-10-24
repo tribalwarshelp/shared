@@ -8,7 +8,7 @@ type PlayerHistory struct {
 	OpponentsDefeated
 
 	PlayerID      int       `pg:",unique:group_1" json:"playerID" gqlgen:"playerID" xml:"playerID"`
-	Player        *Player   `json:"player" gqlgen:"-" xml:"player"`
+	Player        *Player   `json:"player" gqlgen:"-" xml:"player" pg:"rel:has-one"`
 	TotalVillages int       `json:"totalVillages" pg:",use_zero" gqlgen:"totalVillages" xml:"totalVillages"`
 	Points        int       `json:"points" pg:",use_zero" gqlgen:"points" xml:"points"`
 	Rank          int       `json:"rank" pg:",use_zero" gqlgen:"rank" xml:"rank"`

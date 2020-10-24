@@ -12,7 +12,7 @@ type Player struct {
 	Points         int       `json:"points" pg:",use_zero" gqlgen:"points"`
 	Rank           int       `json:"rank" pg:",use_zero" gqlgen:"rank"`
 	TribeID        int       `json:"-" pg:",use_zero" gqlgen:"tribeID"`
-	Tribe          *Tribe    `json:"tribe,omitempty" gqlgen:"-"`
+	Tribe          *Tribe    `json:"tribe,omitempty" gqlgen:"-" pg:"rel:has-one"`
 	DailyGrowth    int       `json:"dailyGrowth" pg:",use_zero" gqlgen:"dailyGrowth"`
 	BestRank       int       `json:"bestRank" pg:",use_zero" gqlgen:"bestRank"`
 	BestRankAt     time.Time `json:"bestRankAt" pg:"default:now(),use_zero" gqlgen:"bestRankAt"`

@@ -59,7 +59,7 @@ type Server struct {
 	UnitConfig     UnitConfig     `json:"unitConfig" gqlgen:"unitConfig" xml:"unitConfig"`
 
 	LangVersionTag LanguageTag  `json:"langVersionTag" gqlgen:"langVersionTag" xml:"langVersionTag"`
-	LangVersion    *LangVersion `json:"langVersion,omitempty" gqlgen:"-" xml:"langVersion"`
+	LangVersion    *LangVersion `json:"langVersion,omitempty" gqlgen:"-" xml:"langVersion" pg:"rel:has-one"`
 
 	DataUpdatedAt    time.Time `pg:"default:now(),use_zero" json:"dataUpdatedAt" gqlgen:"dataUpdatedAt" xml:"dataUpdatedAt"`
 	HistoryUpdatedAt time.Time `pg:"default:now(),use_zero" json:"historyUpdatedAt" gqlgen:"historyUpdatedAt" xml:"historyUpdatedAt"`

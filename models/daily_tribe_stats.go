@@ -8,7 +8,7 @@ type DailyTribeStats struct {
 	tableName struct{} `pg:"?SERVER.daily_tribe_stats,alias:daily_tribe_stats"`
 
 	TribeID    int       `pg:",unique:group_1" json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`
-	Tribe      *Tribe    `json:"tribe" gqlgen:"-" xml:"tribe"`
+	Tribe      *Tribe    `json:"tribe" gqlgen:"-" xml:"tribe" pg:"rel:has-one"`
 	Members    int       `json:"members" gqlgen:"members" pg:",use_zero" xml:"members"`
 	Villages   int       `json:"villages" gqlgen:"villages" pg:",use_zero" xml:"villages"`
 	Points     int       `json:"points" gqlgen:"points" pg:",use_zero" xml:"points"`

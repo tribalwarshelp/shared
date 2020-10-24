@@ -8,7 +8,7 @@ type TribeHistory struct {
 	OpponentsDefeated
 
 	TribeID       int       `pg:",unique:group_1" json:"-" pg:",use_zero" gqlgen:"tribeID" xml:"tribeID"`
-	Tribe         *Tribe    `json:"tribe,omitempty" gqlgen:"-" xml:"tribe"`
+	Tribe         *Tribe    `json:"tribe,omitempty" gqlgen:"-" xml:"tribe" pg:"rel:has-one"`
 	TotalMembers  int       `json:"totalMembers" gqlgen:"totalMembers" pg:",use_zero"`
 	TotalVillages int       `json:"totalVillages" gqlgen:"totalVillages" pg:",use_zero"`
 	Points        int       `json:"points" gqlgen:"points" pg:",use_zero"`

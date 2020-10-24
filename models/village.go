@@ -16,7 +16,7 @@ type Village struct {
 	Bonus  int    `json:"bonus" pg:",use_zero" gqlgen:"bonus"`
 
 	PlayerID int     `json:"-" pg:",use_zero" gqlgen:"playerID"`
-	Player   *Player `json:"player,omitempty" gqlgen:"-"`
+	Player   *Player `json:"player,omitempty" gqlgen:"-" pg:"rel:has-one"`
 }
 
 func (v *Village) Continent() string {

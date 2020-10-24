@@ -6,7 +6,7 @@ type DailyPlayerStats struct {
 	tableName struct{} `pg:"?SERVER.daily_player_stats,alias:daily_player_stats"`
 
 	PlayerID   int       `pg:",unique:group_1" json:"playerID" gqlgen:"playerID" xml:"playerID"`
-	Player     *Player   `json:"player" gqlgen:"-" xml:"player"`
+	Player     *Player   `json:"player" gqlgen:"-" xml:"player" pg:"rel:has-one"`
 	Villages   int       `json:"villages" pg:",use_zero" gqlgen:"villages" xml:"villages"`
 	Points     int       `json:"points" pg:",use_zero" gqlgen:"points" xml:"points"`
 	Rank       int       `json:"rank" pg:",use_zero" gqlgen:"rank" xml:"rank"`
