@@ -13,7 +13,7 @@ type PlayerHistory struct {
 	Points        int       `json:"points" pg:",use_zero" gqlgen:"points" xml:"points"`
 	Rank          int       `json:"rank" pg:",use_zero" gqlgen:"rank" xml:"rank"`
 	TribeID       int       `json:"-" pg:",use_zero" gqlgen:"tribeID" xml:"tribeID"`
-	Tribe         *Tribe    `json:"tribe,omitempty" gqlgen:"-" xml:"tribe"`
+	Tribe         *Tribe    `json:"tribe,omitempty" gqlgen:"-" xml:"tribe" pg:"rel:has-one"`
 	CreateDate    time.Time `pg:"default:CURRENT_DATE,type:DATE,unique:group_1,use_zero" json:"createDate" gqlgen:"createDate" xml:"createDate"`
 }
 
