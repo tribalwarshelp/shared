@@ -4,9 +4,9 @@ import (
 	"github.com/tribalwarshelp/shared/models"
 )
 
-func LanguageTagFromServerKey(key string) models.LanguageTag {
+func VersionCodeFromServerKey(key string) models.VersionCode {
 	if len(key) < 2 {
 		return ""
 	}
-	return models.LanguageTag(key[0:2])
+	return models.VersionCode(key[0:2])
 }
