@@ -4,7 +4,7 @@ import "time"
 
 type PlayerNameChange struct {
 	VersionCode VersionCode `pg:",unique:group_1" json:"versionCode" gqlgen:"versionCode" xml:"versionCode"`
-	Version     *Version    `pg:"fk:lang_version_tag,rel:has-one" json:"version" gqlgen:"version" xml:"version"`
+	Version     *Version    `pg:"fk:version_code,rel:has-one" json:"version" gqlgen:"version" xml:"version"`
 	PlayerID    int         `pg:",unique:group_1" json:"playerID" gqlgen:"playerID" xml:"playerID"`
 	OldName     string      `pg:",unique:group_1" json:"oldName" gqlgen:"oldName" xml:"oldName"`
 	NewName     string      `pg:",unique:group_1" json:"newName" gqlgen:"newName" xml:"newName"`
