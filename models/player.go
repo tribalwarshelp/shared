@@ -84,3 +84,14 @@ type PlayerFilter struct {
 
 	OpponentsDefeatedFilter
 }
+
+type FoundPlayer struct {
+	Server       string `json:"server" xml:"server" gqlgen:"server"`
+	ID           int    `json:"id" gqlgen:"id" xml:"id"`
+	Name         string `json:"name" gqlgen:"name" xml:"name"`
+	BestRank     int    `json:"bestRank" pg:",use_zero" gqlgen:"bestRank" xml:"bestRank"`
+	MostPoints   int    `json:"mostPoints" pg:",use_zero" gqlgen:"mostPoints" xml:"mostPoints"`
+	MostVillages int    `json:"mostVillages" pg:",use_zero" gqlgen:"mostVillages" xml:"mostVillages"`
+	TribeID      int    `json:"tribeID" xml:"tribeID" gqlgen:"tribeID"`
+	TribeTag     string `json:"tribeTag" xml:"tribeTag" gqlgen:"tribeTag"`
+}
