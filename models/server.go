@@ -77,10 +77,8 @@ type ServerFilter struct {
 	Status    []ServerStatus `json:"status" gqlgen:"status"`
 	StatusNEQ []ServerStatus `json:"statusNEQ" gqlgen:"statusNEQ"`
 
-	LangVersionTag    []VersionCode `urlstruct:",nowhere" json:"langVersionTag" gqlgen:"langVersionTag"`
-	LangVersionTagNEQ []VersionCode `urlstruct:",nowhere" json:"langVersionTagNEQ" gqlgen:"langVersionTagNEQ"`
-	VersionCode       []VersionCode `json:"versionCode" gqlgen:"versionCode"`
-	VersionCodeNEQ    []VersionCode `json:"versionCodeNEQ" gqlgen:"versionCodeNEQ"`
+	VersionCode    []VersionCode `json:"versionCode" gqlgen:"versionCode"`
+	VersionCodeNEQ []VersionCode `json:"versionCodeNEQ" gqlgen:"versionCodeNEQ"`
 
 	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset"`
 	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit"`
