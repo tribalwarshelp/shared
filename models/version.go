@@ -91,8 +91,6 @@ type VersionFilter struct {
 
 	Code    []VersionCode `json:"code" gqlgen:"code"`
 	CodeNEQ []VersionCode `json:"codeNEQ" gqlgen:"codeNEQ"`
-	Tag     []VersionCode `json:"tag" gqlgen:"tag" urlstruct:",nowhere"`
-	TagNEQ  []VersionCode `json:"tagNEQ" gqlgen:"tagNEQ" urlstruct:",nowhere"`
 
 	Host      []string `json:"host" gqlgen:"host"`
 	HostNEQ   []string `json:"hostNEQ" gqlgen:"hostNEQ"`
