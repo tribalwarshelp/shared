@@ -76,6 +76,7 @@ type PlayerFilter struct {
 	DeletedAtLTE time.Time `json:"deletedAtLTE" gqlgen:"deletedAtLTE" xml:"deletedAtLTE"`
 
 	TribeID     []int        `json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`
+	TribeIdNEQ  []int        `json:"tribeIDNEQ" gqlgen:"tribeIDNEQ" xml:"tribeIDNEQ"`
 	TribeFilter *TribeFilter `urlstruct:",nowhere" json:"tribeFilter" gqlgen:"tribeFilter" xml:"tribeFilter"`
 
 	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset" xml:"offset"`

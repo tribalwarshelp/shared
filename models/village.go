@@ -68,6 +68,7 @@ type VillageFilter struct {
 	BonusLTE int `json:"bonusLTE" gqlgen:"bonusLTE"`
 
 	PlayerID     []int         `json:"playerID" gqlgen:"playerID"`
+	PlayerIdNEQ  []int         `json:"playerIDNEQ" gqlgen:"playerIDNEQ"`
 	PlayerFilter *PlayerFilter `urlstruct:",nowhere" json:"playerFilter" gqlgen:"playerFilter"`
 
 	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset"`
