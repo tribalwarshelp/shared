@@ -28,6 +28,7 @@ const (
 	VersionCodePT  VersionCode = "pt"
 	VersionCodeBR  VersionCode = "br"
 	VersionCodeHU  VersionCode = "hu"
+	VersionCodeSK  VersionCode = "sk"
 )
 
 func (vc VersionCode) IsValid() bool {
@@ -49,7 +50,8 @@ func (vc VersionCode) IsValid() bool {
 		VersionCodeRU,
 		VersionCodeTR,
 		VersionCodeUK,
-		VersionCodeUS:
+		VersionCodeUS,
+		VersionCodeSK:
 		return true
 	}
 	return false
