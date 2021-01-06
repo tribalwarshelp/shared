@@ -3,6 +3,8 @@ package models
 import (
 	"context"
 	"time"
+
+	"github.com/go-pg/pg/v10/orm"
 )
 
 type ServerStats struct {
@@ -30,15 +32,33 @@ func (s *ServerStats) BeforeInsert(ctx context.Context) (context.Context, error)
 }
 
 type ServerStatsFilter struct {
-	tableName struct{} `urlstruct:"stats"`
-
 	CreateDate    time.Time `json:"createDate" gqlgen:"createDate" xml:"createDate"`
 	CreateDateGT  time.Time `json:"createDateGT" gqlgen:"createDateGT" xml:"createDateGT"`
 	CreateDateGTE time.Time `json:"createDateGTE" gqlgen:"createDateGTE" xml:"createDateGTE"`
 	CreateDateLT  time.Time `json:"createDateLT" gqlgen:"createDateLT" xml:"createDateLT"`
 	CreateDateLTE time.Time `json:"createDateLTE" gqlgen:"createDateLTE" xml:"createDateLTE"`
+}
 
-	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset"`
-	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit"`
-	Sort   string `urlstruct:",nowhere" json:"sort" gqlgen:"sort"`
+func (f *ServerStatsFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
+	if !f.CreateDate.IsZero() {
+		q = q.Where(buildConditionEquals(addAliasToColumnName("create_date", alias)), f.CreateDate)
+	}
+	if !f.CreateDateGT.IsZero() {
+		q = q.Where(buildConditionGT(addAliasToColumnName("create_date", alias)), f.CreateDateGT)
+	}
+	if !f.CreateDateGTE.IsZero() {
+		q = q.Where(buildConditionGTE(addAliasToColumnName("create_date", alias)), f.CreateDateGTE)
+	}
+	if !f.CreateDateLT.IsZero() {
+		q = q.Where(buildConditionLT(addAliasToColumnName("create_date", alias)), f.CreateDateLT)
+	}
+	if !f.CreateDateLTE.IsZero() {
+		q = q.Where(buildConditionLTE(addAliasToColumnName("create_date", alias)), f.CreateDateLTE)
+	}
+
+	return q, nil
+}
+
+func (f *ServerStatsFilter) Where(q *orm.Query) (*orm.Query, error) {
+	return f.WhereWithAlias(q, "stats")
 }

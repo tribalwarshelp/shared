@@ -17,6 +17,26 @@ func wrapStringInDoubleQuotes(str string) string {
 	return `"` + str + `"`
 }
 
+func buildConditionEquals(column string) string {
+	return column + "= ?"
+}
+
+func buildConditionLT(column string) string {
+	return column + "< ?"
+}
+
+func buildConditionLTE(column string) string {
+	return column + "<= ?"
+}
+
+func buildConditionGT(column string) string {
+	return column + "> ?"
+}
+
+func buildConditionGTE(column string) string {
+	return column + ">= ?"
+}
+
 func buildConditionMatch(column string) string {
 	return column + "LIKE ?"
 }
