@@ -56,7 +56,7 @@ type TribeChangeFilter struct {
 	CreatedAtLT  time.Time `json:"createdAtLT" gqlgen:"createdAtLT" xml:"createdAtLT"`
 	CreatedAtLTE time.Time `json:"createdAtLTE" gqlgen:"createdAtLTE" xml:"createdAtLTE"`
 
-	Or *TribeChangeFilterOr `urlstruct:",nowhere" json:"or" gqlgen:"or" xml:"or"`
+	Or *TribeChangeFilterOr `json:"or" gqlgen:"or" xml:"or"`
 }
 
 func (f *TribeChangeFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
