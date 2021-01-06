@@ -83,30 +83,30 @@ type ServerFilter struct {
 }
 
 func (f *ServerFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
-	if len(f.Key) > 0 {
+	if !isZero(f.Key) {
 		q = q.Where(buildConditionArray(addAliasToColumnName("key", alias)), pg.Array(f.Key))
 	}
-	if len(f.KeyNEQ) > 0 {
+	if !isZero(f.KeyNEQ) {
 		q = q.Where(buildConditionNotInArray(addAliasToColumnName("key", alias)), pg.Array(f.KeyNEQ))
 	}
-	if f.KeyMATCH != "" {
+	if !isZero(f.KeyMATCH) {
 		q = q.Where(buildConditionMatch(addAliasToColumnName("key", alias)), f.KeyMATCH)
 	}
-	if f.KeyIEQ != "" {
+	if !isZero(f.KeyIEQ) {
 		q = q.Where(buildConditionIEQ(addAliasToColumnName("key", alias)), f.KeyIEQ)
 	}
 
-	if len(f.Status) > 0 {
+	if !isZero(f.Status) {
 		q = q.Where(buildConditionArray(addAliasToColumnName("status", alias)), pg.Array(f.Status))
 	}
-	if len(f.StatusNEQ) > 0 {
+	if !isZero(f.StatusNEQ) {
 		q = q.Where(buildConditionNotInArray(addAliasToColumnName("status", alias)), pg.Array(f.StatusNEQ))
 	}
 
-	if len(f.VersionCode) > 0 {
+	if !isZero(f.VersionCode) {
 		q = q.Where(buildConditionArray(addAliasToColumnName("version_code", alias)), pg.Array(f.VersionCode))
 	}
-	if len(f.VersionCodeNEQ) > 0 {
+	if !isZero(f.VersionCodeNEQ) {
 		q = q.Where(buildConditionNotInArray(addAliasToColumnName("version_code", alias)), pg.Array(f.VersionCodeNEQ))
 	}
 

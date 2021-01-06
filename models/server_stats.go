@@ -40,19 +40,19 @@ type ServerStatsFilter struct {
 }
 
 func (f *ServerStatsFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
-	if !f.CreateDate.IsZero() {
+	if !isZero(f.CreateDate) {
 		q = q.Where(buildConditionEquals(addAliasToColumnName("create_date", alias)), f.CreateDate)
 	}
-	if !f.CreateDateGT.IsZero() {
+	if !isZero(f.CreateDateGT) {
 		q = q.Where(buildConditionGT(addAliasToColumnName("create_date", alias)), f.CreateDateGT)
 	}
-	if !f.CreateDateGTE.IsZero() {
+	if !isZero(f.CreateDateGTE) {
 		q = q.Where(buildConditionGTE(addAliasToColumnName("create_date", alias)), f.CreateDateGTE)
 	}
-	if !f.CreateDateLT.IsZero() {
+	if !isZero(f.CreateDateLT) {
 		q = q.Where(buildConditionLT(addAliasToColumnName("create_date", alias)), f.CreateDateLT)
 	}
-	if !f.CreateDateLTE.IsZero() {
+	if !isZero(f.CreateDateLTE) {
 		q = q.Where(buildConditionLTE(addAliasToColumnName("create_date", alias)), f.CreateDateLTE)
 	}
 

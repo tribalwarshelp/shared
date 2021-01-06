@@ -102,23 +102,23 @@ type VersionFilter struct {
 }
 
 func (f *VersionFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
-	if len(f.Code) > 0 {
+	if !isZero(f.Code) {
 		q = q.Where(buildConditionArray(addAliasToColumnName("code", alias)), pg.Array(f.Code))
 	}
-	if len(f.CodeNEQ) > 0 {
+	if !isZero(f.CodeNEQ) {
 		q = q.Where(buildConditionNotInArray(addAliasToColumnName("code", alias)), pg.Array(f.CodeNEQ))
 	}
 
-	if len(f.Host) > 0 {
+	if !isZero(f.Host) {
 		q = q.Where(buildConditionArray(addAliasToColumnName("host", alias)), pg.Array(f.Host))
 	}
-	if len(f.HostNEQ) > 0 {
+	if !isZero(f.HostNEQ) {
 		q = q.Where(buildConditionNotInArray(addAliasToColumnName("host", alias)), pg.Array(f.HostNEQ))
 	}
-	if f.HostMATCH != "" {
+	if !isZero(f.HostMATCH) {
 		q = q.Where(buildConditionMatch(addAliasToColumnName("host", alias)), f.HostMATCH)
 	}
-	if f.HostIEQ != "" {
+	if !isZero(f.HostIEQ) {
 		q = q.Where(buildConditionIEQ(addAliasToColumnName("host", alias)), f.HostIEQ)
 	}
 
