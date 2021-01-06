@@ -21,8 +21,6 @@ type DailyTribeStats struct {
 }
 
 type DailyTribeStatsFilter struct {
-	tableName struct{} `urlstruct:"daily_tribe_stats"`
-
 	TribeID     []int        `json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`
 	TribeIdNEQ  []int        `json:"tribeIDNEQ" gqlgen:"tribeIDNEQ" xml:"tribeIDNEQ"`
 	TribeFilter *TribeFilter `urlstruct:",nowhere" json:"tribeFilter" gqlgen:"tribeFilter" xml:"tribeFilter"`
@@ -32,8 +30,4 @@ type DailyTribeStatsFilter struct {
 	CreateDateGTE time.Time `json:"createDateGTE" gqlgen:"createDateGTE" xml:"createDateGTE"`
 	CreateDateLT  time.Time `json:"createDateLT" gqlgen:"createDateLT" xml:"createDateLT"`
 	CreateDateLTE time.Time `json:"createDateLTE" gqlgen:"createDateLTE" xml:"createDateLTE"`
-
-	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset" xml:"offset"`
-	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit" xml:"limit"`
-	Sort   string `urlstruct:",nowhere" json:"sort" gqlgen:"sort" xml:"sort"`
 }

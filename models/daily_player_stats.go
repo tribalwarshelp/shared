@@ -16,8 +16,6 @@ type DailyPlayerStats struct {
 }
 
 type DailyPlayerStatsFilter struct {
-	tableName struct{} `urlstruct:"daily_player_stats"`
-
 	PlayerID     []int         `json:"playerID" gqlgen:"playerID" xml:"playerID"`
 	PlayerIdNEQ  []int         `json:"playerIDNEQ" gqlgen:"playerIDNEQ" xml:"playerIDNEQ"`
 	PlayerFilter *PlayerFilter `urlstruct:",nowhere" json:"playerFilter" gqlgen:"playerFilter" xml:"playerFilter"`
@@ -27,8 +25,4 @@ type DailyPlayerStatsFilter struct {
 	CreateDateGTE time.Time `json:"createDateGTE" gqlgen:"createDateGTE" xml:"createDateGTE"`
 	CreateDateLT  time.Time `json:"createDateLT" gqlgen:"createDateLT" xml:"createDateLT"`
 	CreateDateLTE time.Time `json:"createDateLTE" gqlgen:"createDateLTE" xml:"createDateLTE"`
-
-	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset" xml:"offset"`
-	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit" xml:"limit"`
-	Sort   string `urlstruct:",nowhere" json:"sort" gqlgen:"sort" xml:"sort"`
 }
