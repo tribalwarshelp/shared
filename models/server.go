@@ -6,6 +6,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/go-pg/pg/v10"
+	"github.com/go-pg/pg/v10/orm"
 )
 
 type ServerStatus string
@@ -67,8 +70,6 @@ type Server struct {
 }
 
 type ServerFilter struct {
-	tableName struct{} `urlstruct:"server"`
-
 	Key      []string `json:"key" gqlgen:"key"`
 	KeyNEQ   []string `json:"keyNEQ" gqlgen:"keyNEQ"`
 	KeyMATCH string   `json:"keyMATCH" gqlgen:"keyMATCH"`
@@ -79,8 +80,39 @@ type ServerFilter struct {
 
 	VersionCode    []VersionCode `json:"versionCode" gqlgen:"versionCode"`
 	VersionCodeNEQ []VersionCode `json:"versionCodeNEQ" gqlgen:"versionCodeNEQ"`
+}
 
-	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset"`
-	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit"`
-	Sort   string `urlstruct:",nowhere" json:"sort" gqlgen:"sort"`
+func (f *ServerFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
+	if !isZero(f.Key) {
+		q = q.Where(buildConditionArray(addAliasToColumnName("key", alias)), pg.Array(f.Key))
+	}
+	if !isZero(f.KeyNEQ) {
+		q = q.Where(buildConditionNotInArray(addAliasToColumnName("key", alias)), pg.Array(f.KeyNEQ))
+	}
+	if !isZero(f.KeyMATCH) {
+		q = q.Where(buildConditionMatch(addAliasToColumnName("key", alias)), f.KeyMATCH)
+	}
+	if !isZero(f.KeyIEQ) {
+		q = q.Where(buildConditionIEQ(addAliasToColumnName("key", alias)), f.KeyIEQ)
+	}
+
+	if !isZero(f.Status) {
+		q = q.Where(buildConditionArray(addAliasToColumnName("status", alias)), pg.Array(f.Status))
+	}
+	if !isZero(f.StatusNEQ) {
+		q = q.Where(buildConditionNotInArray(addAliasToColumnName("status", alias)), pg.Array(f.StatusNEQ))
+	}
+
+	if !isZero(f.VersionCode) {
+		q = q.Where(buildConditionArray(addAliasToColumnName("version_code", alias)), pg.Array(f.VersionCode))
+	}
+	if !isZero(f.VersionCodeNEQ) {
+		q = q.Where(buildConditionNotInArray(addAliasToColumnName("version_code", alias)), pg.Array(f.VersionCodeNEQ))
+	}
+
+	return q, nil
+}
+
+func (f *ServerFilter) Where(q *orm.Query) (*orm.Query, error) {
+	return f.WhereWithAlias(q, "server")
 }

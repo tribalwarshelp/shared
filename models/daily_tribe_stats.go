@@ -2,6 +2,9 @@ package models
 
 import (
 	"time"
+
+	"github.com/go-pg/pg/v10"
+	"github.com/go-pg/pg/v10/orm"
 )
 
 type DailyTribeStats struct {
@@ -21,19 +24,71 @@ type DailyTribeStats struct {
 }
 
 type DailyTribeStatsFilter struct {
-	tableName struct{} `urlstruct:"daily_tribe_stats"`
-
 	TribeID     []int        `json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`
-	TribeIdNEQ  []int        `json:"tribeIDNEQ" gqlgen:"tribeIDNEQ" xml:"tribeIDNEQ"`
-	TribeFilter *TribeFilter `urlstruct:",nowhere" json:"tribeFilter" gqlgen:"tribeFilter" xml:"tribeFilter"`
+	TribeIDNEQ  []int        `json:"tribeIDNEQ" gqlgen:"tribeIDNEQ" xml:"tribeIDNEQ"`
+	TribeFilter *TribeFilter `json:"tribeFilter" gqlgen:"tribeFilter" xml:"tribeFilter"`
 
 	CreateDate    time.Time `json:"createDate" gqlgen:"createDate" xml:"createDate"`
 	CreateDateGT  time.Time `json:"createDateGT" gqlgen:"createDateGT" xml:"createDateGT"`
 	CreateDateGTE time.Time `json:"createDateGTE" gqlgen:"createDateGTE" xml:"createDateGTE"`
 	CreateDateLT  time.Time `json:"createDateLT" gqlgen:"createDateLT" xml:"createDateLT"`
 	CreateDateLTE time.Time `json:"createDateLTE" gqlgen:"createDateLTE" xml:"createDateLTE"`
+}
 
-	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset" xml:"offset"`
-	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit" xml:"limit"`
-	Sort   string `urlstruct:",nowhere" json:"sort" gqlgen:"sort" xml:"sort"`
+func (f *DailyTribeStatsFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
+	if !isZero(f.CreateDate) {
+		q = q.Where(buildConditionEquals(addAliasToColumnName("create_date", alias)), f.CreateDate)
+	}
+	if !isZero(f.CreateDateGT) {
+		q = q.Where(buildConditionGT(addAliasToColumnName("create_date", alias)), f.CreateDateGT)
+	}
+	if !isZero(f.CreateDateGTE) {
+		q = q.Where(buildConditionGTE(addAliasToColumnName("create_date", alias)), f.CreateDateGTE)
+	}
+	if !isZero(f.CreateDateLT) {
+		q = q.Where(buildConditionLT(addAliasToColumnName("create_date", alias)), f.CreateDateLT)
+	}
+	if !isZero(f.CreateDateLTE) {
+		q = q.Where(buildConditionLTE(addAliasToColumnName("create_date", alias)), f.CreateDateLTE)
+	}
+
+	if !isZero(f.TribeID) {
+		q = q.Where(buildConditionArray(addAliasToColumnName("tribe_id", alias)), pg.Array(f.TribeID))
+	}
+	if !isZero(f.TribeIDNEQ) {
+		q = q.Where(buildConditionNotInArray(addAliasToColumnName("tribe_id", alias)), pg.Array(f.TribeIDNEQ))
+	}
+
+	return q, nil
+}
+
+func (f *DailyTribeStatsFilter) Where(q *orm.Query) (*orm.Query, error) {
+	return f.WhereWithAlias(q, "daily_tribe_stats")
+}
+
+type DailyTibeStatsRelationshipAndSortAppender struct {
+	Filter *DailyTribeStatsFilter
+	Sort   []string
+}
+
+func (a *DailyTibeStatsRelationshipAndSortAppender) Append(q *orm.Query) (*orm.Query, error) {
+	var err error
+	tribeRequired := findStringWithPrefix(a.Sort, "tribe.") != ""
+	if a.Filter.TribeFilter != nil {
+		q, err = a.Filter.TribeFilter.WhereWithAlias(q, "tribe")
+		if err != nil {
+			return q, err
+		}
+		tribeRequired = true
+	}
+
+	if !isZero(a.Sort) {
+		q = q.Order(a.Sort...)
+	}
+
+	if tribeRequired {
+		q = q.Relation("Tribe._")
+	}
+
+	return q, nil
 }

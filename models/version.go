@@ -5,6 +5,9 @@ import (
 	"io"
 	"strconv"
 	"strings"
+
+	"github.com/go-pg/pg/v10"
+	"github.com/go-pg/pg/v10/orm"
 )
 
 type VersionCode string
@@ -89,8 +92,6 @@ type Version struct {
 }
 
 type VersionFilter struct {
-	tableName struct{} `urlstruct:"version"`
-
 	Code    []VersionCode `json:"code" gqlgen:"code"`
 	CodeNEQ []VersionCode `json:"codeNEQ" gqlgen:"codeNEQ"`
 
@@ -98,8 +99,32 @@ type VersionFilter struct {
 	HostNEQ   []string `json:"hostNEQ" gqlgen:"hostNEQ"`
 	HostMATCH string   `json:"hostMATCH" gqlgen:"hostMATCH"`
 	HostIEQ   string   `json:"hostIEQ" gqlgen:"hostIEQ"`
+}
 
-	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset"`
-	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit"`
-	Sort   string `urlstruct:",nowhere" json:"sort" gqlgen:"sort"`
+func (f *VersionFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
+	if !isZero(f.Code) {
+		q = q.Where(buildConditionArray(addAliasToColumnName("code", alias)), pg.Array(f.Code))
+	}
+	if !isZero(f.CodeNEQ) {
+		q = q.Where(buildConditionNotInArray(addAliasToColumnName("code", alias)), pg.Array(f.CodeNEQ))
+	}
+
+	if !isZero(f.Host) {
+		q = q.Where(buildConditionArray(addAliasToColumnName("host", alias)), pg.Array(f.Host))
+	}
+	if !isZero(f.HostNEQ) {
+		q = q.Where(buildConditionNotInArray(addAliasToColumnName("host", alias)), pg.Array(f.HostNEQ))
+	}
+	if !isZero(f.HostMATCH) {
+		q = q.Where(buildConditionMatch(addAliasToColumnName("host", alias)), f.HostMATCH)
+	}
+	if !isZero(f.HostIEQ) {
+		q = q.Where(buildConditionIEQ(addAliasToColumnName("host", alias)), f.HostIEQ)
+	}
+
+	return q, nil
+}
+
+func (f *VersionFilter) Where(q *orm.Query) (*orm.Query, error) {
+	return f.WhereWithAlias(q, "version")
 }

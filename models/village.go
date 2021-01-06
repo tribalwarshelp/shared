@@ -3,6 +3,10 @@ package models
 import (
 	"fmt"
 	"strconv"
+	"strings"
+
+	"github.com/go-pg/pg/v10"
+	"github.com/go-pg/pg/v10/orm"
 )
 
 type Village struct {
@@ -35,25 +39,23 @@ func (v *Village) FullName() string {
 }
 
 type VillageFilter struct {
-	tableName struct{} `urlstruct:"village"`
-
 	ID    []int `json:"id" gqlgen:"id"`
-	IdNEQ []int `json:"idNEQ" gqlgen:"idNEQ"`
+	IDNEQ []int `json:"idNEQ" gqlgen:"idNEQ"`
 
 	Name      []string `json:"name" gqlgen:"name"`
 	NameNEQ   []string `json:"nameNEQ" gqlgen:"nameNEQ"`
 	NameMATCH string   `json:"nameMATCH" gqlgen:"nameMATCH"`
 	NameIEQ   string   `json:"nameIEQ" gqlgen:"nameIEQ"`
 
-	XGT  int      `urlstruct:",nowhere" json:"xGT" gqlgen:"xGT"`
-	XGTE int      `urlstruct:",nowhere" json:"xGTE" gqlgen:"xGTE"`
-	XLT  int      `urlstruct:",nowhere" json:"xLT" gqlgen:"xLT"`
-	XLTE int      `urlstruct:",nowhere" json:"xLTE" gqlgen:"xLTE"`
-	YGT  int      `urlstruct:",nowhere" json:"yGT" gqlgen:"yGT"`
-	YGTE int      `urlstruct:",nowhere" json:"yGTE" gqlgen:"yGTE"`
-	YLT  int      `urlstruct:",nowhere" json:"yLT" gqlgen:"yLT"`
-	YLTE int      `urlstruct:",nowhere" json:"yLTE" gqlgen:"yLTE"`
-	XY   []string `urlstruct:",nowhere" json:"xy" gqlgen:"xy"`
+	XGT  int      `json:"xGT" gqlgen:"xGT"`
+	XGTE int      `json:"xGTE" gqlgen:"xGTE"`
+	XLT  int      `json:"xLT" gqlgen:"xLT"`
+	XLTE int      `json:"xLTE" gqlgen:"xLTE"`
+	YGT  int      `json:"yGT" gqlgen:"yGT"`
+	YGTE int      `json:"yGTE" gqlgen:"yGTE"`
+	YLT  int      `json:"yLT" gqlgen:"yLT"`
+	YLTE int      `json:"yLTE" gqlgen:"yLTE"`
+	XY   []string `json:"xy" gqlgen:"xy"`
 
 	Points    int `json:"points" gqlgen:"points"`
 	PointsGT  int `json:"pointsGT" gqlgen:"pointsGT"`
@@ -68,10 +70,163 @@ type VillageFilter struct {
 	BonusLTE int `json:"bonusLTE" gqlgen:"bonusLTE"`
 
 	PlayerID     []int         `json:"playerID" gqlgen:"playerID"`
-	PlayerIdNEQ  []int         `json:"playerIDNEQ" gqlgen:"playerIDNEQ"`
-	PlayerFilter *PlayerFilter `urlstruct:",nowhere" json:"playerFilter" gqlgen:"playerFilter"`
+	PlayerIDNEQ  []int         `json:"playerIDNEQ" gqlgen:"playerIDNEQ"`
+	PlayerFilter *PlayerFilter `json:"playerFilter" gqlgen:"playerFilter"`
+}
 
-	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset"`
-	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit"`
-	Sort   string `urlstruct:",nowhere" json:"sort" gqlgen:"sort"`
+func (f *VillageFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
+	if !isZero(f.ID) {
+		q = q.Where(buildConditionArray(addAliasToColumnName("id", alias)), pg.Array(f.ID))
+	}
+	if !isZero(f.IDNEQ) {
+		q = q.Where(buildConditionNotInArray(addAliasToColumnName("id", alias)), pg.Array(f.IDNEQ))
+	}
+
+	if !isZero(f.Name) {
+		q = q.Where(buildConditionArray(addAliasToColumnName("name", alias)), pg.Array(f.Name))
+	}
+	if !isZero(f.NameNEQ) {
+		q = q.Where(buildConditionNotInArray(addAliasToColumnName("name", alias)), pg.Array(f.NameNEQ))
+	}
+	if !isZero(f.NameMATCH) {
+		q = q.Where(buildConditionMatch(addAliasToColumnName("name", alias)), f.NameMATCH)
+	}
+	if !isZero(f.NameIEQ) {
+		q = q.Where(buildConditionIEQ(addAliasToColumnName("name", alias)), f.NameIEQ)
+	}
+
+	if !isZero(f.XGT) {
+		q = q.Where(buildConditionGT(addAliasToColumnName("x", alias)), f.XGT)
+	}
+	if !isZero(f.XGTE) {
+		q = q.Where(buildConditionGTE(addAliasToColumnName("x", alias)), f.XGTE)
+	}
+	if !isZero(f.XLT) {
+		q = q.Where(buildConditionLT(addAliasToColumnName("x", alias)), f.XLT)
+	}
+	if !isZero(f.XLTE) {
+		q = q.Where(buildConditionLTE(addAliasToColumnName("x", alias)), f.XLTE)
+	}
+
+	if !isZero(f.YGT) {
+		q = q.Where(buildConditionGT(addAliasToColumnName("y", alias)), f.YGT)
+	}
+	if !isZero(f.YGTE) {
+		q = q.Where(buildConditionGTE(addAliasToColumnName("y", alias)), f.YGTE)
+	}
+	if !isZero(f.YLT) {
+		q = q.Where(buildConditionLT(addAliasToColumnName("y", alias)), f.YLT)
+	}
+	if !isZero(f.YLTE) {
+		q = q.Where(buildConditionLTE(addAliasToColumnName("y", alias)), f.YLTE)
+	}
+
+	if !isZero(f.XY) {
+		q = q.WhereGroup(func(q *orm.Query) (*orm.Query, error) {
+			for _, xy := range f.XY {
+				splitted := strings.Split(xy, "|")
+				if len(splitted) != 2 {
+					continue
+				}
+				x, err := strconv.Atoi(splitted[0])
+				if err != nil {
+					continue
+				}
+				y, err := strconv.Atoi(splitted[1])
+				if err != nil {
+					continue
+				}
+				q = q.WhereOrGroup(func(q *orm.Query) (*orm.Query, error) {
+					q = q.Where("x = ?", x)
+					q = q.Where("y = ?", y)
+					return q, nil
+				})
+			}
+			return q, nil
+		})
+	}
+
+	if !isZero(f.Points) {
+		q = q.Where(buildConditionEquals(addAliasToColumnName("points", alias)), f.Points)
+	}
+	if !isZero(f.PointsGT) {
+		q = q.Where(buildConditionGT(addAliasToColumnName("points", alias)), f.PointsGT)
+	}
+	if !isZero(f.PointsGTE) {
+		q = q.Where(buildConditionGTE(addAliasToColumnName("points", alias)), f.PointsGTE)
+	}
+	if !isZero(f.PointsLT) {
+		q = q.Where(buildConditionLT(addAliasToColumnName("points", alias)), f.PointsLT)
+	}
+	if !isZero(f.PointsLTE) {
+		q = q.Where(buildConditionLTE(addAliasToColumnName("points", alias)), f.PointsLTE)
+	}
+
+	if !isZero(f.Bonus) {
+		q = q.Where(buildConditionEquals(addAliasToColumnName("bonus", alias)), f.Bonus)
+	}
+	if !isZero(f.BonusGT) {
+		q = q.Where(buildConditionGT(addAliasToColumnName("bonus", alias)), f.BonusGT)
+	}
+	if !isZero(f.BonusGTE) {
+		q = q.Where(buildConditionGTE(addAliasToColumnName("bonus", alias)), f.BonusGTE)
+	}
+	if !isZero(f.BonusLT) {
+		q = q.Where(buildConditionLT(addAliasToColumnName("bonus", alias)), f.BonusLT)
+	}
+	if !isZero(f.BonusLTE) {
+		q = q.Where(buildConditionLTE(addAliasToColumnName("bonus", alias)), f.BonusLTE)
+	}
+
+	if !isZero(f.PlayerID) {
+		q = q.Where(buildConditionArray(addAliasToColumnName("player_id", alias)), pg.Array(f.PlayerID))
+	}
+	if !isZero(f.PlayerIDNEQ) {
+		q = q.Where(buildConditionNotInArray(addAliasToColumnName("player_id", alias)), pg.Array(f.PlayerIDNEQ))
+	}
+
+	return q, nil
+}
+
+func (f *VillageFilter) Where(q *orm.Query) (*orm.Query, error) {
+	return f.WhereWithAlias(q, "village")
+}
+
+type VillageRelationshipAndSortAppender struct {
+	Filter *VillageFilter
+	Sort   []string
+}
+
+func (a *VillageRelationshipAndSortAppender) Append(q *orm.Query) (*orm.Query, error) {
+	var err error
+	playerRequired := findStringWithPrefix(a.Sort, "player.") != ""
+	playerTribeRequired := findStringWithPrefix(a.Sort, "player.tribe.") != ""
+	if a.Filter.PlayerFilter != nil {
+		q, err = a.Filter.PlayerFilter.WhereWithAlias(q, "player")
+		if err != nil {
+			return q, err
+		}
+		playerRequired = true
+		if a.Filter.PlayerFilter.TribeFilter != nil {
+			q, err = a.Filter.PlayerFilter.WhereWithAlias(q, "tribe")
+			if err != nil {
+				return q, err
+			}
+			playerTribeRequired = true
+		}
+	}
+
+	if !isZero(a.Sort) {
+		q = q.Order(a.Sort...)
+	}
+
+	if playerRequired {
+		q = q.Relation("Player._")
+	}
+
+	if playerTribeRequired {
+		q = q.Join("LEFT JOIN ?SERVER.tribes AS tribe ON tribe.id = player.tribe_id")
+	}
+
+	return q, nil
 }
