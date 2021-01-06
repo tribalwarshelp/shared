@@ -88,3 +88,12 @@ func isZero(v interface{}) bool {
 		return false
 	}
 }
+
+func findStringWithPrefix(sl []string, prefix string) string {
+	for _, s := range sl {
+		if strings.HasPrefix(s, prefix) {
+			return s
+		}
+	}
+	return ""
+}

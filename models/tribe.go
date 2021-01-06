@@ -176,6 +176,22 @@ func (f *TribeFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, er
 		q = q.Where(buildConditionLTE(addAliasToColumnName("total_members", alias)), f.TotalMembersLTE)
 	}
 
+	if !isZero(f.TotalVillages) {
+		q = q.Where(buildConditionEquals(addAliasToColumnName("total_villages", alias)), f.TotalVillages)
+	}
+	if !isZero(f.TotalVillagesGT) {
+		q = q.Where(buildConditionGT(addAliasToColumnName("total_villages", alias)), f.TotalVillagesGT)
+	}
+	if !isZero(f.TotalVillagesGTE) {
+		q = q.Where(buildConditionGTE(addAliasToColumnName("total_villages", alias)), f.TotalVillagesGTE)
+	}
+	if !isZero(f.TotalVillagesLT) {
+		q = q.Where(buildConditionLT(addAliasToColumnName("total_villages", alias)), f.TotalVillagesLT)
+	}
+	if !isZero(f.TotalVillagesLTE) {
+		q = q.Where(buildConditionLTE(addAliasToColumnName("total_villages", alias)), f.TotalVillagesLTE)
+	}
+
 	if !isZero(f.Points) {
 		q = q.Where(buildConditionEquals(addAliasToColumnName("points", alias)), f.Points)
 	}

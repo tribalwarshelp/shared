@@ -1,6 +1,11 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"github.com/go-pg/pg/v10"
+	"github.com/go-pg/pg/v10/orm"
+)
 
 type Player struct {
 	tableName struct{} `pg:"?SERVER.players,alias:player"`
@@ -27,12 +32,10 @@ type Player struct {
 }
 
 type PlayerFilter struct {
-	tableName struct{} `urlstruct:"player"`
-
 	ID    []int `json:"id" gqlgen:"id" xml:"id"`
-	IdNEQ []int `json:"idNEQ" gqlgen:"idNEQ" xml:"idNEQ"`
+	IDNEQ []int `json:"idNEQ" gqlgen:"idNEQ" xml:"idNEQ"`
 
-	Exists *bool `urlstruct:",nowhere" json:"exists" gqlgen:"exists" xml:"exists"`
+	Exists *bool ` json:"exists" gqlgen:"exists" xml:"exists"`
 
 	Name      []string `json:"name" gqlgen:"name" xml:"name"`
 	NameNEQ   []string `json:"nameNEQ" gqlgen:"nameNEQ" xml:"nameNEQ"`
@@ -76,14 +79,172 @@ type PlayerFilter struct {
 	DeletedAtLTE time.Time `json:"deletedAtLTE" gqlgen:"deletedAtLTE" xml:"deletedAtLTE"`
 
 	TribeID     []int        `json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`
-	TribeIdNEQ  []int        `json:"tribeIDNEQ" gqlgen:"tribeIDNEQ" xml:"tribeIDNEQ"`
-	TribeFilter *TribeFilter `urlstruct:",nowhere" json:"tribeFilter" gqlgen:"tribeFilter" xml:"tribeFilter"`
-
-	Offset int    `urlstruct:",nowhere" json:"offset" gqlgen:"offset" xml:"offset"`
-	Limit  int    `urlstruct:",nowhere" json:"limit" gqlgen:"limit" xml:"limit"`
-	Sort   string `urlstruct:",nowhere" json:"sort" gqlgen:"sort" xml:"sort"`
+	TribeIDNEQ  []int        `json:"tribeIDNEQ" gqlgen:"tribeIDNEQ" xml:"tribeIDNEQ"`
+	TribeFilter *TribeFilter `json:"tribeFilter" gqlgen:"tribeFilter" xml:"tribeFilter"`
 
 	OpponentsDefeatedFilter
+}
+
+func (f *PlayerFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
+	if !isZero(f.ID) {
+		q = q.Where(buildConditionArray(addAliasToColumnName("id", alias)), pg.Array(f.ID))
+	}
+	if !isZero(f.IDNEQ) {
+		q = q.Where(buildConditionNotInArray(addAliasToColumnName("id", alias)), pg.Array(f.IDNEQ))
+	}
+
+	if !isZero(f.Exists) {
+		q = q.Where(buildConditionEquals(addAliasToColumnName("exists", alias)), f.Exists)
+	}
+
+	if !isZero(f.Name) {
+		q = q.Where(buildConditionArray(addAliasToColumnName("name", alias)), pg.Array(f.Name))
+	}
+	if !isZero(f.NameNEQ) {
+		q = q.Where(buildConditionNotInArray(addAliasToColumnName("name", alias)), pg.Array(f.NameNEQ))
+	}
+	if !isZero(f.NameMATCH) {
+		q = q.Where(buildConditionMatch(addAliasToColumnName("name", alias)), f.NameMATCH)
+	}
+	if !isZero(f.NameIEQ) {
+		q = q.Where(buildConditionIEQ(addAliasToColumnName("name", alias)), f.NameIEQ)
+	}
+
+	if !isZero(f.TotalVillages) {
+		q = q.Where(buildConditionEquals(addAliasToColumnName("total_villages", alias)), f.TotalVillages)
+	}
+	if !isZero(f.TotalVillagesGT) {
+		q = q.Where(buildConditionGT(addAliasToColumnName("total_villages", alias)), f.TotalVillagesGT)
+	}
+	if !isZero(f.TotalVillagesGTE) {
+		q = q.Where(buildConditionGTE(addAliasToColumnName("total_villages", alias)), f.TotalVillagesGTE)
+	}
+	if !isZero(f.TotalVillagesLT) {
+		q = q.Where(buildConditionLT(addAliasToColumnName("total_villages", alias)), f.TotalVillagesLT)
+	}
+	if !isZero(f.TotalVillagesLTE) {
+		q = q.Where(buildConditionLTE(addAliasToColumnName("total_villages", alias)), f.TotalVillagesLTE)
+	}
+
+	if !isZero(f.Points) {
+		q = q.Where(buildConditionEquals(addAliasToColumnName("points", alias)), f.Points)
+	}
+	if !isZero(f.PointsGT) {
+		q = q.Where(buildConditionGT(addAliasToColumnName("points", alias)), f.PointsGT)
+	}
+	if !isZero(f.PointsGTE) {
+		q = q.Where(buildConditionGTE(addAliasToColumnName("points", alias)), f.PointsGTE)
+	}
+	if !isZero(f.PointsLT) {
+		q = q.Where(buildConditionLT(addAliasToColumnName("points", alias)), f.PointsLT)
+	}
+	if !isZero(f.PointsLTE) {
+		q = q.Where(buildConditionLTE(addAliasToColumnName("points", alias)), f.PointsLTE)
+	}
+
+	if !isZero(f.Rank) {
+		q = q.Where(buildConditionEquals(addAliasToColumnName("rank", alias)), f.Rank)
+	}
+	if !isZero(f.RankGT) {
+		q = q.Where(buildConditionGT(addAliasToColumnName("rank", alias)), f.RankGT)
+	}
+	if !isZero(f.RankGTE) {
+		q = q.Where(buildConditionGTE(addAliasToColumnName("rank", alias)), f.RankGTE)
+	}
+	if !isZero(f.RankLT) {
+		q = q.Where(buildConditionLT(addAliasToColumnName("rank", alias)), f.RankLT)
+	}
+	if !isZero(f.RankLTE) {
+		q = q.Where(buildConditionLTE(addAliasToColumnName("rank", alias)), f.RankLTE)
+	}
+
+	if !isZero(f.DailyGrowth) {
+		q = q.Where(buildConditionEquals(addAliasToColumnName("daily_growth", alias)), f.DailyGrowth)
+	}
+	if !isZero(f.DailyGrowthGT) {
+		q = q.Where(buildConditionGT(addAliasToColumnName("daily_growth", alias)), f.DailyGrowthGT)
+	}
+	if !isZero(f.DailyGrowthGTE) {
+		q = q.Where(buildConditionGTE(addAliasToColumnName("daily_growth", alias)), f.DailyGrowthGTE)
+	}
+	if !isZero(f.DailyGrowthLT) {
+		q = q.Where(buildConditionLT(addAliasToColumnName("daily_growth", alias)), f.DailyGrowthLT)
+	}
+	if !isZero(f.DailyGrowthLTE) {
+		q = q.Where(buildConditionLTE(addAliasToColumnName("daily_growth", alias)), f.DailyGrowthLTE)
+	}
+
+	if !isZero(f.JoinedAt) {
+		q = q.Where(buildConditionEquals(addAliasToColumnName("joined_at", alias)), f.JoinedAt)
+	}
+	if !isZero(f.JoinedAtGT) {
+		q = q.Where(buildConditionGT(addAliasToColumnName("joined_at", alias)), f.JoinedAtGT)
+	}
+	if !isZero(f.JoinedAtGTE) {
+		q = q.Where(buildConditionGTE(addAliasToColumnName("joined_at", alias)), f.JoinedAtGTE)
+	}
+	if !isZero(f.JoinedAtLT) {
+		q = q.Where(buildConditionLT(addAliasToColumnName("joined_at", alias)), f.JoinedAtLT)
+	}
+	if !isZero(f.JoinedAtLTE) {
+		q = q.Where(buildConditionLTE(addAliasToColumnName("joined_at", alias)), f.JoinedAtLTE)
+	}
+
+	if !isZero(f.DeletedAt) {
+		q = q.Where(buildConditionEquals(addAliasToColumnName("deleted_at", alias)), f.DeletedAt)
+	}
+	if !isZero(f.DeletedAtGT) {
+		q = q.Where(buildConditionGT(addAliasToColumnName("deleted_at", alias)), f.DeletedAtGT)
+	}
+	if !isZero(f.DeletedAtGTE) {
+		q = q.Where(buildConditionGTE(addAliasToColumnName("deleted_at", alias)), f.DeletedAtGTE)
+	}
+	if !isZero(f.DeletedAtLT) {
+		q = q.Where(buildConditionLT(addAliasToColumnName("deleted_at", alias)), f.DeletedAtLT)
+	}
+	if !isZero(f.DeletedAtLTE) {
+		q = q.Where(buildConditionLTE(addAliasToColumnName("deleted_at", alias)), f.DeletedAtLTE)
+	}
+
+	if !isZero(f.TribeID) {
+		q = q.Where(buildConditionArray(addAliasToColumnName("tribe_id", alias)), pg.Array(f.TribeID))
+	}
+	if !isZero(f.TribeIDNEQ) {
+		q = q.Where(buildConditionNotInArray(addAliasToColumnName("tribe_id", alias)), pg.Array(f.TribeIDNEQ))
+	}
+
+	return f.OpponentsDefeatedFilter.WhereWithAlias(q, alias)
+}
+
+func (f *PlayerFilter) Where(q *orm.Query) (*orm.Query, error) {
+	return f.WhereWithAlias(q, "player")
+}
+
+type PlayerRelationshipAndSortAppender struct {
+	Filter *PlayerFilter
+	Sort   []string
+}
+
+func (a *PlayerRelationshipAndSortAppender) Append(q *orm.Query) (*orm.Query, error) {
+	var err error
+	tribeRequired := findStringWithPrefix(a.Sort, "tribe.") != ""
+	if a.Filter.TribeFilter != nil {
+		q, err = a.Filter.TribeFilter.WhereWithAlias(q, "tribe")
+		if err != nil {
+			return q, err
+		}
+		tribeRequired = true
+	}
+
+	if !isZero(a.Sort) {
+		q = q.Order(a.Sort...)
+	}
+
+	if tribeRequired {
+		q = q.Relation("Tribe._")
+	}
+
+	return q, nil
 }
 
 type FoundPlayer struct {
