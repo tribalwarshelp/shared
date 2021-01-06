@@ -55,56 +55,56 @@ func (f *TribeFilterOr) WhereWithAlias(q *orm.Query, alias string) *orm.Query {
 }
 
 type TribeFilter struct {
-	ID    []int `json:"id" gqlgen:"id"`
-	IDNEQ []int `json:"idNEQ" gqlgen:"idNEQ"`
+	ID    []int `json:"id" gqlgen:"id" xml:"id"`
+	IDNEQ []int `json:"idNEQ" gqlgen:"idNEQ" xml:"idneq"`
 
-	Exists *bool `json:"exists" gqlgen:"exists"`
+	Exists *bool `json:"exists" gqlgen:"exists" xml:"exists"`
 
-	Tag      []string `json:"tag" gqlgen:"tag"`
-	TagNEQ   []string `json:"tagNEQ" gqlgen:"tagNEQ"`
-	TagMATCH string   `json:"tagMATCH" gqlgen:"tagMATCH"`
-	TagIEQ   string   `json:"tagIEQ" gqlgen:"tagIEQ"`
+	Tag      []string `json:"tag" gqlgen:"tag" xml:"tag"`
+	TagNEQ   []string `json:"tagNEQ" gqlgen:"tagNEQ" xml:"tagNEQ"`
+	TagMATCH string   `json:"tagMATCH" gqlgen:"tagMATCH" xml:"tagMATCH"`
+	TagIEQ   string   `json:"tagIEQ" gqlgen:"tagIEQ" xml:"tagIEQ"`
 
-	Name      []string `json:"name" gqlgen:"name"`
-	NameNEQ   []string `json:"nameNEQ" gqlgen:"nameNEQ"`
-	NameMATCH string   `json:"nameMATCH" gqlgen:"nameMATCH"`
-	NameIEQ   string   `json:"nameIEQ" gqlgen:"nameIEQ"`
+	Name      []string `json:"name" gqlgen:"name" xml:"name"`
+	NameNEQ   []string `json:"nameNEQ" gqlgen:"nameNEQ" xml:"nameNEQ"`
+	NameMATCH string   `json:"nameMATCH" gqlgen:"nameMATCH" xml:"nameMATCH"`
+	NameIEQ   string   `json:"nameIEQ" gqlgen:"nameIEQ" xml:"nameIEQ"`
 
-	TotalMembers    int `json:"totalMembers" gqlgen:"totalMembers"`
-	TotalMembersGT  int `json:"totalMembersGT" gqlgen:"totalMembersGT"`
-	TotalMembersGTE int `json:"totalMembersGTE" gqlgen:"totalMembersGTE"`
-	TotalMembersLT  int `json:"totalMembersLT" gqlgen:"totalMembersLT"`
-	TotalMembersLTE int `json:"totalMembersLTE" gqlgen:"totalMembersLTE"`
+	TotalMembers    int `json:"totalMembers" gqlgen:"totalMembers" xml:"totalMembers"`
+	TotalMembersGT  int `json:"totalMembersGT" gqlgen:"totalMembersGT" xml:"totalMembersGT"`
+	TotalMembersGTE int `json:"totalMembersGTE" gqlgen:"totalMembersGTE" xml:"totalMembersGTE"`
+	TotalMembersLT  int `json:"totalMembersLT" gqlgen:"totalMembersLT" xml:"totalMembersLT"`
+	TotalMembersLTE int `json:"totalMembersLTE" gqlgen:"totalMembersLTE" xml:"totalMembersLTE"`
 
-	TotalVillages    int `json:"totalVillages" gqlgen:"totalVillages"`
-	TotalVillagesGT  int `json:"totalVillagesGT" gqlgen:"totalVillagesGT"`
-	TotalVillagesGTE int `json:"totalVillagesGTE" gqlgen:"totalVillagesGTE"`
-	TotalVillagesLT  int `json:"totalVillagesLT" gqlgen:"totalVillagesLT"`
-	TotalVillagesLTE int `json:"totalVillagesLTE" gqlgen:"totalVillagesLTE"`
+	TotalVillages    int `json:"totalVillages" gqlgen:"totalVillages" xml:"totalVillages"`
+	TotalVillagesGT  int `json:"totalVillagesGT" gqlgen:"totalVillagesGT" xml:"totalVillagesGT"`
+	TotalVillagesGTE int `json:"totalVillagesGTE" gqlgen:"totalVillagesGTE" xml:"totalVillagesGTE"`
+	TotalVillagesLT  int `json:"totalVillagesLT" gqlgen:"totalVillagesLT" xml:"totalVillagesLT"`
+	TotalVillagesLTE int `json:"totalVillagesLTE" gqlgen:"totalVillagesLTE" xml:"totalVillagesLTE"`
 
-	Points    int `json:"points" gqlgen:"points"`
-	PointsGT  int `json:"pointsGT" gqlgen:"pointsGT"`
-	PointsGTE int `json:"pointsGTE" gqlgen:"pointsGTE"`
-	PointsLT  int `json:"pointsLT" gqlgen:"pointsLT"`
-	PointsLTE int `json:"pointsLTE" gqlgen:"pointsLTE"`
+	Points    int `json:"points" gqlgen:"points" xml:"points"`
+	PointsGT  int `json:"pointsGT" gqlgen:"pointsGT" xml:"pointsGT"`
+	PointsGTE int `json:"pointsGTE" gqlgen:"pointsGTE" xml:"pointsGTE"`
+	PointsLT  int `json:"pointsLT" gqlgen:"pointsLT" xml:"pointsLT"`
+	PointsLTE int `json:"pointsLTE" gqlgen:"pointsLTE" xml:"pointsLTE"`
 
-	AllPoints    int `json:"allPoints" gqlgen:"allPoints"`
-	AllPointsGT  int `json:"allPointsGT" gqlgen:"allPointsGT"`
-	AllPointsGTE int `json:"allPointsGTE" gqlgen:"allPointsGTE"`
-	AllPointsLT  int `json:"allPointsLT" gqlgen:"allPointsLT"`
-	AllPointsLTE int `json:"allPointsLTE" gqlgen:"allPointsLTE"`
+	AllPoints    int `json:"allPoints" gqlgen:"allPoints" xml:"allPoints"`
+	AllPointsGT  int `json:"allPointsGT" gqlgen:"allPointsGT" xml:"allPointsGT"`
+	AllPointsGTE int `json:"allPointsGTE" gqlgen:"allPointsGTE" xml:"allPointsGTE"`
+	AllPointsLT  int `json:"allPointsLT" gqlgen:"allPointsLT" xml:"allPointsLT"`
+	AllPointsLTE int `json:"allPointsLTE" gqlgen:"allPointsLTE" xml:"allPointsLTE"`
 
-	Rank    int `json:"rank" gqlgen:"rank"`
-	RankGT  int `json:"rankGT" gqlgen:"rankGT"`
-	RankGTE int `json:"rankGTE" gqlgen:"rankGTE"`
-	RankLT  int `json:"rankLT" gqlgen:"rankLT"`
-	RankLTE int `json:"rankLTE" gqlgen:"rankLTE"`
+	Rank    int `json:"rank" gqlgen:"rank" xml:"rank"`
+	RankGT  int `json:"rankGT" gqlgen:"rankGT" xml:"rankGT"`
+	RankGTE int `json:"rankGTE" gqlgen:"rankGTE" xml:"rankGTE"`
+	RankLT  int `json:"rankLT" gqlgen:"rankLT" xml:"rankLT"`
+	RankLTE int `json:"rankLTE" gqlgen:"rankLTE" xml:"rankLTE"`
 
-	Dominance    int `json:"dominance" gqlgen:"dominance"`
-	DominanceGT  int `json:"dominanceGT" gqlgen:"dominanceGT"`
-	DominanceGTE int `json:"dominanceGTE" gqlgen:"dominanceGTE"`
-	DominanceLT  int `json:"dominanceLT" gqlgen:"dominanceLT"`
-	DominanceLTE int `json:"dominanceLTE" gqlgen:"dominanceLTE"`
+	Dominance    int `json:"dominance" gqlgen:"dominance" xml:"dominance"`
+	DominanceGT  int `json:"dominanceGT" gqlgen:"dominanceGT" xml:"dominanceGT"`
+	DominanceGTE int `json:"dominanceGTE" gqlgen:"dominanceGTE" xml:"dominanceGTE"`
+	DominanceLT  int `json:"dominanceLT" gqlgen:"dominanceLT" xml:"dominanceLT"`
+	DominanceLTE int `json:"dominanceLTE" gqlgen:"dominanceLTE" xml:"dominanceLTE"`
 
 	CreatedAt    time.Time `json:"createdAt" gqlgen:"createdAt" xml:"createdAt"`
 	CreatedAtGT  time.Time `json:"createdAtGT" gqlgen:"createdAtGT" xml:"createdAtGT"`
@@ -119,7 +119,7 @@ type TribeFilter struct {
 	DeletedAtLTE time.Time `json:"deletedAtLTE" gqlgen:"deletedAtLTE" xml:"deletedAtLTE"`
 
 	OpponentsDefeatedFilter
-	Or *TribeFilterOr
+	Or *TribeFilterOr `json:"or" xml:"or" gqlgen:"or"`
 }
 
 func (f *TribeFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
