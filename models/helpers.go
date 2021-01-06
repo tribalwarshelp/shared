@@ -62,6 +62,8 @@ func isZero(v interface{}) bool {
 		return c == nil
 	case []string:
 		return c == nil || len(c) == 0
+	case []VersionCode:
+		return c == nil || len(c) == 0
 	case int:
 		return c == 0
 	case *int:
