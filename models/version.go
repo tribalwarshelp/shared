@@ -101,7 +101,7 @@ type VersionFilter struct {
 	HostIEQ   string   `json:"hostIEQ" gqlgen:"hostIEQ"`
 }
 
-func (f *VersionFilter) ApplyWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
+func (f *VersionFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
 	if len(f.Code) > 0 {
 		q = q.Where(buildConditionArray(addAliasToColumnName("code", alias)), pg.Array(f.Code))
 	}
@@ -125,6 +125,6 @@ func (f *VersionFilter) ApplyWithAlias(q *orm.Query, alias string) (*orm.Query, 
 	return q, nil
 }
 
-func (f *VersionFilter) Apply(q *orm.Query) (*orm.Query, error) {
-	return f.ApplyWithAlias(q, "version")
+func (f *VersionFilter) Where(q *orm.Query) (*orm.Query, error) {
+	return f.WhereWithAlias(q, "version")
 }
