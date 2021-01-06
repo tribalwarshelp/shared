@@ -19,31 +19,31 @@ func wrapStringInDoubleQuotes(str string) string {
 }
 
 func buildConditionEquals(column string) string {
-	return column + "= ?"
+	return column + " = ?"
 }
 
 func buildConditionLT(column string) string {
-	return column + "< ?"
+	return column + " < ?"
 }
 
 func buildConditionLTE(column string) string {
-	return column + "<= ?"
+	return column + " <= ?"
 }
 
 func buildConditionGT(column string) string {
-	return column + "> ?"
+	return column + " > ?"
 }
 
 func buildConditionGTE(column string) string {
-	return column + ">= ?"
+	return column + " >= ?"
 }
 
 func buildConditionMatch(column string) string {
-	return column + "LIKE ?"
+	return column + " LIKE ?"
 }
 
 func buildConditionIEQ(column string) string {
-	return column + "ILIKE ?"
+	return column + " ILIKE ?"
 }
 
 func buildConditionArray(column string) string {
