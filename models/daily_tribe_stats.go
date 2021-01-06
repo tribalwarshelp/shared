@@ -66,12 +66,12 @@ func (f *DailyTribeStatsFilter) Where(q *orm.Query) (*orm.Query, error) {
 	return f.WhereWithAlias(q, "daily_tribe_stats")
 }
 
-type DailyTibeStatsRelationshipAndSortAppender struct {
+type DailyTribeStatsRelationshipAndSortAppender struct {
 	Filter *DailyTribeStatsFilter
 	Sort   []string
 }
 
-func (a *DailyTibeStatsRelationshipAndSortAppender) Append(q *orm.Query) (*orm.Query, error) {
+func (a *DailyTribeStatsRelationshipAndSortAppender) Append(q *orm.Query) (*orm.Query, error) {
 	var err error
 	tribeRequired := findStringWithPrefix(a.Sort, "tribe.") != ""
 	if a.Filter.TribeFilter != nil {
