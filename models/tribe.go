@@ -33,9 +33,11 @@ type Tribe struct {
 }
 
 type TribeFilterOr struct {
-	ID      []int  `json:"id" xml:"id" gqlgen:"id"`
-	TagIEQ  string `json:"tagIEQ" xml:"tagIEQ" gqlgen:"tagIEQ"`
-	NameIEQ string `json:"nameIEQ" xml:"nameIEQ" gqlgen:"nameIEQ"`
+	ID      []int    `json:"id" xml:"id" gqlgen:"id"`
+	Tag     []string `json:"tag" xml:"tag" gqlgen:"tag"`
+	TagIEQ  string   `json:"tagIEQ" xml:"tagIEQ" gqlgen:"tagIEQ"`
+	Name    []string `json:"name" xml:"name" gqlgen:"name"`
+	NameIEQ string   `json:"nameIEQ" xml:"nameIEQ" gqlgen:"nameIEQ"`
 }
 
 func (f *TribeFilterOr) WhereWithAlias(q *orm.Query, alias string) *orm.Query {
@@ -43,8 +45,14 @@ func (f *TribeFilterOr) WhereWithAlias(q *orm.Query, alias string) *orm.Query {
 		if !isZero(f.ID) {
 			q = q.WhereOr(buildConditionArray(addAliasToColumnName("id", alias)), pg.Array(f.ID))
 		}
+		if !isZero(f.Tag) {
+			q = q.WhereOr(buildConditionArray(addAliasToColumnName("tag", alias)), pg.Array(f.Tag))
+		}
 		if !isZero(f.TagIEQ) {
 			q = q.WhereOr(buildConditionIEQ(addAliasToColumnName("tag", alias)), f.TagIEQ)
+		}
+		if !isZero(f.Name) {
+			q = q.WhereOr(buildConditionArray(addAliasToColumnName("name", alias)), pg.Array(f.Name))
 		}
 		if !isZero(f.NameIEQ) {
 			q = q.WhereOr(buildConditionIEQ(addAliasToColumnName("name", alias)), f.NameIEQ)
