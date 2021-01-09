@@ -8,25 +8,26 @@ import (
 )
 
 type Player struct {
-	tableName struct{} `pg:"?SERVER.players,alias:player"`
+	tableName struct{} `pg:"?SERVER.players,alias:player" json:"tableName" xml:"tableName" gqlgen:"tableName"`
 
-	ID             int       `json:"id" pg:"type:bigint,pk" gqlgen:"id"`
-	Name           string    `json:"name" gqlgen:"name"`
-	Exists         *bool     `json:"exists" pg:",use_zero" gqlgen:"exists"`
-	TotalVillages  int       `json:"totalVillages" pg:",use_zero" gqlgen:"totalVillages"`
-	Points         int       `json:"points" pg:",use_zero" gqlgen:"points"`
-	Rank           int       `json:"rank" pg:",use_zero" gqlgen:"rank"`
-	TribeID        int       `json:"-" pg:",use_zero" gqlgen:"tribeID"`
-	Tribe          *Tribe    `json:"tribe,omitempty" gqlgen:"-" pg:"rel:has-one"`
-	DailyGrowth    int       `json:"dailyGrowth" pg:",use_zero" gqlgen:"dailyGrowth"`
-	BestRank       int       `json:"bestRank" pg:",use_zero" gqlgen:"bestRank"`
-	BestRankAt     time.Time `json:"bestRankAt" pg:"default:now(),use_zero" gqlgen:"bestRankAt"`
-	MostPoints     int       `json:"mostPoints" pg:",use_zero" gqlgen:"mostPoints"`
-	MostPointsAt   time.Time `json:"mostPointsAt" pg:"default:now(),use_zero" gqlgen:"mostPointsAt"`
-	MostVillages   int       `json:"mostVillages" pg:",use_zero" gqlgen:"mostVillages"`
-	MostVillagesAt time.Time `json:"mostVillagesAt" pg:"default:now(),use_zero" gqlgen:"mostVillagesAt"`
-	JoinedAt       time.Time `json:"joinedAt" pg:"default:now(),use_zero" gqlgen:"joinedAt"`
-	DeletedAt      time.Time `json:"deletedAt" pg:",use_zero" gqlgen:"deletedAt"`
+	ID             int       `json:"id" pg:"type:bigint,pk" gqlgen:"id" xml:"id"`
+	Name           string    `json:"name" gqlgen:"name" xml:"name"`
+	Exists         *bool     `json:"exists" pg:",use_zero" gqlgen:"exists" xml:"exists"`
+	TotalVillages  int       `json:"totalVillages" pg:",use_zero" gqlgen:"totalVillages" xml:"totalVillages"`
+	Points         int       `json:"points" pg:",use_zero" gqlgen:"points" xml:"points"`
+	Rank           int       `json:"rank" pg:",use_zero" gqlgen:"rank" xml:"rank"`
+	TribeID        int       `json:"-" pg:",use_zero" gqlgen:"tribeID" xml:"tribeID"`
+	Tribe          *Tribe    `json:"tribe,omitempty" gqlgen:"-" pg:"rel:has-one" xml:"tribe"`
+	DailyGrowth    int       `json:"dailyGrowth" pg:",use_zero" gqlgen:"dailyGrowth" xml:"dailyGrowth"`
+	BestRank       int       `json:"bestRank" pg:",use_zero" gqlgen:"bestRank" xml:"bestRank"`
+	BestRankAt     time.Time `json:"bestRankAt" pg:"default:now(),use_zero" gqlgen:"bestRankAt" xml:"bestRankAt"`
+	MostPoints     int       `json:"mostPoints" pg:",use_zero" gqlgen:"mostPoints" xml:"mostPoints"`
+	MostPointsAt   time.Time `json:"mostPointsAt" pg:"default:now(),use_zero" gqlgen:"mostPointsAt" xml:"mostPointsAt"`
+	MostVillages   int       `json:"mostVillages" pg:",use_zero" gqlgen:"mostVillages" xml:"mostVillages"`
+	MostVillagesAt time.Time `json:"mostVillagesAt" pg:"default:now(),use_zero" gqlgen:"mostVillagesAt" xml:"mostVillagesAt"`
+	JoinedAt       time.Time `json:"joinedAt" pg:"default:now(),use_zero" gqlgen:"joinedAt" xml:"joinedAt"`
+	LastActivityAt time.Time `json:"lastActivityAt" xml:"lastActivityAt" gqlgen:"lastActivityAt"`
+	DeletedAt      time.Time `json:"deletedAt" pg:",use_zero" gqlgen:"deletedAt" xml:"deletedAt"`
 
 	OpponentsDefeated
 }
@@ -71,6 +72,12 @@ type PlayerFilter struct {
 	JoinedAtGTE time.Time `json:"joinedAtGTE" gqlgen:"joinedAtGTE" xml:"joinedAtGTE"`
 	JoinedAtLT  time.Time `json:"joinedAtLT" gqlgen:"joinedAtLT" xml:"joinedAtLT"`
 	JoinedAtLTE time.Time `json:"joinedAtLTE" gqlgen:"joinedAtLTE" xml:"joinedAtLTE"`
+
+	LastActivityAt    time.Time `json:"lastActivityAt" gqlgen:"lastActivityAt" xml:"lastActivityAt"`
+	LastActivityAtGT  time.Time `json:"lastActivityAtGT" gqlgen:"lastActivityAtGT" xml:"lastActivityAtGT"`
+	LastActivityAtGTE time.Time `json:"lastActivityAtGTE" gqlgen:"lastActivityAtGTE" xml:"lastActivityAtGTE"`
+	LastActivityAtLT  time.Time `json:"lastActivityAtLT" gqlgen:"lastActivityAtLT" xml:"lastActivityAtLT"`
+	LastActivityAtLTE time.Time `json:"lastActivityAtLTE" gqlgen:"lastActivityAtLTE" xml:"lastActivityAtLTE"`
 
 	DeletedAt    time.Time `json:"deletedAt" gqlgen:"deletedAt" xml:"deletedAt"`
 	DeletedAtGT  time.Time `json:"deletedAtGT" gqlgen:"deletedAtGT" xml:"deletedAtGT"`
@@ -188,6 +195,22 @@ func (f *PlayerFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, e
 	}
 	if !isZero(f.JoinedAtLTE) {
 		q = q.Where(buildConditionLTE(addAliasToColumnName("joined_at", alias)), f.JoinedAtLTE)
+	}
+
+	if !isZero(f.LastActivityAt) {
+		q = q.Where(buildConditionEquals(addAliasToColumnName("last_activity_at", alias)), f.LastActivityAt)
+	}
+	if !isZero(f.LastActivityAtGT) {
+		q = q.Where(buildConditionGT(addAliasToColumnName("last_activity_at", alias)), f.LastActivityAtGT)
+	}
+	if !isZero(f.LastActivityAtGTE) {
+		q = q.Where(buildConditionGTE(addAliasToColumnName("last_activity_at", alias)), f.LastActivityAtGTE)
+	}
+	if !isZero(f.LastActivityAtLT) {
+		q = q.Where(buildConditionLT(addAliasToColumnName("last_activity_at", alias)), f.LastActivityAtLT)
+	}
+	if !isZero(f.LastActivityAtLTE) {
+		q = q.Where(buildConditionLTE(addAliasToColumnName("last_activity_at", alias)), f.LastActivityAtLTE)
 	}
 
 	if !isZero(f.DeletedAt) {
