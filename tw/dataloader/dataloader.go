@@ -129,13 +129,13 @@ func (d *dataLoader) LoadOD(tribe bool) (map[int]*models.OpponentsDefeated, erro
 			//fallback to not gzipped file
 			lines, err = d.getCSVData(strings.ReplaceAll(url, ".gz", ""), false)
 			if err != nil {
-				return nil, errors.Wrapf(err, "unable to get data, url %s", url)
+				return nil, errors.Wrapf(err, "cannot get data, url %s", url)
 			}
 		}
 		for _, line := range lines {
 			parsed, err := d.parseODLine(line)
 			if err != nil {
-				return nil, errors.Wrapf(err, "unable to parse line, url %s, line %s", url, strings.Join(line, ","))
+				return nil, errors.Wrapf(err, "cannot parse line, url %s, line %s", url, strings.Join(line, ","))
 			}
 			if _, ok := m[parsed.ID]; !ok {
 				m[parsed.ID] = &models.OpponentsDefeated{}
@@ -203,7 +203,7 @@ func (d *dataLoader) LoadPlayers() ([]*models.Player, error) {
 	if err != nil {
 		lines, err = d.getCSVData(d.baseURL+EndpointPlayerNotGzipped, false)
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to get data, url %s", url)
+			return nil, errors.Wrapf(err, "cannot get data, url %s", url)
 		}
 	}
 
@@ -211,7 +211,7 @@ func (d *dataLoader) LoadPlayers() ([]*models.Player, error) {
 	for _, line := range lines {
 		player, err := d.parsePlayerLine(line)
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to parse line, url %s, line %s", url, strings.Join(line, ","))
+			return nil, errors.Wrapf(err, "cannot parse line, url %s, line %s", url, strings.Join(line, ","))
 		}
 		players = append(players, player)
 	}
@@ -271,14 +271,14 @@ func (d *dataLoader) LoadTribes() ([]*models.Tribe, error) {
 	if err != nil {
 		lines, err = d.getCSVData(d.baseURL+EndpointTribeNotGzipped, false)
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to to get data, url %s", url)
+			return nil, errors.Wrapf(err, "cannot to get data, url %s", url)
 		}
 	}
 	tribes := []*models.Tribe{}
 	for _, line := range lines {
 		tribe, err := d.parseTribeLine(line)
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to parse line, url %s, line %s", url, strings.Join(line, ","))
+			return nil, errors.Wrapf(err, "cannot parse line, url %s, line %s", url, strings.Join(line, ","))
 		}
 		tribes = append(tribes, tribe)
 	}
@@ -328,14 +328,14 @@ func (d *dataLoader) LoadVillages() ([]*models.Village, error) {
 	if err != nil {
 		lines, err = d.getCSVData(d.baseURL+EndpointVillageNotGzipped, false)
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to get data, url %s", url)
+			return nil, errors.Wrapf(err, "cannot get data, url %s", url)
 		}
 	}
 	villages := []*models.Village{}
 	for _, line := range lines {
 		village, err := d.parseVillageLine(line)
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to parse line, url %s, line %s", url, strings.Join(line, ","))
+			return nil, errors.Wrapf(err, "cannot parse line, url %s, line %s", url, strings.Join(line, ","))
 		}
 		villages = append(villages, village)
 	}
@@ -389,14 +389,14 @@ func (d *dataLoader) LoadEnnoblements(cfg *LoadEnnoblementsConfig) ([]*models.En
 		lines, err = d.getCSVData(d.baseURL+EndpointConquerNotGzipped, false)
 	}
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get data, url %s", url)
+		return nil, errors.Wrapf(err, "cannot get data, url %s", url)
 	}
 
 	ennoblements := []*models.Ennoblement{}
 	for _, line := range lines {
 		ennoblement, err := d.parseEnnoblementLine(line)
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to parse line, url %s, line %s", url, strings.Join(line, ","))
+			return nil, errors.Wrapf(err, "cannot parse line, url %s, line %s", url, strings.Join(line, ","))
 		}
 		if ennoblement.EnnobledAt.After(cfg.EnnobledAtGTE) {
 			ennoblements = append(ennoblements, ennoblement)
