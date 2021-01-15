@@ -1,7 +1,12 @@
 package dataloader
 
 import (
+	"compress/gzip"
+	"encoding/csv"
+	"encoding/xml"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -126,11 +131,7 @@ func (d *dataLoader) LoadOD(tribe bool) (map[int]*models.OpponentsDefeated, erro
 		}
 		lines, err := d.getCSVData(url, true)
 		if err != nil {
-			//fallback to not gzipped file
-			lines, err = d.getCSVData(strings.ReplaceAll(url, ".gz", ""), false)
-			if err != nil {
-				return nil, errors.Wrapf(err, "cannot get data, url %s", url)
-			}
+			return nil, errors.Wrapf(err, "cannot get data, url %s", url)
 		}
 		for _, line := range lines {
 			parsed, err := d.parseODLine(line)
@@ -201,10 +202,7 @@ func (d *dataLoader) LoadPlayers() ([]*models.Player, error) {
 	url := d.baseURL + EndpointPlayer
 	lines, err := d.getCSVData(url, true)
 	if err != nil {
-		lines, err = d.getCSVData(d.baseURL+EndpointPlayerNotGzipped, false)
-		if err != nil {
-			return nil, errors.Wrapf(err, "cannot get data, url %s", url)
-		}
+		return nil, errors.Wrapf(err, "cannot get data, url %s", url)
 	}
 
 	players := []*models.Player{}
@@ -269,10 +267,7 @@ func (d *dataLoader) LoadTribes() ([]*models.Tribe, error) {
 	url := d.baseURL + EndpointTribe
 	lines, err := d.getCSVData(url, true)
 	if err != nil {
-		lines, err = d.getCSVData(d.baseURL+EndpointTribeNotGzipped, false)
-		if err != nil {
-			return nil, errors.Wrapf(err, "cannot to get data, url %s", url)
-		}
+		return nil, errors.Wrapf(err, "cannot to get data, url %s", url)
 	}
 	tribes := []*models.Tribe{}
 	for _, line := range lines {
@@ -326,10 +321,7 @@ func (d *dataLoader) LoadVillages() ([]*models.Village, error) {
 	url := d.baseURL + EndpointVillage
 	lines, err := d.getCSVData(url, true)
 	if err != nil {
-		lines, err = d.getCSVData(d.baseURL+EndpointVillageNotGzipped, false)
-		if err != nil {
-			return nil, errors.Wrapf(err, "cannot get data, url %s", url)
-		}
+		return nil, errors.Wrapf(err, "cannot get data, url %s", url)
 	}
 	villages := []*models.Village{}
 	for _, line := range lines {
@@ -377,12 +369,12 @@ func (d *dataLoader) LoadEnnoblements(cfg *LoadEnnoblementsConfig) ([]*models.En
 	if cfg == nil {
 		cfg = &LoadEnnoblementsConfig{}
 	}
-	yesterdayDate := time.Now().Add(-23 * time.Hour)
+	yesterdaysDate := time.Now().Add(-23 * time.Hour)
 	url := d.baseURL + EndpointConquer
 	compressed := true
-	if cfg.EnnobledAtGTE.After(yesterdayDate) || cfg.EnnobledAtGTE.Equal(yesterdayDate) {
-		compressed = false
+	if cfg.EnnobledAtGTE.After(yesterdaysDate) || cfg.EnnobledAtGTE.Equal(yesterdaysDate) {
 		url = d.baseURL + fmt.Sprintf(EndpointGetConquer, cfg.EnnobledAtGTE.Unix())
+		compressed = false
 	}
 	lines, err := d.getCSVData(url, compressed)
 	if err != nil && compressed {
@@ -433,4 +425,39 @@ func (d *dataLoader) GetUnitConfig() (*models.UnitConfig, error) {
 		return nil, errors.Wrap(err, "getUnitConfig")
 	}
 	return cfg, nil
+}
+
+func (d *dataLoader) getCSVData(url string, compressed bool) ([][]string, error) {
+	resp, err := d.client.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	if !compressed {
+		return csv.NewReader(resp.Body).ReadAll()
+	}
+	return uncompressAndReadCsvLines(resp.Body)
+}
+
+func (d *dataLoader) getXML(url string, decode interface{}) error {
+	resp, err := d.client.Get(url)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	bytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+	return xml.Unmarshal(bytes, decode)
+}
+
+func uncompressAndReadCsvLines(r io.Reader) ([][]string, error) {
+	uncompressedStream, err := gzip.NewReader(r)
+	if err != nil {
+		return [][]string{}, err
+	}
+	defer uncompressedStream.Close()
+	return csv.NewReader(uncompressedStream).ReadAll()
 }
