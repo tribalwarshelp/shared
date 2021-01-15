@@ -362,7 +362,7 @@ func (d *dataLoader) parseEnnoblementLine(line []string) (*models.Ennoblement, e
 }
 
 type LoadEnnoblementsConfig struct {
-	EnnobledAtGTE time.Time
+	EnnobledAtGT time.Time
 }
 
 func (d *dataLoader) LoadEnnoblements(cfg *LoadEnnoblementsConfig) ([]*models.Ennoblement, error) {
@@ -372,8 +372,8 @@ func (d *dataLoader) LoadEnnoblements(cfg *LoadEnnoblementsConfig) ([]*models.En
 	yesterdaysDate := time.Now().Add(-23 * time.Hour)
 	url := d.baseURL + EndpointConquer
 	compressed := true
-	if cfg.EnnobledAtGTE.After(yesterdaysDate) || cfg.EnnobledAtGTE.Equal(yesterdaysDate) {
-		url = d.baseURL + fmt.Sprintf(EndpointGetConquer, cfg.EnnobledAtGTE.Unix())
+	if cfg.EnnobledAtGT.After(yesterdaysDate) || cfg.EnnobledAtGT.Equal(yesterdaysDate) {
+		url = d.baseURL + fmt.Sprintf(EndpointGetConquer, cfg.EnnobledAtGT.Unix())
 		compressed = false
 	}
 	lines, err := d.getCSVData(url, compressed)
@@ -390,7 +390,7 @@ func (d *dataLoader) LoadEnnoblements(cfg *LoadEnnoblementsConfig) ([]*models.En
 		if err != nil {
 			return nil, errors.Wrapf(err, "cannot parse line, url %s, line %s", url, strings.Join(line, ","))
 		}
-		if ennoblement.EnnobledAt.After(cfg.EnnobledAtGTE) {
+		if ennoblement.EnnobledAt.After(cfg.EnnobledAtGT) {
 			ennoblements = append(ennoblements, ennoblement)
 		}
 	}
