@@ -131,7 +131,11 @@ func (d *dataLoader) LoadOD(tribe bool) (map[int]*models.OpponentsDefeated, erro
 		}
 		lines, err := d.getCSVData(url, true)
 		if err != nil {
-			return nil, errors.Wrapf(err, "cannot get data, url %s", url)
+			//fallback to not gzipped file
+			lines, err = d.getCSVData(strings.ReplaceAll(url, ".gz", ""), false)
+			if err != nil {
+				return nil, errors.Wrapf(err, "cannot get data, url %s", url)
+			}
 		}
 		for _, line := range lines {
 			parsed, err := d.parseODLine(line)
@@ -202,7 +206,10 @@ func (d *dataLoader) LoadPlayers() ([]*models.Player, error) {
 	url := d.baseURL + EndpointPlayer
 	lines, err := d.getCSVData(url, true)
 	if err != nil {
-		return nil, errors.Wrapf(err, "cannot get data, url %s", url)
+		lines, err = d.getCSVData(d.baseURL+EndpointPlayerNotGzipped, false)
+		if err != nil {
+			return nil, errors.Wrapf(err, "cannot get data, url %s", url)
+		}
 	}
 
 	players := []*models.Player{}
@@ -267,7 +274,10 @@ func (d *dataLoader) LoadTribes() ([]*models.Tribe, error) {
 	url := d.baseURL + EndpointTribe
 	lines, err := d.getCSVData(url, true)
 	if err != nil {
-		return nil, errors.Wrapf(err, "cannot to get data, url %s", url)
+		lines, err = d.getCSVData(d.baseURL+EndpointTribeNotGzipped, false)
+		if err != nil {
+			return nil, errors.Wrapf(err, "cannot to get data, url %s", url)
+		}
 	}
 	tribes := []*models.Tribe{}
 	for _, line := range lines {
@@ -321,7 +331,10 @@ func (d *dataLoader) LoadVillages() ([]*models.Village, error) {
 	url := d.baseURL + EndpointVillage
 	lines, err := d.getCSVData(url, true)
 	if err != nil {
-		return nil, errors.Wrapf(err, "cannot get data, url %s", url)
+		lines, err = d.getCSVData(d.baseURL+EndpointVillageNotGzipped, false)
+		if err != nil {
+			return nil, errors.Wrapf(err, "cannot get data, url %s", url)
+		}
 	}
 	villages := []*models.Village{}
 	for _, line := range lines {
