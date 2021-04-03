@@ -3,6 +3,7 @@ package models
 import "time"
 
 type PlayerNameChange struct {
+	ID          int         `json:"id" gqlgen:"id" xml:"id"`
 	VersionCode VersionCode `pg:",unique:group_1" json:"versionCode" gqlgen:"versionCode" xml:"versionCode"`
 	Version     *Version    `pg:"fk:version_code,rel:has-one" json:"version" gqlgen:"version" xml:"version"`
 	PlayerID    int         `pg:",unique:group_1" json:"playerID" gqlgen:"playerID" xml:"playerID"`

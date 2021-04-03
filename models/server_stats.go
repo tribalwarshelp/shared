@@ -10,6 +10,7 @@ import (
 type ServerStats struct {
 	tableName struct{} `pg:"?SERVER.stats,alias:stats"`
 
+	ID                int       `json:"id" gqlgen:"id" xml:"id"`
 	ActivePlayers     int       `pg:",use_zero" json:"activePlayers" gqlgen:"activePlayers" xml:"activePlayers"`
 	InactivePlayers   int       `pg:",use_zero" json:"inactivePlayers" gqlgen:"inactivePlayers" xml:"inactivePlayers"`
 	Players           int       `pg:",use_zero" json:"players" gqlgen:"players" xml:"players"`

@@ -10,6 +10,7 @@ import (
 type DailyTribeStats struct {
 	tableName struct{} `pg:"?SERVER.daily_tribe_stats,alias:daily_tribe_stats"`
 
+	ID         int       `json:"id" gqlgen:"id" xml:"id"`
 	TribeID    int       `pg:",unique:group_1" json:"tribeID" gqlgen:"tribeID" xml:"tribeID"`
 	Tribe      *Tribe    `json:"tribe" gqlgen:"-" xml:"tribe" pg:"rel:has-one"`
 	Members    int       `json:"members" gqlgen:"members" pg:",use_zero" xml:"members"`

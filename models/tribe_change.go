@@ -10,6 +10,7 @@ import (
 type TribeChange struct {
 	tableName struct{} `pg:"?SERVER.tribe_changes,alias:tribe_change"`
 
+	ID         int       `json:"id" gqlgen:"id" xml:"id"`
 	PlayerID   int       `pg:",use_zero" json:"playerID" gqlgen:"playerID" xml:"playerID"`
 	Player     *Player   `json:"player,omitempty" gqlgen:"-" xml:"player" pg:"rel:has-one"`
 	OldTribeID int       `pg:",use_zero" json:"oldTribeID" gqlgen:"oldTribeID" xml:"oldTribeID"`

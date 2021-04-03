@@ -10,6 +10,7 @@ import (
 type Ennoblement struct {
 	tableName struct{} `pg:"?SERVER.ennoblements,alias:ennoblement"`
 
+	ID              int       `json:"id" gqlgen:"id" xml:"id"`
 	VillageID       int       `pg:",use_zero" gqlgen:"-" json:"villageID" xml:"villageID"`
 	Village         *Village  `gqlgen:"-" json:"village,omitempty" xml:"village" pg:"rel:has-one"`
 	NewOwnerID      int       `pg:",use_zero" gqlgen:"-" json:"newOwnerID" xml:"newOwnerID"`

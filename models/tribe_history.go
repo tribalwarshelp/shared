@@ -12,6 +12,7 @@ type TribeHistory struct {
 
 	OpponentsDefeated
 
+	ID            int       `json:"id" gqlgen:"id" xml:"id"`
 	TribeID       int       `pg:",unique:group_1" json:"-" pg:",use_zero" gqlgen:"tribeID" xml:"tribeID"`
 	Tribe         *Tribe    `json:"tribe,omitempty" gqlgen:"-" xml:"tribe" pg:"rel:has-one"`
 	TotalMembers  int       `json:"totalMembers" gqlgen:"totalMembers" pg:",use_zero"`

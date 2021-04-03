@@ -12,6 +12,7 @@ type PlayerHistory struct {
 
 	OpponentsDefeated
 
+	ID            int       `json:"id" gqlgen:"id" xml:"id"`
 	PlayerID      int       `pg:",unique:group_1" json:"playerID" gqlgen:"playerID" xml:"playerID"`
 	Player        *Player   `json:"player" gqlgen:"-" xml:"player" pg:"rel:has-one"`
 	TotalVillages int       `json:"totalVillages" pg:",use_zero" gqlgen:"totalVillages" xml:"totalVillages"`

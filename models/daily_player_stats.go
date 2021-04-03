@@ -10,6 +10,7 @@ import (
 type DailyPlayerStats struct {
 	tableName struct{} `pg:"?SERVER.daily_player_stats,alias:daily_player_stats"`
 
+	ID         int       `json:"id" gqlgen:"id" xml:"id"`
 	PlayerID   int       `pg:",unique:group_1" json:"playerID" gqlgen:"playerID" xml:"playerID"`
 	Player     *Player   `json:"player" gqlgen:"-" xml:"player" pg:"rel:has-one"`
 	Villages   int       `json:"villages" pg:",use_zero" gqlgen:"villages" xml:"villages"`
