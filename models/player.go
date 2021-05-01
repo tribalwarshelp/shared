@@ -27,7 +27,7 @@ type Player struct {
 	MostVillagesAt time.Time `json:"mostVillagesAt" pg:"default:now(),use_zero" gqlgen:"mostVillagesAt" xml:"mostVillagesAt"`
 	JoinedAt       time.Time `json:"joinedAt" pg:"default:now(),use_zero" gqlgen:"joinedAt" xml:"joinedAt"`
 	LastActivityAt time.Time `pg:"default:now(),use_zero" json:"lastActivityAt" xml:"lastActivityAt" gqlgen:"lastActivityAt"`
-	DeletedAt      time.Time `json:"deletedAt" pg:",use_zero" gqlgen:"deletedAt" xml:"deletedAt"`
+	DeletedAt      time.Time `json:"deletedAt" gqlgen:"deletedAt" xml:"deletedAt"`
 
 	OpponentsDefeated
 }

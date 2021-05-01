@@ -27,7 +27,7 @@ type Tribe struct {
 	MostVillages   int       `json:"mostVillages" pg:",use_zero" gqlgen:"mostVillages"`
 	MostVillagesAt time.Time `json:"mostVillagesAt" pg:"default:now(),use_zero" gqlgen:"mostVillagesAt"`
 	CreatedAt      time.Time `json:"createdAt" pg:"default:now(),use_zero" gqlgen:"createdAt"`
-	DeletedAt      time.Time `json:"deletedAt" pg:",use_zero" gqlgen:"deletedAt"`
+	DeletedAt      time.Time `json:"deletedAt" gqlgen:"deletedAt"`
 
 	OpponentsDefeated
 }
