@@ -1,4 +1,4 @@
-package twutil
+package tw
 
 import (
 	"github.com/tribalwarshelp/shared/models"
