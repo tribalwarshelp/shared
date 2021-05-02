@@ -1,4 +1,4 @@
-package dataloader
+package twdataloader
 
 const (
 	EndpointConfig                 = "/interface.php?func=get_config"

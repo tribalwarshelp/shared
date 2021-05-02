@@ -1,7 +1,8 @@
-package models
+package twmodel
 
 import (
 	"fmt"
+	"github.com/Kichiyaki/gopgutil/v10"
 	"io"
 	"strconv"
 	"strings"
@@ -33,6 +34,13 @@ const (
 	VersionCodeHU  VersionCode = "hu"
 	VersionCodeSK  VersionCode = "sk"
 )
+
+func VersionCodeFromServerKey(key string) VersionCode {
+	if len(key) < 2 {
+		return ""
+	}
+	return VersionCode(key[0:2])
+}
 
 func (vc VersionCode) IsValid() bool {
 	switch vc {
@@ -102,24 +110,28 @@ type VersionFilter struct {
 }
 
 func (f *VersionFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
+	if f == nil {
+		return q, nil
+	}
+
 	if !isZero(f.Code) {
-		q = q.Where(buildConditionArray(addAliasToColumnName("code", alias)), pg.Array(f.Code))
+		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("code", alias)), pg.Array(f.Code))
 	}
 	if !isZero(f.CodeNEQ) {
-		q = q.Where(buildConditionNotInArray(addAliasToColumnName("code", alias)), pg.Array(f.CodeNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("code", alias)), pg.Array(f.CodeNEQ))
 	}
 
 	if !isZero(f.Host) {
-		q = q.Where(buildConditionArray(addAliasToColumnName("host", alias)), pg.Array(f.Host))
+		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("host", alias)), pg.Array(f.Host))
 	}
 	if !isZero(f.HostNEQ) {
-		q = q.Where(buildConditionNotInArray(addAliasToColumnName("host", alias)), pg.Array(f.HostNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("host", alias)), pg.Array(f.HostNEQ))
 	}
 	if !isZero(f.HostMATCH) {
-		q = q.Where(buildConditionMatch(addAliasToColumnName("host", alias)), f.HostMATCH)
+		q = q.Where(gopgutil.BuildConditionMatch(gopgutil.AddAliasToColumnName("host", alias)), f.HostMATCH)
 	}
 	if !isZero(f.HostIEQ) {
-		q = q.Where(buildConditionIEQ(addAliasToColumnName("host", alias)), f.HostIEQ)
+		q = q.Where(gopgutil.BuildConditionIEQ(gopgutil.AddAliasToColumnName("host", alias)), f.HostIEQ)
 	}
 
 	return q, nil

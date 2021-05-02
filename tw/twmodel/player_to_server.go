@@ -1,4 +1,4 @@
-package models
+package twmodel
 
 type PlayerToServer struct {
 	ID        int     `json:"id" gqlgen:"id" xml:"id"`

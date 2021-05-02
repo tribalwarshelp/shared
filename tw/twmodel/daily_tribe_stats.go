@@ -1,6 +1,7 @@
-package models
+package twmodel
 
 import (
+	"github.com/Kichiyaki/gopgutil/v10"
 	"time"
 
 	"github.com/go-pg/pg/v10"
@@ -37,27 +38,34 @@ type DailyTribeStatsFilter struct {
 }
 
 func (f *DailyTribeStatsFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
+	if f == nil {
+		return q, nil
+	}
+
 	if !isZero(f.CreateDate) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("create_date", alias)), f.CreateDate)
+		q = q.Where(gopgutil.BuildConditionEquals(gopgutil.AddAliasToColumnName("create_date", alias)), f.CreateDate)
 	}
 	if !isZero(f.CreateDateGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("create_date", alias)), f.CreateDateGT)
+		q = q.Where(gopgutil.BuildConditionGT(gopgutil.AddAliasToColumnName("create_date", alias)), f.CreateDateGT)
 	}
 	if !isZero(f.CreateDateGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("create_date", alias)), f.CreateDateGTE)
+		q = q.Where(gopgutil.BuildConditionGTE(gopgutil.AddAliasToColumnName("create_date", alias)), f.CreateDateGTE)
 	}
 	if !isZero(f.CreateDateLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("create_date", alias)), f.CreateDateLT)
+		q = q.Where(gopgutil.BuildConditionLT(gopgutil.AddAliasToColumnName("create_date", alias)), f.CreateDateLT)
 	}
 	if !isZero(f.CreateDateLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("create_date", alias)), f.CreateDateLTE)
+		q = q.Where(gopgutil.BuildConditionLTE(gopgutil.AddAliasToColumnName("create_date", alias)), f.CreateDateLTE)
 	}
 
 	if !isZero(f.TribeID) {
-		q = q.Where(buildConditionArray(addAliasToColumnName("tribe_id", alias)), pg.Array(f.TribeID))
+		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("tribe_id", alias)), pg.Array(f.TribeID))
 	}
 	if !isZero(f.TribeIDNEQ) {
-		q = q.Where(buildConditionNotInArray(addAliasToColumnName("tribe_id", alias)), pg.Array(f.TribeIDNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("tribe_id", alias)), pg.Array(f.TribeIDNEQ))
+	}
+	if f.TribeFilter != nil {
+		return f.TribeFilter.WhereWithAlias(q.Relation("Tribe._"), "tribe")
 	}
 
 	return q, nil
@@ -65,31 +73,4 @@ func (f *DailyTribeStatsFilter) WhereWithAlias(q *orm.Query, alias string) (*orm
 
 func (f *DailyTribeStatsFilter) Where(q *orm.Query) (*orm.Query, error) {
 	return f.WhereWithAlias(q, "daily_tribe_stats")
-}
-
-type DailyTribeStatsRelationshipAndSortAppender struct {
-	Filter *DailyTribeStatsFilter
-	Sort   []string
-}
-
-func (a *DailyTribeStatsRelationshipAndSortAppender) Append(q *orm.Query) (*orm.Query, error) {
-	var err error
-	tribeRequired := findStringWithPrefix(a.Sort, "tribe.") != ""
-	if a.Filter.TribeFilter != nil {
-		q, err = a.Filter.TribeFilter.WhereWithAlias(q, "tribe")
-		if err != nil {
-			return q, err
-		}
-		tribeRequired = true
-	}
-
-	if !isZero(a.Sort) {
-		q = q.Order(a.Sort...)
-	}
-
-	if tribeRequired {
-		q = q.Relation("Tribe._")
-	}
-
-	return q, nil
 }

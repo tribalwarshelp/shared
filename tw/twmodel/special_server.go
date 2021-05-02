@@ -1,4 +1,4 @@
-package models
+package twmodel
 
 type SpecialServer struct {
 	tableName struct{} `pg:"special_servers,alias:special_server"`

@@ -1,4 +1,4 @@
-package dataloader
+package twdataloader
 
 import (
 	"compress/gzip"
@@ -15,18 +15,18 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/tribalwarshelp/shared/models"
+	models2 "github.com/tribalwarshelp/shared/tw/twmodel"
 )
 
 type ServerDataLoader interface {
-	LoadOD(tribe bool) (map[int]*models.OpponentsDefeated, error)
-	LoadPlayers() ([]*models.Player, error)
-	LoadTribes() ([]*models.Tribe, error)
-	LoadVillages() ([]*models.Village, error)
-	LoadEnnoblements(cfg *LoadEnnoblementsConfig) ([]*models.Ennoblement, error)
-	GetConfig() (*models.ServerConfig, error)
-	GetBuildingConfig() (*models.BuildingConfig, error)
-	GetUnitConfig() (*models.UnitConfig, error)
+	LoadOD(tribe bool) (map[int]*models2.OpponentsDefeated, error)
+	LoadPlayers() ([]*models2.Player, error)
+	LoadTribes() ([]*models2.Tribe, error)
+	LoadVillages() ([]*models2.Village, error)
+	LoadEnnoblements(cfg *LoadEnnoblementsConfig) ([]*models2.Ennoblement, error)
+	GetConfig() (*models2.ServerConfig, error)
+	GetBuildingConfig() (*models2.BuildingConfig, error)
+	GetUnitConfig() (*models2.UnitConfig, error)
 }
 
 type serverDataLoader struct {
@@ -72,8 +72,8 @@ func (d *serverDataLoader) parseODLine(line []string) (*parsedODLine, error) {
 	return p, nil
 }
 
-func (d *serverDataLoader) LoadOD(tribe bool) (map[int]*models.OpponentsDefeated, error) {
-	m := make(map[int]*models.OpponentsDefeated)
+func (d *serverDataLoader) LoadOD(tribe bool) (map[int]*models2.OpponentsDefeated, error) {
+	m := make(map[int]*models2.OpponentsDefeated)
 	formattedURLs := []string{
 		fmt.Sprintf("%s%s", d.baseURL, EndpointKillAll),
 		fmt.Sprintf("%s%s", d.baseURL, EndpointKillAtt),
@@ -106,7 +106,7 @@ func (d *serverDataLoader) LoadOD(tribe bool) (map[int]*models.OpponentsDefeated
 				return nil, errors.Wrapf(err, "couldn't parse the line, url %s, line %s", formattedURL, strings.Join(line, ","))
 			}
 			if _, ok := m[parsed.ID]; !ok {
-				m[parsed.ID] = &models.OpponentsDefeated{}
+				m[parsed.ID] = &models2.OpponentsDefeated{}
 			}
 			switch formattedURL {
 			case formattedURLs[0]:
@@ -127,14 +127,14 @@ func (d *serverDataLoader) LoadOD(tribe bool) (map[int]*models.OpponentsDefeated
 	return m, nil
 }
 
-func (d *serverDataLoader) parsePlayerLine(line []string) (*models.Player, error) {
+func (d *serverDataLoader) parsePlayerLine(line []string) (*models2.Player, error) {
 	if len(line) != 6 {
 		return nil, errors.New("Invalid line format (should be id,name,tribeid,villages,points,rank)")
 	}
 
 	var err error
 	ex := true
-	player := &models.Player{
+	player := &models2.Player{
 		Exists: &ex,
 	}
 	player.ID, err = strconv.Atoi(line[0])
@@ -165,7 +165,7 @@ func (d *serverDataLoader) parsePlayerLine(line []string) (*models.Player, error
 	return player, nil
 }
 
-func (d *serverDataLoader) LoadPlayers() ([]*models.Player, error) {
+func (d *serverDataLoader) LoadPlayers() ([]*models2.Player, error) {
 	formattedURL := d.baseURL + EndpointPlayer
 	lines, err := d.getCSVData(formattedURL, true)
 	if err != nil {
@@ -175,7 +175,7 @@ func (d *serverDataLoader) LoadPlayers() ([]*models.Player, error) {
 		}
 	}
 
-	var players []*models.Player
+	var players []*models2.Player
 	for _, line := range lines {
 		player, err := d.parsePlayerLine(line)
 		if err != nil {
@@ -187,14 +187,14 @@ func (d *serverDataLoader) LoadPlayers() ([]*models.Player, error) {
 	return players, nil
 }
 
-func (d *serverDataLoader) parseTribeLine(line []string) (*models.Tribe, error) {
+func (d *serverDataLoader) parseTribeLine(line []string) (*models2.Tribe, error) {
 	if len(line) != 8 {
 		return nil, errors.New("invalid line format (should be id,name,tag,members,villages,points,allpoints,rank)")
 	}
 
 	var err error
 	ex := true
-	tribe := &models.Tribe{
+	tribe := &models2.Tribe{
 		Exists: &ex,
 	}
 	tribe.ID, err = strconv.Atoi(line[0])
@@ -233,7 +233,7 @@ func (d *serverDataLoader) parseTribeLine(line []string) (*models.Tribe, error) 
 	return tribe, nil
 }
 
-func (d *serverDataLoader) LoadTribes() ([]*models.Tribe, error) {
+func (d *serverDataLoader) LoadTribes() ([]*models2.Tribe, error) {
 	formattedURL := d.baseURL + EndpointTribe
 	lines, err := d.getCSVData(formattedURL, true)
 	if err != nil {
@@ -242,7 +242,7 @@ func (d *serverDataLoader) LoadTribes() ([]*models.Tribe, error) {
 			return nil, errors.Wrapf(err, "cannot to get data, url %s", formattedURL)
 		}
 	}
-	var tribes []*models.Tribe
+	var tribes []*models2.Tribe
 	for _, line := range lines {
 		tribe, err := d.parseTribeLine(line)
 		if err != nil {
@@ -253,12 +253,12 @@ func (d *serverDataLoader) LoadTribes() ([]*models.Tribe, error) {
 	return tribes, nil
 }
 
-func (d *serverDataLoader) parseVillageLine(line []string) (*models.Village, error) {
+func (d *serverDataLoader) parseVillageLine(line []string) (*models2.Village, error) {
 	if len(line) != 7 {
 		return nil, errors.New("invalid line format (should be id,name,x,y,playerID,points,bonus)")
 	}
 	var err error
-	village := &models.Village{}
+	village := &models2.Village{}
 	village.ID, err = strconv.Atoi(line[0])
 	if err != nil {
 		return nil, errors.Wrap(err, "village.ID")
@@ -290,7 +290,7 @@ func (d *serverDataLoader) parseVillageLine(line []string) (*models.Village, err
 	return village, nil
 }
 
-func (d *serverDataLoader) LoadVillages() ([]*models.Village, error) {
+func (d *serverDataLoader) LoadVillages() ([]*models2.Village, error) {
 	formattedURL := d.baseURL + EndpointVillage
 	lines, err := d.getCSVData(formattedURL, true)
 	if err != nil {
@@ -299,7 +299,7 @@ func (d *serverDataLoader) LoadVillages() ([]*models.Village, error) {
 			return nil, errors.Wrapf(err, "couldn't load data, formattedURL %s", formattedURL)
 		}
 	}
-	var villages []*models.Village
+	var villages []*models2.Village
 	for _, line := range lines {
 		village, err := d.parseVillageLine(line)
 		if err != nil {
@@ -310,12 +310,12 @@ func (d *serverDataLoader) LoadVillages() ([]*models.Village, error) {
 	return villages, nil
 }
 
-func (d *serverDataLoader) parseEnnoblementLine(line []string) (*models.Ennoblement, error) {
+func (d *serverDataLoader) parseEnnoblementLine(line []string) (*models2.Ennoblement, error) {
 	if len(line) != 4 {
 		return nil, errors.New("invalid line format (should be village_id,timestamp,new_owner_id,old_owner_id)")
 	}
 	var err error
-	ennoblement := &models.Ennoblement{}
+	ennoblement := &models2.Ennoblement{}
 	ennoblement.VillageID, err = strconv.Atoi(line[0])
 	if err != nil {
 		return nil, errors.Wrap(err, "ennoblement.VillageID")
@@ -341,7 +341,7 @@ type LoadEnnoblementsConfig struct {
 	EnnobledAtGT time.Time
 }
 
-func (d *serverDataLoader) LoadEnnoblements(cfg *LoadEnnoblementsConfig) ([]*models.Ennoblement, error) {
+func (d *serverDataLoader) LoadEnnoblements(cfg *LoadEnnoblementsConfig) ([]*models2.Ennoblement, error) {
 	if cfg == nil {
 		cfg = &LoadEnnoblementsConfig{}
 	}
@@ -360,7 +360,7 @@ func (d *serverDataLoader) LoadEnnoblements(cfg *LoadEnnoblementsConfig) ([]*mod
 		return nil, errors.Wrapf(err, "couldn't load data, formattedURL %s", formattedURL)
 	}
 
-	var ennoblements []*models.Ennoblement
+	var ennoblements []*models2.Ennoblement
 	for _, line := range lines {
 		ennoblement, err := d.parseEnnoblementLine(line)
 		if err != nil {
@@ -373,9 +373,9 @@ func (d *serverDataLoader) LoadEnnoblements(cfg *LoadEnnoblementsConfig) ([]*mod
 	return ennoblements, nil
 }
 
-func (d *serverDataLoader) GetConfig() (*models.ServerConfig, error) {
+func (d *serverDataLoader) GetConfig() (*models2.ServerConfig, error) {
 	formattedURL := d.baseURL + EndpointConfig
-	cfg := &models.ServerConfig{}
+	cfg := &models2.ServerConfig{}
 	err := d.getXML(formattedURL, cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "getConfig")
@@ -383,9 +383,9 @@ func (d *serverDataLoader) GetConfig() (*models.ServerConfig, error) {
 	return cfg, nil
 }
 
-func (d *serverDataLoader) GetBuildingConfig() (*models.BuildingConfig, error) {
+func (d *serverDataLoader) GetBuildingConfig() (*models2.BuildingConfig, error) {
 	formattedURL := d.baseURL + EndpointBuildingConfig
-	cfg := &models.BuildingConfig{}
+	cfg := &models2.BuildingConfig{}
 	err := d.getXML(formattedURL, cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "getBuildingConfig")
@@ -393,9 +393,9 @@ func (d *serverDataLoader) GetBuildingConfig() (*models.BuildingConfig, error) {
 	return cfg, nil
 }
 
-func (d *serverDataLoader) GetUnitConfig() (*models.UnitConfig, error) {
+func (d *serverDataLoader) GetUnitConfig() (*models2.UnitConfig, error) {
 	formattedURL := d.baseURL + EndpointUnitConfig
-	cfg := &models.UnitConfig{}
+	cfg := &models2.UnitConfig{}
 	err := d.getXML(formattedURL, cfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "getUnitConfig")
