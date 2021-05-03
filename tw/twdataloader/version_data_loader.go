@@ -13,28 +13,39 @@ type Server struct {
 	URL string
 }
 
+type VersionDataLoaderConfig struct {
+	Host   string
+	Client *http.Client
+}
+
+func (cfg *VersionDataLoaderConfig) Init() {
+	if cfg.Client == nil {
+		cfg.Client = getDefaultHTTPClient()
+	}
+}
+
 type VersionDataLoader interface {
 	LoadServers() ([]*Server, error)
 }
 
 type versionDataLoader struct {
-	baseURL string
-	client  *http.Client
+	host   string
+	client *http.Client
 }
 
-func NewVersionDataLoader(cfg *Config) VersionDataLoader {
+func NewVersionDataLoader(cfg *VersionDataLoaderConfig) VersionDataLoader {
 	if cfg == nil {
-		cfg = &Config{}
+		cfg = &VersionDataLoaderConfig{}
 	}
 	cfg.Init()
 	return &versionDataLoader{
-		baseURL: cfg.BaseURL,
-		client:  cfg.Client,
+		host:   cfg.Host,
+		client: cfg.Client,
 	}
 }
 
 func (d *versionDataLoader) LoadServers() ([]*Server, error) {
-	resp, err := d.client.Get(fmt.Sprintf("https://%s%s", d.baseURL, EndpointGetServers))
+	resp, err := d.client.Get(fmt.Sprintf("https://%s%s", d.host, EndpointGetServers))
 	if err != nil {
 		return nil, errors.Wrap(err, "couldn't load servers")
 	}
