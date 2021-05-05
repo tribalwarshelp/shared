@@ -28,14 +28,14 @@ func appendFilters(q *orm.Query, filtersToAppend ...filterToAppend) (*orm.Query,
 		if f.relationName != "" && tableModel != nil {
 			alias, err := gopgutil.BuildAliasFromRelationName(tableModel, f.relationName)
 			if err != nil {
-				return q, errors.Wrapf(err, "Couldn't build alias from relation name '%s'", f.relationName)
+				return q, errors.Wrapf(err, "Couldn't build an alias from the relation name '%s'", f.relationName)
 			}
 			if join := tableModel.GetJoin(f.relationName); join == nil {
 				q = q.Relation(f.relationName + "._")
 			}
 			q, err = f.filter.WhereWithAlias(q, alias)
 			if err != nil {
-				return q, errors.Wrapf(err, "Couldn't append filter for the relation '%s'", f.relationName)
+				return q, errors.Wrapf(err, "Couldn't append the filter for the relation '%s'", f.relationName)
 			}
 			continue
 		}
