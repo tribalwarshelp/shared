@@ -85,6 +85,12 @@ func (f *DailyPlayerStatsFilter) WhereWithRelations(q *orm.Query) (*orm.Query, e
 			filter:       f.PlayerFilter,
 			relationName: "Player",
 		})
+		if f.PlayerFilter.TribeFilter != nil {
+			filtersToAppend = append(filtersToAppend, filterToAppend{
+				filter:       f.PlayerFilter.TribeFilter,
+				relationName: "Player.Tribe",
+			})
+		}
 	}
 
 	return appendFilters(q, filtersToAppend...)
