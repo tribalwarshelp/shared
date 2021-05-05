@@ -30,10 +30,10 @@ func (f *TribeChangeFilterOr) WhereWithAlias(q *orm.Query, alias string) *orm.Qu
 	if f != nil {
 		q = q.WhereGroup(func(q *orm.Query) (*orm.Query, error) {
 			if !isZero(f.OldTribeID) {
-				q = q.WhereOr(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("old_tribe_id", alias)), pg.Array(f.OldTribeID))
+				q = q.WhereOr(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("old_tribe_id", alias), pg.Array(f.OldTribeID))
 			}
 			if !isZero(f.NewTribeID) {
-				q = q.WhereOr(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("new_tribe_id", alias)), pg.Array(f.NewTribeID))
+				q = q.WhereOr(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("new_tribe_id", alias), pg.Array(f.NewTribeID))
 			}
 			return q, nil
 		})
@@ -70,10 +70,10 @@ func (f *TribeChangeFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Que
 
 	var err error
 	if !isZero(f.PlayerID) {
-		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("player_id", alias)), pg.Array(f.PlayerID))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("player_id", alias), pg.Array(f.PlayerID))
 	}
 	if !isZero(f.PlayerIDNEQ) {
-		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("player_id", alias)), pg.Array(f.PlayerIDNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("player_id", alias), pg.Array(f.PlayerIDNEQ))
 	}
 	if f.PlayerFilter != nil {
 		q, err = f.PlayerFilter.WhereWithAlias(q.Relation("Player._"), "player", "Player.Tribe._", "player__tribe")
@@ -83,10 +83,10 @@ func (f *TribeChangeFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Que
 	}
 
 	if !isZero(f.OldTribeID) {
-		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("old_tribe_id", alias)), pg.Array(f.OldTribeID))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("old_tribe_id", alias), pg.Array(f.OldTribeID))
 	}
 	if !isZero(f.OldTribeIDNEQ) {
-		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("old_tribe_id", alias)), pg.Array(f.OldTribeIDNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("old_tribe_id", alias), pg.Array(f.OldTribeIDNEQ))
 	}
 	if f.OldTribeFilter != nil {
 		q, err = f.OldTribeFilter.WhereWithAlias(q.Relation("OldTribe._"), "old_tribe")
@@ -96,10 +96,10 @@ func (f *TribeChangeFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Que
 	}
 
 	if !isZero(f.NewTribeID) {
-		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("new_tribe_id", alias)), pg.Array(f.NewTribeID))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("new_tribe_id", alias), pg.Array(f.NewTribeID))
 	}
 	if !isZero(f.NewTribeIDNEQ) {
-		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("new_tribe_id", alias)), pg.Array(f.NewTribeIDNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("new_tribe_id", alias), pg.Array(f.NewTribeIDNEQ))
 	}
 	if f.NewTribeFilter != nil {
 		q, err = f.NewTribeFilter.WhereWithAlias(q.Relation("NewTribe._"), "new_tribe")
@@ -109,19 +109,19 @@ func (f *TribeChangeFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Que
 	}
 
 	if !isZero(f.CreatedAt) {
-		q = q.Where(gopgutil.BuildConditionEquals(gopgutil.AddAliasToColumnName("created_at", alias)), f.CreatedAt)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("created_at", alias), f.CreatedAt)
 	}
 	if !isZero(f.CreatedAtGT) {
-		q = q.Where(gopgutil.BuildConditionGT(gopgutil.AddAliasToColumnName("created_at", alias)), f.CreatedAtGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("created_at", alias), f.CreatedAtGT)
 	}
 	if !isZero(f.CreatedAtGTE) {
-		q = q.Where(gopgutil.BuildConditionGTE(gopgutil.AddAliasToColumnName("created_at", alias)), f.CreatedAtGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("created_at", alias), f.CreatedAtGTE)
 	}
 	if !isZero(f.CreatedAtLT) {
-		q = q.Where(gopgutil.BuildConditionLT(gopgutil.AddAliasToColumnName("created_at", alias)), f.CreatedAtLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("created_at", alias), f.CreatedAtLT)
 	}
 	if !isZero(f.CreatedAtLTE) {
-		q = q.Where(gopgutil.BuildConditionLTE(gopgutil.AddAliasToColumnName("created_at", alias)), f.CreatedAtLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("created_at", alias), f.CreatedAtLTE)
 	}
 
 	if f.Or != nil {

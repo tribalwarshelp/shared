@@ -42,26 +42,26 @@ func (f *PlayerHistoryFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Q
 	}
 
 	if !isZero(f.CreateDate) {
-		q = q.Where(gopgutil.BuildConditionEquals(gopgutil.AddAliasToColumnName("create_date", alias)), f.CreateDate)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDate)
 	}
 	if !isZero(f.CreateDateGT) {
-		q = q.Where(gopgutil.BuildConditionGT(gopgutil.AddAliasToColumnName("create_date", alias)), f.CreateDateGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateGT)
 	}
 	if !isZero(f.CreateDateGTE) {
-		q = q.Where(gopgutil.BuildConditionGTE(gopgutil.AddAliasToColumnName("create_date", alias)), f.CreateDateGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateGTE)
 	}
 	if !isZero(f.CreateDateLT) {
-		q = q.Where(gopgutil.BuildConditionLT(gopgutil.AddAliasToColumnName("create_date", alias)), f.CreateDateLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateLT)
 	}
 	if !isZero(f.CreateDateLTE) {
-		q = q.Where(gopgutil.BuildConditionLTE(gopgutil.AddAliasToColumnName("create_date", alias)), f.CreateDateLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateLTE)
 	}
 
 	if !isZero(f.PlayerID) {
-		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("player_id", alias)), pg.Array(f.PlayerID))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("player_id", alias), pg.Array(f.PlayerID))
 	}
 	if !isZero(f.PlayerIDNEQ) {
-		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("player_id", alias)), pg.Array(f.PlayerIDNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("player_id", alias), pg.Array(f.PlayerIDNEQ))
 	}
 
 	if f.PlayerFilter != nil {

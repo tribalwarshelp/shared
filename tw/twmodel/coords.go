@@ -14,15 +14,15 @@ type Coords struct {
 }
 
 func ParseCoords(coords string) (*Coords, error) {
-	splitted := strings.Split(coords, CoordsSeparator)
-	if len(splitted) != 2 {
+	parts := strings.Split(coords, CoordsSeparator)
+	if len(parts) != 2 {
 		return nil, errors.Errorf("%s: invalid format (should be number|number)", coords)
 	}
-	x, err := strconv.Atoi(splitted[0])
+	x, err := strconv.Atoi(parts[0])
 	if err != nil {
 		return nil, errors.Wrapf(err, "%s: the part before | isn't a number", coords)
 	}
-	y, err := strconv.Atoi(splitted[1])
+	y, err := strconv.Atoi(parts[1])
 	if err != nil {
 		return nil, errors.Wrapf(err, "%s: the part after | isn't a number", coords)
 	}

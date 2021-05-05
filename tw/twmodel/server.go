@@ -89,30 +89,30 @@ func (f *ServerFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, e
 	}
 
 	if !isZero(f.Key) {
-		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("key", alias)), pg.Array(f.Key))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("key", alias), pg.Array(f.Key))
 	}
 	if !isZero(f.KeyNEQ) {
-		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("key", alias)), pg.Array(f.KeyNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("key", alias), pg.Array(f.KeyNEQ))
 	}
 	if !isZero(f.KeyMATCH) {
-		q = q.Where(gopgutil.BuildConditionMatch(gopgutil.AddAliasToColumnName("key", alias)), f.KeyMATCH)
+		q = q.Where(gopgutil.BuildConditionMatch("?"), gopgutil.AddAliasToColumnName("key", alias), f.KeyMATCH)
 	}
 	if !isZero(f.KeyIEQ) {
-		q = q.Where(gopgutil.BuildConditionIEQ(gopgutil.AddAliasToColumnName("key", alias)), f.KeyIEQ)
+		q = q.Where(gopgutil.BuildConditionIEQ("?"), gopgutil.AddAliasToColumnName("key", alias), f.KeyIEQ)
 	}
 
 	if !isZero(f.Status) {
-		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("status", alias)), pg.Array(f.Status))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("status", alias), pg.Array(f.Status))
 	}
 	if !isZero(f.StatusNEQ) {
-		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("status", alias)), pg.Array(f.StatusNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("status", alias), pg.Array(f.StatusNEQ))
 	}
 
 	if !isZero(f.VersionCode) {
-		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("version_code", alias)), pg.Array(f.VersionCode))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("version_code", alias), pg.Array(f.VersionCode))
 	}
 	if !isZero(f.VersionCodeNEQ) {
-		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("version_code", alias)), pg.Array(f.VersionCodeNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("version_code", alias), pg.Array(f.VersionCodeNEQ))
 	}
 
 	return q, nil

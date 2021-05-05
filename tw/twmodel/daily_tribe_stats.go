@@ -43,26 +43,26 @@ func (f *DailyTribeStatsFilter) WhereWithAlias(q *orm.Query, alias string) (*orm
 	}
 
 	if !isZero(f.CreateDate) {
-		q = q.Where(gopgutil.BuildConditionEquals(gopgutil.AddAliasToColumnName("create_date", alias)), f.CreateDate)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDate)
 	}
 	if !isZero(f.CreateDateGT) {
-		q = q.Where(gopgutil.BuildConditionGT(gopgutil.AddAliasToColumnName("create_date", alias)), f.CreateDateGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateGT)
 	}
 	if !isZero(f.CreateDateGTE) {
-		q = q.Where(gopgutil.BuildConditionGTE(gopgutil.AddAliasToColumnName("create_date", alias)), f.CreateDateGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateGTE)
 	}
 	if !isZero(f.CreateDateLT) {
-		q = q.Where(gopgutil.BuildConditionLT(gopgutil.AddAliasToColumnName("create_date", alias)), f.CreateDateLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateLT)
 	}
 	if !isZero(f.CreateDateLTE) {
-		q = q.Where(gopgutil.BuildConditionLTE(gopgutil.AddAliasToColumnName("create_date", alias)), f.CreateDateLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateLTE)
 	}
 
 	if !isZero(f.TribeID) {
-		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("tribe_id", alias)), pg.Array(f.TribeID))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("tribe_id", alias), pg.Array(f.TribeID))
 	}
 	if !isZero(f.TribeIDNEQ) {
-		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("tribe_id", alias)), pg.Array(f.TribeIDNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("tribe_id", alias), pg.Array(f.TribeIDNEQ))
 	}
 	if f.TribeFilter != nil {
 		return f.TribeFilter.WhereWithAlias(q.Relation("Tribe._"), "tribe")

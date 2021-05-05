@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/Kichiyaki/go-php-serialize v0.0.0-20200601110855-47b6982acf83
-	github.com/Kichiyaki/gopgutil/v10 v10.0.0-20210502140321-8b7f2b75ad67
+	github.com/Kichiyaki/gopgutil/v10 v10.0.0-20210505093434-655fa2df248f
 	github.com/go-pg/pg/v10 v10.9.1
 	github.com/pkg/errors v0.9.1
 	github.com/vmihailenco/msgpack/v5 v5.3.1 // indirect

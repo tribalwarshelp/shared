@@ -115,23 +115,23 @@ func (f *VersionFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, 
 	}
 
 	if !isZero(f.Code) {
-		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("code", alias)), pg.Array(f.Code))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("code", alias), pg.Array(f.Code))
 	}
 	if !isZero(f.CodeNEQ) {
-		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("code", alias)), pg.Array(f.CodeNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("code", alias), pg.Array(f.CodeNEQ))
 	}
 
 	if !isZero(f.Host) {
-		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("host", alias)), pg.Array(f.Host))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("host", alias), pg.Array(f.Host))
 	}
 	if !isZero(f.HostNEQ) {
-		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("host", alias)), pg.Array(f.HostNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("host", alias), pg.Array(f.HostNEQ))
 	}
 	if !isZero(f.HostMATCH) {
-		q = q.Where(gopgutil.BuildConditionMatch(gopgutil.AddAliasToColumnName("host", alias)), f.HostMATCH)
+		q = q.Where(gopgutil.BuildConditionMatch("?"), gopgutil.AddAliasToColumnName("host", alias), f.HostMATCH)
 	}
 	if !isZero(f.HostIEQ) {
-		q = q.Where(gopgutil.BuildConditionIEQ(gopgutil.AddAliasToColumnName("host", alias)), f.HostIEQ)
+		q = q.Where(gopgutil.BuildConditionIEQ("?"), gopgutil.AddAliasToColumnName("host", alias), f.HostIEQ)
 	}
 
 	return q, nil

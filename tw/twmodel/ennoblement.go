@@ -36,16 +36,16 @@ func (f *EnnoblementFilterOr) WhereWithAlias(q *orm.Query, alias string) *orm.Qu
 	if f != nil {
 		q = q.WhereGroup(func(q *orm.Query) (*orm.Query, error) {
 			if !isZero(f.NewOwnerID) {
-				q = q.WhereOr(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("new_owner_id", alias)), pg.Array(f.NewOwnerID))
+				q = q.WhereOr(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("new_owner_id", alias), pg.Array(f.NewOwnerID))
 			}
 			if !isZero(f.NewOwnerTribeID) {
-				q = q.WhereOr(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("new_owner_tribe_id", alias)), pg.Array(f.NewOwnerTribeID))
+				q = q.WhereOr(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("new_owner_tribe_id", alias), pg.Array(f.NewOwnerTribeID))
 			}
 			if !isZero(f.OldOwnerID) {
-				q = q.WhereOr(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("old_owner_id", alias)), pg.Array(f.OldOwnerID))
+				q = q.WhereOr(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("old_owner_id", alias), pg.Array(f.OldOwnerID))
 			}
 			if !isZero(f.OldOwnerTribeID) {
-				q = q.WhereOr(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("old_owner_tribe_id", alias)), pg.Array(f.OldOwnerTribeID))
+				q = q.WhereOr(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("old_owner_tribe_id", alias), pg.Array(f.OldOwnerTribeID))
 			}
 			return q, nil
 		})
@@ -87,52 +87,52 @@ func (f *EnnoblementFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Que
 	}
 
 	if !isZero(f.EnnobledAt) {
-		q = q.Where(gopgutil.BuildConditionEquals(gopgutil.AddAliasToColumnName("ennobled_at", alias)), f.EnnobledAt)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("ennobled_at", alias), f.EnnobledAt)
 	}
 	if !isZero(f.EnnobledAtGT) {
-		q = q.Where(gopgutil.BuildConditionGT(gopgutil.AddAliasToColumnName("ennobled_at", alias)), f.EnnobledAtGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("ennobled_at", alias), f.EnnobledAtGT)
 	}
 	if !isZero(f.EnnobledAtGTE) {
-		q = q.Where(gopgutil.BuildConditionGTE(gopgutil.AddAliasToColumnName("ennobled_at", alias)), f.EnnobledAtGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("ennobled_at", alias), f.EnnobledAtGTE)
 	}
 	if !isZero(f.EnnobledAtLT) {
-		q = q.Where(gopgutil.BuildConditionLT(gopgutil.AddAliasToColumnName("ennobled_at", alias)), f.EnnobledAtLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("ennobled_at", alias), f.EnnobledAtLT)
 	}
 	if !isZero(f.EnnobledAtLTE) {
-		q = q.Where(gopgutil.BuildConditionLTE(gopgutil.AddAliasToColumnName("ennobled_at", alias)), f.EnnobledAtLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("ennobled_at", alias), f.EnnobledAtLTE)
 	}
 
 	if !isZero(f.VillageID) {
-		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("village_id", alias)), pg.Array(f.VillageID))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("village_id", alias), pg.Array(f.VillageID))
 	}
 	if !isZero(f.VillageIDNEQ) {
-		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("village_id", alias)), pg.Array(f.VillageIDNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("village_id", alias), pg.Array(f.VillageIDNEQ))
 	}
 
 	if !isZero(f.NewOwnerID) {
-		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("new_owner_id", alias)), pg.Array(f.NewOwnerID))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("new_owner_id", alias), pg.Array(f.NewOwnerID))
 	}
 	if !isZero(f.NewOwnerIDNEQ) {
-		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("new_owner_id", alias)), pg.Array(f.NewOwnerIDNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("new_owner_id", alias), pg.Array(f.NewOwnerIDNEQ))
 	}
 	if !isZero(f.NewOwnerTribeID) {
-		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("new_owner_tribe_id", alias)), pg.Array(f.NewOwnerTribeID))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("new_owner_tribe_id", alias), pg.Array(f.NewOwnerTribeID))
 	}
 	if !isZero(f.NewOwnerTribeIDNEQ) {
-		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("new_owner_tribe_id", alias)), pg.Array(f.NewOwnerTribeIDNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("new_owner_tribe_id", alias), pg.Array(f.NewOwnerTribeIDNEQ))
 	}
 
 	if !isZero(f.OldOwnerID) {
-		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("old_owner_id", alias)), pg.Array(f.OldOwnerID))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("old_owner_id", alias), pg.Array(f.OldOwnerID))
 	}
 	if !isZero(f.OldOwnerIDNEQ) {
-		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("old_owner_id", alias)), pg.Array(f.OldOwnerIDNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("old_owner_id", alias), pg.Array(f.OldOwnerIDNEQ))
 	}
 	if !isZero(f.OldOwnerTribeID) {
-		q = q.Where(gopgutil.BuildConditionArray(gopgutil.AddAliasToColumnName("old_owner_tribe_id", alias)), pg.Array(f.OldOwnerTribeID))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("old_owner_tribe_id", alias), pg.Array(f.OldOwnerTribeID))
 	}
 	if !isZero(f.OldOwnerTribeIDNEQ) {
-		q = q.Where(gopgutil.BuildConditionNotInArray(gopgutil.AddAliasToColumnName("old_owner_tribe_id", alias)), pg.Array(f.OldOwnerTribeIDNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("old_owner_tribe_id", alias), pg.Array(f.OldOwnerTribeIDNEQ))
 	}
 
 	if f.Or != nil {

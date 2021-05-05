@@ -68,127 +68,127 @@ func (f *OpponentsDefeatedFilter) WhereWithAlias(q *orm.Query, alias string) (*o
 	}
 
 	if !isZero(f.RankAtt) {
-		q = q.Where(gopgutil.BuildConditionEquals(gopgutil.AddAliasToColumnName("rank_att", alias)), f.RankAtt)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("rank_att", alias), f.RankAtt)
 	}
 	if !isZero(f.RankAttGT) {
-		q = q.Where(gopgutil.BuildConditionGT(gopgutil.AddAliasToColumnName("rank_att", alias)), f.RankAttGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("rank_att", alias), f.RankAttGT)
 	}
 	if !isZero(f.RankAttGTE) {
-		q = q.Where(gopgutil.BuildConditionGTE(gopgutil.AddAliasToColumnName("rank_att", alias)), f.RankAttGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("rank_att", alias), f.RankAttGTE)
 	}
 	if !isZero(f.RankAttLT) {
-		q = q.Where(gopgutil.BuildConditionLT(gopgutil.AddAliasToColumnName("rank_att", alias)), f.RankAttLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("rank_att", alias), f.RankAttLT)
 	}
 	if !isZero(f.RankAttLTE) {
-		q = q.Where(gopgutil.BuildConditionLTE(gopgutil.AddAliasToColumnName("rank_att", alias)), f.RankAttLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("rank_att", alias), f.RankAttLTE)
 	}
 	if !isZero(f.ScoreAtt) {
-		q = q.Where(gopgutil.BuildConditionEquals(gopgutil.AddAliasToColumnName("score_att", alias)), f.ScoreAtt)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("score_att", alias), f.ScoreAtt)
 	}
 	if !isZero(f.ScoreAttGT) {
-		q = q.Where(gopgutil.BuildConditionGT(gopgutil.AddAliasToColumnName("score_att", alias)), f.ScoreAttGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("score_att", alias), f.ScoreAttGT)
 	}
 	if !isZero(f.ScoreAttGTE) {
-		q = q.Where(gopgutil.BuildConditionGTE(gopgutil.AddAliasToColumnName("score_att", alias)), f.ScoreAttGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("score_att", alias), f.ScoreAttGTE)
 	}
 	if !isZero(f.ScoreAttLT) {
-		q = q.Where(gopgutil.BuildConditionLT(gopgutil.AddAliasToColumnName("score_att", alias)), f.ScoreAttLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("score_att", alias), f.ScoreAttLT)
 	}
 	if !isZero(f.ScoreAttLTE) {
-		q = q.Where(gopgutil.BuildConditionLTE(gopgutil.AddAliasToColumnName("score_att", alias)), f.ScoreAttLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("score_att", alias), f.ScoreAttLTE)
 	}
 
 	if !isZero(f.RankDef) {
-		q = q.Where(gopgutil.BuildConditionEquals(gopgutil.AddAliasToColumnName("rank_def", alias)), f.RankDef)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("rank_def", alias), f.RankDef)
 	}
 	if !isZero(f.RankDefGT) {
-		q = q.Where(gopgutil.BuildConditionGT(gopgutil.AddAliasToColumnName("rank_def", alias)), f.RankDefGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("rank_def", alias), f.RankDefGT)
 	}
 	if !isZero(f.RankDefGTE) {
-		q = q.Where(gopgutil.BuildConditionGTE(gopgutil.AddAliasToColumnName("rank_def", alias)), f.RankDefGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("rank_def", alias), f.RankDefGTE)
 	}
 	if !isZero(f.RankDefLT) {
-		q = q.Where(gopgutil.BuildConditionLT(gopgutil.AddAliasToColumnName("rank_def", alias)), f.RankDefLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("rank_def", alias), f.RankDefLT)
 	}
 	if !isZero(f.RankDefLTE) {
-		q = q.Where(gopgutil.BuildConditionLTE(gopgutil.AddAliasToColumnName("rank_def", alias)), f.RankDefLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("rank_def", alias), f.RankDefLTE)
 	}
 	if !isZero(f.ScoreDef) {
-		q = q.Where(gopgutil.BuildConditionEquals(gopgutil.AddAliasToColumnName("score_def", alias)), f.ScoreDef)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("score_def", alias), f.ScoreDef)
 	}
 	if !isZero(f.ScoreDefGT) {
-		q = q.Where(gopgutil.BuildConditionGT(gopgutil.AddAliasToColumnName("score_def", alias)), f.ScoreDefGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("score_def", alias), f.ScoreDefGT)
 	}
 	if !isZero(f.ScoreDefGTE) {
-		q = q.Where(gopgutil.BuildConditionGTE(gopgutil.AddAliasToColumnName("score_def", alias)), f.ScoreDefGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("score_def", alias), f.ScoreDefGTE)
 	}
 	if !isZero(f.ScoreDefLT) {
-		q = q.Where(gopgutil.BuildConditionLT(gopgutil.AddAliasToColumnName("score_def", alias)), f.ScoreDefLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("score_def", alias), f.ScoreDefLT)
 	}
 	if !isZero(f.ScoreDefLTE) {
-		q = q.Where(gopgutil.BuildConditionLTE(gopgutil.AddAliasToColumnName("score_def", alias)), f.ScoreDefLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("score_def", alias), f.ScoreDefLTE)
 	}
 
 	if !isZero(f.RankSup) {
-		q = q.Where(gopgutil.BuildConditionEquals(gopgutil.AddAliasToColumnName("rank_sup", alias)), f.RankSup)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("rank_sup", alias), f.RankSup)
 	}
 	if !isZero(f.RankSupGT) {
-		q = q.Where(gopgutil.BuildConditionGT(gopgutil.AddAliasToColumnName("rank_sup", alias)), f.RankSupGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("rank_sup", alias), f.RankSupGT)
 	}
 	if !isZero(f.RankSupGTE) {
-		q = q.Where(gopgutil.BuildConditionGTE(gopgutil.AddAliasToColumnName("rank_sup", alias)), f.RankSupGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("rank_sup", alias), f.RankSupGTE)
 	}
 	if !isZero(f.RankSupLT) {
-		q = q.Where(gopgutil.BuildConditionLT(gopgutil.AddAliasToColumnName("rank_sup", alias)), f.RankSupLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("rank_sup", alias), f.RankSupLT)
 	}
 	if !isZero(f.RankSupLTE) {
-		q = q.Where(gopgutil.BuildConditionLTE(gopgutil.AddAliasToColumnName("rank_sup", alias)), f.RankSupLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("rank_sup", alias), f.RankSupLTE)
 	}
 	if !isZero(f.ScoreSup) {
-		q = q.Where(gopgutil.BuildConditionEquals(gopgutil.AddAliasToColumnName("score_sup", alias)), f.ScoreSup)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("score_sup", alias), f.ScoreSup)
 	}
 	if !isZero(f.ScoreSupGT) {
-		q = q.Where(gopgutil.BuildConditionGT(gopgutil.AddAliasToColumnName("score_sup", alias)), f.ScoreSupGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("score_sup", alias), f.ScoreSupGT)
 	}
 	if !isZero(f.ScoreSupGTE) {
-		q = q.Where(gopgutil.BuildConditionGTE(gopgutil.AddAliasToColumnName("score_sup", alias)), f.ScoreSupGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("score_sup", alias), f.ScoreSupGTE)
 	}
 	if !isZero(f.ScoreSupLT) {
-		q = q.Where(gopgutil.BuildConditionLT(gopgutil.AddAliasToColumnName("score_sup", alias)), f.ScoreSupLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("score_sup", alias), f.ScoreSupLT)
 	}
 	if !isZero(f.ScoreSupLTE) {
-		q = q.Where(gopgutil.BuildConditionLTE(gopgutil.AddAliasToColumnName("score_sup", alias)), f.ScoreSupLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("score_sup", alias), f.ScoreSupLTE)
 	}
 
 	if !isZero(f.RankTotal) {
-		q = q.Where(gopgutil.BuildConditionEquals(gopgutil.AddAliasToColumnName("rank_total", alias)), f.RankTotal)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("rank_total", alias), f.RankTotal)
 	}
 	if !isZero(f.RankTotalGT) {
-		q = q.Where(gopgutil.BuildConditionGT(gopgutil.AddAliasToColumnName("rank_total", alias)), f.RankTotalGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("rank_total", alias), f.RankTotalGT)
 	}
 	if !isZero(f.RankTotalGTE) {
-		q = q.Where(gopgutil.BuildConditionGTE(gopgutil.AddAliasToColumnName("rank_total", alias)), f.RankTotalGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("rank_total", alias), f.RankTotalGTE)
 	}
 	if !isZero(f.RankTotalLT) {
-		q = q.Where(gopgutil.BuildConditionLT(gopgutil.AddAliasToColumnName("rank_total", alias)), f.RankTotalLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("rank_total", alias), f.RankTotalLT)
 	}
 	if !isZero(f.RankTotalLTE) {
-		q = q.Where(gopgutil.BuildConditionLTE(gopgutil.AddAliasToColumnName("rank_total", alias)), f.RankTotalLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("rank_total", alias), f.RankTotalLTE)
 	}
 	if !isZero(f.ScoreTotal) {
-		q = q.Where(gopgutil.BuildConditionEquals(gopgutil.AddAliasToColumnName("score_total", alias)), f.ScoreTotal)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("score_total", alias), f.ScoreTotal)
 	}
 	if !isZero(f.ScoreTotalGT) {
-		q = q.Where(gopgutil.BuildConditionGT(gopgutil.AddAliasToColumnName("score_total", alias)), f.ScoreTotalGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("score_total", alias), f.ScoreTotalGT)
 	}
 	if !isZero(f.ScoreTotalGTE) {
-		q = q.Where(gopgutil.BuildConditionGTE(gopgutil.AddAliasToColumnName("score_total", alias)), f.ScoreTotalGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("score_total", alias), f.ScoreTotalGTE)
 	}
 	if !isZero(f.ScoreTotalLT) {
-		q = q.Where(gopgutil.BuildConditionLT(gopgutil.AddAliasToColumnName("score_total", alias)), f.ScoreTotalLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("score_total", alias), f.ScoreTotalLT)
 	}
 	if !isZero(f.ScoreTotalLTE) {
-		q = q.Where(gopgutil.BuildConditionLTE(gopgutil.AddAliasToColumnName("score_total", alias)), f.ScoreTotalLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("score_total", alias), f.ScoreTotalLTE)
 	}
 
 	return q, nil
