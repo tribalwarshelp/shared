@@ -64,13 +64,31 @@ func (f *DailyTribeStatsFilter) WhereWithAlias(q *orm.Query, alias string) (*orm
 	if !isZero(f.TribeIDNEQ) {
 		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("tribe_id", alias), pg.Array(f.TribeIDNEQ))
 	}
-	if f.TribeFilter != nil {
-		return f.TribeFilter.WhereWithAlias(q.Relation("Tribe._"), "tribe")
-	}
 
 	return q, nil
 }
 
 func (f *DailyTribeStatsFilter) Where(q *orm.Query) (*orm.Query, error) {
 	return f.WhereWithAlias(q, "daily_tribe_stats")
+}
+
+func (f *DailyTribeStatsFilter) WhereWithRelations(q *orm.Query) (*orm.Query, error) {
+	if f == nil {
+		return q, nil
+	}
+
+	filtersToAppend := []filterToAppend{
+		{
+			filter: f,
+			alias:  "daily_tribe_stats",
+		},
+	}
+	if f.TribeFilter != nil {
+		filtersToAppend = append(filtersToAppend, filterToAppend{
+			filter:       f.TribeFilter,
+			relationName: "Tribe",
+		})
+	}
+
+	return appendFilters(q, filtersToAppend...)
 }

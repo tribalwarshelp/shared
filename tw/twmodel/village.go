@@ -73,7 +73,7 @@ type VillageFilter struct {
 	PlayerFilter *PlayerFilter `json:"playerFilter" gqlgen:"playerFilter"`
 }
 
-func (f *VillageFilter) WhereWithAlias(q *orm.Query, alias, playerRelationName, playerAlias, tribeRelationName, tribeAlias string) (*orm.Query, error) {
+func (f *VillageFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
 	if f == nil {
 		return q, nil
 	}
@@ -181,20 +181,37 @@ func (f *VillageFilter) WhereWithAlias(q *orm.Query, alias, playerRelationName, 
 		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("player_id", alias), pg.Array(f.PlayerIDNEQ))
 	}
 
-	if f.PlayerFilter != nil && playerRelationName != "" && tribeRelationName != "" {
-		return f.PlayerFilter.WhereWithAlias(q.Relation(playerRelationName), playerAlias, tribeRelationName, tribeAlias)
-	}
-
 	return q, nil
 }
 
 func (f *VillageFilter) Where(q *orm.Query) (*orm.Query, error) {
-	return f.WhereWithAlias(
-		q,
-		"village",
-		"Player._",
-		"player",
-		"Player.Tribe._",
-		"player__tribe",
-	)
+	return f.WhereWithAlias(q, "village")
+}
+
+func (f *VillageFilter) WhereWithRelations(q *orm.Query) (*orm.Query, error) {
+	if f == nil {
+		return q, nil
+	}
+
+	filtersToAppend := []filterToAppend{
+		{
+			filter: f,
+			alias:  "village",
+		},
+	}
+	if f.PlayerFilter != nil {
+		filtersToAppend = append(filtersToAppend, filterToAppend{
+			filter:       f.PlayerFilter,
+			relationName: "Player",
+		})
+
+		if f.PlayerFilter.TribeFilter != nil {
+			filtersToAppend = append(filtersToAppend, filterToAppend{
+				filter:       f.PlayerFilter.TribeFilter,
+				relationName: "Player.Tribe",
+			})
+		}
+	}
+
+	return appendFilters(q, filtersToAppend...)
 }

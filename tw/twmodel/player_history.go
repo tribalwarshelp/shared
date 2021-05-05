@@ -64,13 +64,30 @@ func (f *PlayerHistoryFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Q
 		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("player_id", alias), pg.Array(f.PlayerIDNEQ))
 	}
 
-	if f.PlayerFilter != nil {
-		return f.PlayerFilter.WhereWithAlias(q.Relation("Player._"), "player", "Player.Tribe._", "player__tribe")
-	}
-
 	return q, nil
 }
 
 func (f *PlayerHistoryFilter) Where(q *orm.Query) (*orm.Query, error) {
 	return f.WhereWithAlias(q, "player_history")
+}
+
+func (f *PlayerHistoryFilter) WhereWithRelations(q *orm.Query) (*orm.Query, error) {
+	if f == nil {
+		return q, nil
+	}
+
+	filtersToAppend := []filterToAppend{
+		{
+			filter: f,
+			alias:  "player_history",
+		},
+	}
+	if f.PlayerFilter != nil {
+		filtersToAppend = append(filtersToAppend, filterToAppend{
+			filter:       f.PlayerFilter,
+			relationName: "Player",
+		})
+	}
+
+	return appendFilters(q, filtersToAppend...)
 }

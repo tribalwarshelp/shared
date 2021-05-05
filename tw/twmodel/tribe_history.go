@@ -74,3 +74,24 @@ func (f *TribeHistoryFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Qu
 func (f *TribeHistoryFilter) Where(q *orm.Query) (*orm.Query, error) {
 	return f.WhereWithAlias(q, "tribe_history")
 }
+
+func (f *TribeHistoryFilter) WhereWithRelations(q *orm.Query) (*orm.Query, error) {
+	if f == nil {
+		return q, nil
+	}
+
+	filtersToAppend := []filterToAppend{
+		{
+			filter: f,
+			alias:  "tribe_history",
+		},
+	}
+	if f.TribeFilter != nil {
+		filtersToAppend = append(filtersToAppend, filterToAppend{
+			filter:       f.TribeFilter,
+			relationName: "Tribe",
+		})
+	}
+
+	return appendFilters(q, filtersToAppend...)
+}

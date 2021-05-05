@@ -68,18 +68,11 @@ func (f *TribeChangeFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Que
 		return q, nil
 	}
 
-	var err error
 	if !isZero(f.PlayerID) {
 		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("player_id", alias), pg.Array(f.PlayerID))
 	}
 	if !isZero(f.PlayerIDNEQ) {
 		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("player_id", alias), pg.Array(f.PlayerIDNEQ))
-	}
-	if f.PlayerFilter != nil {
-		q, err = f.PlayerFilter.WhereWithAlias(q.Relation("Player._"), "player", "Player.Tribe._", "player__tribe")
-		if err != nil {
-			return nil, err
-		}
 	}
 
 	if !isZero(f.OldTribeID) {
@@ -88,24 +81,12 @@ func (f *TribeChangeFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Que
 	if !isZero(f.OldTribeIDNEQ) {
 		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("old_tribe_id", alias), pg.Array(f.OldTribeIDNEQ))
 	}
-	if f.OldTribeFilter != nil {
-		q, err = f.OldTribeFilter.WhereWithAlias(q.Relation("OldTribe._"), "old_tribe")
-		if err != nil {
-			return nil, err
-		}
-	}
 
 	if !isZero(f.NewTribeID) {
 		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("new_tribe_id", alias), pg.Array(f.NewTribeID))
 	}
 	if !isZero(f.NewTribeIDNEQ) {
 		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("new_tribe_id", alias), pg.Array(f.NewTribeIDNEQ))
-	}
-	if f.NewTribeFilter != nil {
-		q, err = f.NewTribeFilter.WhereWithAlias(q.Relation("NewTribe._"), "new_tribe")
-		if err != nil {
-			return nil, err
-		}
 	}
 
 	if !isZero(f.CreatedAt) {
@@ -133,4 +114,37 @@ func (f *TribeChangeFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Que
 
 func (f *TribeChangeFilter) Where(q *orm.Query) (*orm.Query, error) {
 	return f.WhereWithAlias(q, "tribe_change")
+}
+
+func (f *TribeChangeFilter) WhereWithRelations(q *orm.Query) (*orm.Query, error) {
+	if f == nil {
+		return q, nil
+	}
+
+	filtersToAppend := []filterToAppend{
+		{
+			filter: f,
+			alias:  "tribe_change",
+		},
+	}
+	if f.PlayerFilter != nil {
+		filtersToAppend = append(filtersToAppend, filterToAppend{
+			filter:       f.PlayerFilter,
+			relationName: "Player",
+		})
+	}
+	if f.OldTribeFilter != nil {
+		filtersToAppend = append(filtersToAppend, filterToAppend{
+			filter:       f.OldTribeFilter,
+			relationName: "OldTribe",
+		})
+	}
+	if f.NewTribeFilter != nil {
+		filtersToAppend = append(filtersToAppend, filterToAppend{
+			filter:       f.NewTribeFilter,
+			relationName: "NewTribe",
+		})
+	}
+
+	return appendFilters(q, filtersToAppend...)
 }

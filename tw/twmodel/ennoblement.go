@@ -139,50 +139,54 @@ func (f *EnnoblementFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Que
 		q = f.Or.WhereWithAlias(q, alias)
 	}
 
-	var err error
-	if f.NewOwnerFilter != nil {
-		q, err = f.NewOwnerFilter.WhereWithAlias(q.Relation("NewOwner._"), "new_owner", "NewOwner.Tribe._", "new_owner__tribe")
-		if err != nil {
-			return q, err
-		}
-	}
-	if f.NewOwnerTribeFilter != nil {
-		q, err = f.NewOwnerTribeFilter.WhereWithAlias(q.Relation("NewOwnerTribe._"), "new_owner_tribe")
-		if err != nil {
-			return q, err
-		}
-	}
-	if f.OldOwnerFilter != nil {
-		q, err = f.OldOwnerFilter.WhereWithAlias(q.Relation("OldOwner._"), "old_owner", "OldOwner.Tribe._", "old_owner__tribe")
-		if err != nil {
-			return q, err
-		}
-	}
-	if f.OldOwnerTribeFilter != nil {
-		q, err = f.OldOwnerTribeFilter.WhereWithAlias(q.Relation("OldOwnerTribe._"), "old_owner_tribe")
-		if err != nil {
-			return q, err
-		}
-	}
-	if f.VillageFilter != nil {
-		q, err = f.
-			VillageFilter.
-			WhereWithAlias(
-				q.Relation("Village._"),
-				"village",
-				"Village.Player._",
-				"village__player",
-				"Village.Player.Tribe._",
-				"village__player__tribe",
-			)
-		if err != nil {
-			return q, err
-		}
-	}
-
 	return q, nil
 }
 
 func (f *EnnoblementFilter) Where(q *orm.Query) (*orm.Query, error) {
 	return f.WhereWithAlias(q, "ennoblement")
+}
+
+func (f *EnnoblementFilter) WhereWithRelations(q *orm.Query) (*orm.Query, error) {
+	if f == nil {
+		return q, nil
+	}
+
+	filtersToAppend := []filterToAppend{
+		{
+			filter: f,
+			alias:  "ennoblement",
+		},
+	}
+	if f.VillageFilter != nil {
+		filtersToAppend = append(filtersToAppend, filterToAppend{
+			filter:       f.VillageFilter,
+			relationName: "Village",
+		})
+	}
+	if f.OldOwnerFilter != nil {
+		filtersToAppend = append(filtersToAppend, filterToAppend{
+			filter:       f.OldOwnerFilter,
+			relationName: "OldOwner",
+		})
+	}
+	if f.OldOwnerTribeFilter != nil {
+		filtersToAppend = append(filtersToAppend, filterToAppend{
+			filter:       f.OldOwnerTribeFilter,
+			relationName: "OldOwnerTribe",
+		})
+	}
+	if f.NewOwnerFilter != nil {
+		filtersToAppend = append(filtersToAppend, filterToAppend{
+			filter:       f.NewOwnerFilter,
+			relationName: "NewOwner",
+		})
+	}
+	if f.NewOwnerTribeFilter != nil {
+		filtersToAppend = append(filtersToAppend, filterToAppend{
+			filter:       f.NewOwnerTribeFilter,
+			relationName: "newOwnerTribe",
+		})
+	}
+
+	return appendFilters(q, filtersToAppend...)
 }
