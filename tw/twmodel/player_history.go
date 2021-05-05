@@ -87,6 +87,12 @@ func (f *PlayerHistoryFilter) WhereWithRelations(q *orm.Query) (*orm.Query, erro
 			filter:       f.PlayerFilter,
 			relationName: "Player",
 		})
+		if f.PlayerFilter.TribeFilter != nil {
+			filtersToAppend = append(filtersToAppend, filterToAppend{
+				filter:       f.PlayerFilter.TribeFilter,
+				relationName: "Player.Tribe",
+			})
+		}
 	}
 
 	return appendFilters(q, filtersToAppend...)

@@ -184,7 +184,7 @@ func (f *EnnoblementFilter) WhereWithRelations(q *orm.Query) (*orm.Query, error)
 	if f.NewOwnerTribeFilter != nil {
 		filtersToAppend = append(filtersToAppend, filterToAppend{
 			filter:       f.NewOwnerTribeFilter,
-			relationName: "newOwnerTribe",
+			relationName: "NewOwnerTribe",
 		})
 	}
 
