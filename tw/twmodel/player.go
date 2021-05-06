@@ -1,6 +1,7 @@
-package models
+package twmodel
 
 import (
+	"github.com/Kichiyaki/gopgutil/v10"
 	"time"
 
 	"github.com/go-pg/pg/v10"
@@ -8,7 +9,7 @@ import (
 )
 
 type Player struct {
-	tableName struct{} `pg:"?SERVER.players,alias:player" json:"tableName" xml:"tableName" gqlgen:"tableName"`
+	tableName struct{} `pg:"?SERVER.players,alias:player"`
 
 	ID             int       `json:"id" pg:"type:bigint,pk" gqlgen:"id" xml:"id"`
 	Name           string    `json:"name" gqlgen:"name" xml:"name"`
@@ -93,147 +94,151 @@ type PlayerFilter struct {
 }
 
 func (f *PlayerFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
+	if f == nil {
+		return q, nil
+	}
+
 	if !isZero(f.ID) {
-		q = q.Where(buildConditionArray(addAliasToColumnName("id", alias)), pg.Array(f.ID))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("id", alias), pg.Array(f.ID))
 	}
 	if !isZero(f.IDNEQ) {
-		q = q.Where(buildConditionNotInArray(addAliasToColumnName("id", alias)), pg.Array(f.IDNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("id", alias), pg.Array(f.IDNEQ))
 	}
 
 	if !isZero(f.Exists) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("exists", alias)), f.Exists)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("exists", alias), f.Exists)
 	}
 
 	if !isZero(f.Name) {
-		q = q.Where(buildConditionArray(addAliasToColumnName("name", alias)), pg.Array(f.Name))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("name", alias), pg.Array(f.Name))
 	}
 	if !isZero(f.NameNEQ) {
-		q = q.Where(buildConditionNotInArray(addAliasToColumnName("name", alias)), pg.Array(f.NameNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("name", alias), pg.Array(f.NameNEQ))
 	}
 	if !isZero(f.NameMATCH) {
-		q = q.Where(buildConditionMatch(addAliasToColumnName("name", alias)), f.NameMATCH)
+		q = q.Where(gopgutil.BuildConditionMatch("?"), gopgutil.AddAliasToColumnName("name", alias), f.NameMATCH)
 	}
 	if !isZero(f.NameIEQ) {
-		q = q.Where(buildConditionIEQ(addAliasToColumnName("name", alias)), f.NameIEQ)
+		q = q.Where(gopgutil.BuildConditionIEQ("?"), gopgutil.AddAliasToColumnName("name", alias), f.NameIEQ)
 	}
 
 	if !isZero(f.TotalVillages) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("total_villages", alias)), f.TotalVillages)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("total_villages", alias), f.TotalVillages)
 	}
 	if !isZero(f.TotalVillagesGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("total_villages", alias)), f.TotalVillagesGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("total_villages", alias), f.TotalVillagesGT)
 	}
 	if !isZero(f.TotalVillagesGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("total_villages", alias)), f.TotalVillagesGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("total_villages", alias), f.TotalVillagesGTE)
 	}
 	if !isZero(f.TotalVillagesLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("total_villages", alias)), f.TotalVillagesLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("total_villages", alias), f.TotalVillagesLT)
 	}
 	if !isZero(f.TotalVillagesLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("total_villages", alias)), f.TotalVillagesLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("total_villages", alias), f.TotalVillagesLTE)
 	}
 
 	if !isZero(f.Points) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("points", alias)), f.Points)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("points", alias), f.Points)
 	}
 	if !isZero(f.PointsGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("points", alias)), f.PointsGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("points", alias), f.PointsGT)
 	}
 	if !isZero(f.PointsGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("points", alias)), f.PointsGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("points", alias), f.PointsGTE)
 	}
 	if !isZero(f.PointsLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("points", alias)), f.PointsLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("points", alias), f.PointsLT)
 	}
 	if !isZero(f.PointsLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("points", alias)), f.PointsLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("points", alias), f.PointsLTE)
 	}
 
 	if !isZero(f.Rank) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("rank", alias)), f.Rank)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("rank", alias), f.Rank)
 	}
 	if !isZero(f.RankGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("rank", alias)), f.RankGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("rank", alias), f.RankGT)
 	}
 	if !isZero(f.RankGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("rank", alias)), f.RankGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("rank", alias), f.RankGTE)
 	}
 	if !isZero(f.RankLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("rank", alias)), f.RankLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("rank", alias), f.RankLT)
 	}
 	if !isZero(f.RankLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("rank", alias)), f.RankLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("rank", alias), f.RankLTE)
 	}
 
 	if !isZero(f.DailyGrowth) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("daily_growth", alias)), f.DailyGrowth)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("daily_growth", alias), f.DailyGrowth)
 	}
 	if !isZero(f.DailyGrowthGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("daily_growth", alias)), f.DailyGrowthGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("daily_growth", alias), f.DailyGrowthGT)
 	}
 	if !isZero(f.DailyGrowthGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("daily_growth", alias)), f.DailyGrowthGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("daily_growth", alias), f.DailyGrowthGTE)
 	}
 	if !isZero(f.DailyGrowthLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("daily_growth", alias)), f.DailyGrowthLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("daily_growth", alias), f.DailyGrowthLT)
 	}
 	if !isZero(f.DailyGrowthLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("daily_growth", alias)), f.DailyGrowthLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("daily_growth", alias), f.DailyGrowthLTE)
 	}
 
 	if !isZero(f.JoinedAt) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("joined_at", alias)), f.JoinedAt)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("joined_at", alias), f.JoinedAt)
 	}
 	if !isZero(f.JoinedAtGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("joined_at", alias)), f.JoinedAtGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("joined_at", alias), f.JoinedAtGT)
 	}
 	if !isZero(f.JoinedAtGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("joined_at", alias)), f.JoinedAtGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("joined_at", alias), f.JoinedAtGTE)
 	}
 	if !isZero(f.JoinedAtLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("joined_at", alias)), f.JoinedAtLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("joined_at", alias), f.JoinedAtLT)
 	}
 	if !isZero(f.JoinedAtLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("joined_at", alias)), f.JoinedAtLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("joined_at", alias), f.JoinedAtLTE)
 	}
 
 	if !isZero(f.LastActivityAt) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("last_activity_at", alias)), f.LastActivityAt)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("last_activity_at", alias), f.LastActivityAt)
 	}
 	if !isZero(f.LastActivityAtGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("last_activity_at", alias)), f.LastActivityAtGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("last_activity_at", alias), f.LastActivityAtGT)
 	}
 	if !isZero(f.LastActivityAtGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("last_activity_at", alias)), f.LastActivityAtGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("last_activity_at", alias), f.LastActivityAtGTE)
 	}
 	if !isZero(f.LastActivityAtLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("last_activity_at", alias)), f.LastActivityAtLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("last_activity_at", alias), f.LastActivityAtLT)
 	}
 	if !isZero(f.LastActivityAtLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("last_activity_at", alias)), f.LastActivityAtLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("last_activity_at", alias), f.LastActivityAtLTE)
 	}
 
 	if !isZero(f.DeletedAt) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("deleted_at", alias)), f.DeletedAt)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("deleted_at", alias), f.DeletedAt)
 	}
 	if !isZero(f.DeletedAtGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("deleted_at", alias)), f.DeletedAtGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("deleted_at", alias), f.DeletedAtGT)
 	}
 	if !isZero(f.DeletedAtGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("deleted_at", alias)), f.DeletedAtGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("deleted_at", alias), f.DeletedAtGTE)
 	}
 	if !isZero(f.DeletedAtLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("deleted_at", alias)), f.DeletedAtLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("deleted_at", alias), f.DeletedAtLT)
 	}
 	if !isZero(f.DeletedAtLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("deleted_at", alias)), f.DeletedAtLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("deleted_at", alias), f.DeletedAtLTE)
 	}
 
 	if !isZero(f.TribeID) {
-		q = q.Where(buildConditionArray(addAliasToColumnName("tribe_id", alias)), pg.Array(f.TribeID))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("tribe_id", alias), pg.Array(f.TribeID))
 	}
 	if !isZero(f.TribeIDNEQ) {
-		q = q.Where(buildConditionNotInArray(addAliasToColumnName("tribe_id", alias)), pg.Array(f.TribeIDNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("tribe_id", alias), pg.Array(f.TribeIDNEQ))
 	}
 
 	return f.OpponentsDefeatedFilter.WhereWithAlias(q, alias)
@@ -243,31 +248,25 @@ func (f *PlayerFilter) Where(q *orm.Query) (*orm.Query, error) {
 	return f.WhereWithAlias(q, "player")
 }
 
-type PlayerRelationshipAndSortAppender struct {
-	Filter *PlayerFilter
-	Sort   []string
-}
-
-func (a *PlayerRelationshipAndSortAppender) Append(q *orm.Query) (*orm.Query, error) {
-	var err error
-	tribeRequired := findStringWithPrefix(a.Sort, "tribe.") != ""
-	if a.Filter.TribeFilter != nil {
-		q, err = a.Filter.TribeFilter.WhereWithAlias(q, "tribe")
-		if err != nil {
-			return q, err
-		}
-		tribeRequired = true
+func (f *PlayerFilter) WhereWithRelations(q *orm.Query) (*orm.Query, error) {
+	if f == nil {
+		return q, nil
 	}
 
-	if !isZero(a.Sort) {
-		q = q.Order(a.Sort...)
+	filtersToAppend := []filterToAppend{
+		{
+			filter: f,
+			alias:  "player",
+		},
+	}
+	if f.TribeFilter != nil {
+		filtersToAppend = append(filtersToAppend, filterToAppend{
+			filter:       f.TribeFilter,
+			relationName: "Tribe",
+		})
 	}
 
-	if tribeRequired {
-		q = q.Relation("Tribe._")
-	}
-
-	return q, nil
+	return appendFilters(q, filtersToAppend...)
 }
 
 type FoundPlayer struct {

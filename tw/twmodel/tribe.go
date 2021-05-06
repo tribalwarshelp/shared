@@ -1,6 +1,7 @@
-package models
+package twmodel
 
 import (
+	"github.com/Kichiyaki/gopgutil/v10"
 	"time"
 
 	"github.com/go-pg/pg/v10"
@@ -41,24 +42,26 @@ type TribeFilterOr struct {
 }
 
 func (f *TribeFilterOr) WhereWithAlias(q *orm.Query, alias string) *orm.Query {
-	q = q.WhereGroup(func(q *orm.Query) (*orm.Query, error) {
-		if !isZero(f.ID) {
-			q = q.WhereOr(buildConditionArray(addAliasToColumnName("id", alias)), pg.Array(f.ID))
-		}
-		if !isZero(f.Tag) {
-			q = q.WhereOr(buildConditionArray(addAliasToColumnName("tag", alias)), pg.Array(f.Tag))
-		}
-		if !isZero(f.TagIEQ) {
-			q = q.WhereOr(buildConditionIEQ(addAliasToColumnName("tag", alias)), f.TagIEQ)
-		}
-		if !isZero(f.Name) {
-			q = q.WhereOr(buildConditionArray(addAliasToColumnName("name", alias)), pg.Array(f.Name))
-		}
-		if !isZero(f.NameIEQ) {
-			q = q.WhereOr(buildConditionIEQ(addAliasToColumnName("name", alias)), f.NameIEQ)
-		}
-		return q, nil
-	})
+	if f != nil {
+		q = q.WhereGroup(func(q *orm.Query) (*orm.Query, error) {
+			if !isZero(f.ID) {
+				q = q.WhereOr(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("id", alias), pg.Array(f.ID))
+			}
+			if !isZero(f.Tag) {
+				q = q.WhereOr(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("tag", alias), pg.Array(f.Tag))
+			}
+			if !isZero(f.TagIEQ) {
+				q = q.WhereOr(gopgutil.BuildConditionIEQ("?"), gopgutil.AddAliasToColumnName("tag", alias), f.TagIEQ)
+			}
+			if !isZero(f.Name) {
+				q = q.WhereOr(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("name", alias), pg.Array(f.Name))
+			}
+			if !isZero(f.NameIEQ) {
+				q = q.WhereOr(gopgutil.BuildConditionIEQ("?"), gopgutil.AddAliasToColumnName("name", alias), f.NameIEQ)
+			}
+			return q, nil
+		})
+	}
 	return q
 }
 
@@ -131,169 +134,173 @@ type TribeFilter struct {
 }
 
 func (f *TribeFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
+	if f == nil {
+		return q, nil
+	}
+
 	if !isZero(f.ID) {
-		q = q.Where(buildConditionArray(addAliasToColumnName("id", alias)), pg.Array(f.ID))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("id", alias), pg.Array(f.ID))
 	}
 	if !isZero(f.IDNEQ) {
-		q = q.Where(buildConditionNotInArray(addAliasToColumnName("id", alias)), pg.Array(f.IDNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("id", alias), pg.Array(f.IDNEQ))
 	}
 
 	if !isZero(f.Exists) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("exists", alias)), f.Exists)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("exists", alias), f.Exists)
 	}
 
 	if !isZero(f.Tag) {
-		q = q.Where(buildConditionArray(addAliasToColumnName("tag", alias)), pg.Array(f.Tag))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("tag", alias), pg.Array(f.Tag))
 	}
 	if !isZero(f.TagNEQ) {
-		q = q.Where(buildConditionNotInArray(addAliasToColumnName("tag", alias)), pg.Array(f.TagNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("tag", alias), pg.Array(f.TagNEQ))
 	}
 	if !isZero(f.TagMATCH) {
-		q = q.Where(buildConditionMatch(addAliasToColumnName("tag", alias)), f.TagMATCH)
+		q = q.Where(gopgutil.BuildConditionMatch("?"), gopgutil.AddAliasToColumnName("tag", alias), f.TagMATCH)
 	}
 	if !isZero(f.TagIEQ) {
-		q = q.Where(buildConditionIEQ(addAliasToColumnName("tag", alias)), f.TagIEQ)
+		q = q.Where(gopgutil.BuildConditionIEQ("?"), gopgutil.AddAliasToColumnName("tag", alias), f.TagIEQ)
 	}
 
 	if !isZero(f.Name) {
-		q = q.Where(buildConditionArray(addAliasToColumnName("name", alias)), pg.Array(f.Name))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("name", alias), pg.Array(f.Name))
 	}
 	if !isZero(f.NameNEQ) {
-		q = q.Where(buildConditionNotInArray(addAliasToColumnName("name", alias)), pg.Array(f.NameNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("name", alias), pg.Array(f.NameNEQ))
 	}
 	if !isZero(f.NameMATCH) {
-		q = q.Where(buildConditionMatch(addAliasToColumnName("name", alias)), f.NameMATCH)
+		q = q.Where(gopgutil.BuildConditionMatch("?"), gopgutil.AddAliasToColumnName("name", alias), f.NameMATCH)
 	}
 	if !isZero(f.NameIEQ) {
-		q = q.Where(buildConditionIEQ(addAliasToColumnName("name", alias)), f.NameIEQ)
+		q = q.Where(gopgutil.BuildConditionIEQ("?"), gopgutil.AddAliasToColumnName("name", alias), f.NameIEQ)
 	}
 
 	if !isZero(f.TotalMembers) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("total_members", alias)), f.TotalMembers)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("total_members", alias), f.TotalMembers)
 	}
 	if !isZero(f.TotalMembersGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("total_members", alias)), f.TotalMembersGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("total_members", alias), f.TotalMembersGT)
 	}
 	if !isZero(f.TotalMembersGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("total_members", alias)), f.TotalMembersGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("total_members", alias), f.TotalMembersGTE)
 	}
 	if !isZero(f.TotalMembersLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("total_members", alias)), f.TotalMembersLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("total_members", alias), f.TotalMembersLT)
 	}
 	if !isZero(f.TotalMembersLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("total_members", alias)), f.TotalMembersLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("total_members", alias), f.TotalMembersLTE)
 	}
 
 	if !isZero(f.TotalVillages) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("total_villages", alias)), f.TotalVillages)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("total_villages", alias), f.TotalVillages)
 	}
 	if !isZero(f.TotalVillagesGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("total_villages", alias)), f.TotalVillagesGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("total_villages", alias), f.TotalVillagesGT)
 	}
 	if !isZero(f.TotalVillagesGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("total_villages", alias)), f.TotalVillagesGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("total_villages", alias), f.TotalVillagesGTE)
 	}
 	if !isZero(f.TotalVillagesLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("total_villages", alias)), f.TotalVillagesLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("total_villages", alias), f.TotalVillagesLT)
 	}
 	if !isZero(f.TotalVillagesLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("total_villages", alias)), f.TotalVillagesLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("total_villages", alias), f.TotalVillagesLTE)
 	}
 
 	if !isZero(f.Points) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("points", alias)), f.Points)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("points", alias), f.Points)
 	}
 	if !isZero(f.PointsGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("points", alias)), f.PointsGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("points", alias), f.PointsGT)
 	}
 	if !isZero(f.PointsGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("points", alias)), f.PointsGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("points", alias), f.PointsGTE)
 	}
 	if !isZero(f.PointsLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("points", alias)), f.PointsLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("points", alias), f.PointsLT)
 	}
 	if !isZero(f.PointsLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("points", alias)), f.PointsLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("points", alias), f.PointsLTE)
 	}
 
 	if !isZero(f.AllPoints) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("all_points", alias)), f.AllPoints)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("all_points", alias), f.AllPoints)
 	}
 	if !isZero(f.AllPointsGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("all_points", alias)), f.AllPointsGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("all_points", alias), f.AllPointsGT)
 	}
 	if !isZero(f.AllPointsGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("all_points", alias)), f.AllPointsGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("all_points", alias), f.AllPointsGTE)
 	}
 	if !isZero(f.AllPointsLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("all_points", alias)), f.AllPointsLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("all_points", alias), f.AllPointsLT)
 	}
 	if !isZero(f.AllPointsLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("all_points", alias)), f.AllPointsLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("all_points", alias), f.AllPointsLTE)
 	}
 
 	if !isZero(f.Rank) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("rank", alias)), f.Rank)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("rank", alias), f.Rank)
 	}
 	if !isZero(f.RankGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("rank", alias)), f.RankGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("rank", alias), f.RankGT)
 	}
 	if !isZero(f.RankGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("rank", alias)), f.RankGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("rank", alias), f.RankGTE)
 	}
 	if !isZero(f.RankLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("rank", alias)), f.RankLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("rank", alias), f.RankLT)
 	}
 	if !isZero(f.RankLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("rank", alias)), f.RankLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("rank", alias), f.RankLTE)
 	}
 
 	if !isZero(f.Dominance) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("dominance", alias)), f.Dominance)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("dominance", alias), f.Dominance)
 	}
 	if !isZero(f.DominanceGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("dominance", alias)), f.DominanceGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("dominance", alias), f.DominanceGT)
 	}
 	if !isZero(f.DominanceGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("dominance", alias)), f.DominanceGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("dominance", alias), f.DominanceGTE)
 	}
 	if !isZero(f.DominanceLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("dominance", alias)), f.DominanceLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("dominance", alias), f.DominanceLT)
 	}
 	if !isZero(f.DominanceLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("dominance", alias)), f.DominanceLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("dominance", alias), f.DominanceLTE)
 	}
 
 	if !isZero(f.CreatedAt) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("created_at", alias)), f.CreatedAt)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("created_at", alias), f.CreatedAt)
 	}
 	if !isZero(f.CreatedAtGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("created_at", alias)), f.CreatedAtGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("created_at", alias), f.CreatedAtGT)
 	}
 	if !isZero(f.CreatedAtGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("created_at", alias)), f.CreatedAtGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("created_at", alias), f.CreatedAtGTE)
 	}
 	if !isZero(f.CreatedAtLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("created_at", alias)), f.CreatedAtLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("created_at", alias), f.CreatedAtLT)
 	}
 	if !isZero(f.CreatedAtLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("created_at", alias)), f.CreatedAtLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("created_at", alias), f.CreatedAtLTE)
 	}
 
 	if !isZero(f.DeletedAt) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("deleted_at", alias)), f.DeletedAt)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("deleted_at", alias), f.DeletedAt)
 	}
 	if !isZero(f.DeletedAtGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("deleted_at", alias)), f.DeletedAtGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("deleted_at", alias), f.DeletedAtGT)
 	}
 	if !isZero(f.DeletedAtGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("deleted_at", alias)), f.DeletedAtGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("deleted_at", alias), f.DeletedAtGTE)
 	}
 	if !isZero(f.DeletedAtLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("deleted_at", alias)), f.DeletedAtLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("deleted_at", alias), f.DeletedAtLT)
 	}
 	if !isZero(f.DeletedAtLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("deleted_at", alias)), f.DeletedAtLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("deleted_at", alias), f.DeletedAtLTE)
 	}
 
 	if f.Or != nil {

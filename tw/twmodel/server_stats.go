@@ -1,7 +1,8 @@
-package models
+package twmodel
 
 import (
 	"context"
+	"github.com/Kichiyaki/gopgutil/v10"
 	"time"
 
 	"github.com/go-pg/pg/v10/orm"
@@ -41,20 +42,24 @@ type ServerStatsFilter struct {
 }
 
 func (f *ServerStatsFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
+	if f == nil {
+		return q, nil
+	}
+
 	if !isZero(f.CreateDate) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("create_date", alias)), f.CreateDate)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDate)
 	}
 	if !isZero(f.CreateDateGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("create_date", alias)), f.CreateDateGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateGT)
 	}
 	if !isZero(f.CreateDateGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("create_date", alias)), f.CreateDateGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateGTE)
 	}
 	if !isZero(f.CreateDateLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("create_date", alias)), f.CreateDateLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateLT)
 	}
 	if !isZero(f.CreateDateLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("create_date", alias)), f.CreateDateLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateLTE)
 	}
 
 	return q, nil

@@ -1,6 +1,7 @@
-package models
+package twmodel
 
 import (
+	"github.com/Kichiyaki/gopgutil/v10"
 	"time"
 
 	"github.com/go-pg/pg/v10"
@@ -34,27 +35,31 @@ type DailyPlayerStatsFilter struct {
 }
 
 func (f *DailyPlayerStatsFilter) WhereWithAlias(q *orm.Query, alias string) (*orm.Query, error) {
+	if f == nil {
+		return q, nil
+	}
+
 	if !isZero(f.CreateDate) {
-		q = q.Where(buildConditionEquals(addAliasToColumnName("create_date", alias)), f.CreateDate)
+		q = q.Where(gopgutil.BuildConditionEquals("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDate)
 	}
 	if !isZero(f.CreateDateGT) {
-		q = q.Where(buildConditionGT(addAliasToColumnName("create_date", alias)), f.CreateDateGT)
+		q = q.Where(gopgutil.BuildConditionGT("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateGT)
 	}
 	if !isZero(f.CreateDateGTE) {
-		q = q.Where(buildConditionGTE(addAliasToColumnName("create_date", alias)), f.CreateDateGTE)
+		q = q.Where(gopgutil.BuildConditionGTE("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateGTE)
 	}
 	if !isZero(f.CreateDateLT) {
-		q = q.Where(buildConditionLT(addAliasToColumnName("create_date", alias)), f.CreateDateLT)
+		q = q.Where(gopgutil.BuildConditionLT("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateLT)
 	}
 	if !isZero(f.CreateDateLTE) {
-		q = q.Where(buildConditionLTE(addAliasToColumnName("create_date", alias)), f.CreateDateLTE)
+		q = q.Where(gopgutil.BuildConditionLTE("?"), gopgutil.AddAliasToColumnName("create_date", alias), f.CreateDateLTE)
 	}
 
 	if !isZero(f.PlayerID) {
-		q = q.Where(buildConditionArray(addAliasToColumnName("player_id", alias)), pg.Array(f.PlayerID))
+		q = q.Where(gopgutil.BuildConditionArray("?"), gopgutil.AddAliasToColumnName("player_id", alias), pg.Array(f.PlayerID))
 	}
 	if !isZero(f.PlayerIDNEQ) {
-		q = q.Where(buildConditionNotInArray(addAliasToColumnName("player_id", alias)), pg.Array(f.PlayerIDNEQ))
+		q = q.Where(gopgutil.BuildConditionNotInArray("?"), gopgutil.AddAliasToColumnName("player_id", alias), pg.Array(f.PlayerIDNEQ))
 	}
 
 	return q, nil
@@ -64,41 +69,29 @@ func (f *DailyPlayerStatsFilter) Where(q *orm.Query) (*orm.Query, error) {
 	return f.WhereWithAlias(q, "daily_player_stats")
 }
 
-type DailyPlayerStatsRelationshipAndSortAppender struct {
-	Filter *DailyPlayerStatsFilter
-	Sort   []string
-}
+func (f *DailyPlayerStatsFilter) WhereWithRelations(q *orm.Query) (*orm.Query, error) {
+	if f == nil {
+		return q, nil
+	}
 
-func (a *DailyPlayerStatsRelationshipAndSortAppender) Append(q *orm.Query) (*orm.Query, error) {
-	var err error
-	playerRequired := findStringWithPrefix(a.Sort, "player.") != ""
-	playerTribeRequired := findStringWithPrefix(a.Sort, "player.tribe.") != ""
-	if a.Filter.PlayerFilter != nil {
-		q, err = a.Filter.PlayerFilter.WhereWithAlias(q, "player")
-		if err != nil {
-			return q, err
+	filtersToAppend := []filterToAppend{
+		{
+			filter: f,
+			alias:  "daily_player_stats",
+		},
+	}
+	if f.PlayerFilter != nil {
+		filtersToAppend = append(filtersToAppend, filterToAppend{
+			filter:       f.PlayerFilter,
+			relationName: "Player",
+		})
+		if f.PlayerFilter.TribeFilter != nil {
+			filtersToAppend = append(filtersToAppend, filterToAppend{
+				filter:       f.PlayerFilter.TribeFilter,
+				relationName: "Player.Tribe",
+			})
 		}
-		playerRequired = true
-		if a.Filter.PlayerFilter.TribeFilter != nil {
-			q, err = a.Filter.PlayerFilter.WhereWithAlias(q, "tribe")
-			if err != nil {
-				return q, err
-			}
-			playerTribeRequired = true
-		}
 	}
 
-	if !isZero(a.Sort) {
-		q = q.Order(a.Sort...)
-	}
-
-	if playerRequired {
-		q = q.Relation("Player._")
-	}
-
-	if playerTribeRequired {
-		q = q.Join("LEFT JOIN ?SERVER.tribes AS tribe ON tribe.id = player.tribe_id")
-	}
-
-	return q, nil
+	return appendFilters(q, filtersToAppend...)
 }
