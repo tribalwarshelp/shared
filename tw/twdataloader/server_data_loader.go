@@ -140,7 +140,7 @@ func (d *serverDataLoader) LoadOD(tribe bool) (map[int]*twmodel.OpponentsDefeate
 
 func (d *serverDataLoader) parsePlayerLine(line []string) (*twmodel.Player, error) {
 	if len(line) != 6 {
-		return nil, errors.New("Invalid line format (should be id,name,tribeid,villages,points,rank)")
+		return nil, errors.New("invalid line format (should be id,name,tribeid,villages,points,rank)")
 	}
 
 	var err error
@@ -250,7 +250,7 @@ func (d *serverDataLoader) LoadTribes() ([]*twmodel.Tribe, error) {
 	if err != nil {
 		lines, err = d.getCSVData(d.baseURL+EndpointTribeNotGzipped, false)
 		if err != nil {
-			return nil, errors.Wrapf(err, "cannot to get data, url %s", formattedURL)
+			return nil, errors.Wrapf(err, "couldn't load data, url %s", formattedURL)
 		}
 	}
 	var tribes []*twmodel.Tribe
