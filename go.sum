@@ -2,8 +2,6 @@ cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMT
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/Kichiyaki/go-php-serialize v0.0.0-20200601110855-47b6982acf83 h1:Oa8Bk4LNcknxw50gZOlvPwEreOlAbOnu7V82lUYNbOM=
 github.com/Kichiyaki/go-php-serialize v0.0.0-20200601110855-47b6982acf83/go.mod h1:+iGkf5HfOVeRVd9K7qQDucIl+/Kt3MyenMa90b/O/c4=
-github.com/Kichiyaki/gopgutil/v10 v10.0.0-20210505093434-655fa2df248f h1:/kJmv8B59cMHdTmsko0RyAOeRC9WpsQPDmLtRXOAU6c=
-github.com/Kichiyaki/gopgutil/v10 v10.0.0-20210505093434-655fa2df248f/go.mod h1:MSAEhr8oeK+Rhjhqyl31/8/AI88thYky80OyD8mheDA=
 github.com/Kichiyaki/gopgutil/v10 v10.0.0-20210521204542-cc672e361b3d h1:7ZJVfFgAR0zNf5fNc6M9v2PZbXvTgGgDjQo4/+NIezQ=
 github.com/Kichiyaki/gopgutil/v10 v10.0.0-20210521204542-cc672e361b3d/go.mod h1:MSAEhr8oeK+Rhjhqyl31/8/AI88thYky80OyD8mheDA=
 github.com/Kichiyaki/goutil v0.0.0-20210504132659-3d843a787db7 h1:OU3ZA5H8fHTzaYIw9UBfH3gtWRL0XmnczlhH3E2PjV4=
