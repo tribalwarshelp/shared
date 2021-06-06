@@ -1,1 +1,3 @@
-# Shared packages and types for all [TWHelp](https://github.com/tribalwarshelp) repos.
+# tribalwarshelp.com Golang library
+
+Common code referenced across TWHelp Golang projects.
