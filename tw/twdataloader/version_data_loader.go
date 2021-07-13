@@ -40,8 +40,8 @@ func NewVersionDataLoader(cfg *VersionDataLoaderConfig) *VersionDataLoader {
 	}
 }
 
-func (d *VersionDataLoader) LoadServers() ([]*Server, error) {
-	resp, err := d.client.Get(fmt.Sprintf("https://%s%s", d.host, EndpointGetServers))
+func (dl *VersionDataLoader) LoadServers() ([]*Server, error) {
+	resp, err := dl.client.Get(fmt.Sprintf("https://%s%s", dl.host, EndpointGetServers))
 	if err != nil {
 		return nil, errors.Wrap(err, "couldn't load servers")
 	}
@@ -52,8 +52,12 @@ func (d *VersionDataLoader) LoadServers() ([]*Server, error) {
 		return nil, errors.Wrap(err, "couldn't read the response body")
 	}
 	body, err := phpserialize.Decode(string(bodyBytes))
-	if err != nil {
-		return nil, errors.Wrap(err, "couldn't decode the response body into the go value")
+	if err != nil || body == nil {
+		fmtedErr := errors.New("couldn't decode the response body into a go value")
+		if err != nil {
+			fmtedErr = errors.Wrap(err, fmtedErr.Error())
+		}
+		return nil, fmtedErr
 	}
 
 	var servers []*Server
