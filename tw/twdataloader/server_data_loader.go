@@ -92,11 +92,7 @@ func (dl *ServerDataLoader) LoadOD(tribe bool) (map[int]*twmodel.OpponentsDefeat
 		}
 		lines, err := dl.getCSVData(formattedURL, true)
 		if err != nil {
-			//fallback to not gzipped file
-			lines, err = dl.getCSVData(strings.ReplaceAll(formattedURL, ".gz", ""), false)
-			if err != nil {
-				return nil, errors.Wrapf(err, "couldn't load data, formattedURL %s", formattedURL)
-			}
+			return nil, errors.Wrapf(err, "couldn't load data, formattedURL %s", formattedURL)
 		}
 		for _, line := range lines {
 			parsed, err := dl.parseODLine(line)
@@ -167,10 +163,7 @@ func (dl *ServerDataLoader) LoadPlayers() ([]*twmodel.Player, error) {
 	formattedURL := dl.baseURL + EndpointPlayer
 	lines, err := dl.getCSVData(formattedURL, true)
 	if err != nil {
-		lines, err = dl.getCSVData(dl.baseURL+EndpointPlayerNotGzipped, false)
-		if err != nil {
-			return nil, errors.Wrapf(err, "couldn't load data, url %s", formattedURL)
-		}
+		return nil, errors.Wrapf(err, "couldn't load data, url %s", formattedURL)
 	}
 
 	var players []*twmodel.Player
@@ -235,10 +228,7 @@ func (dl *ServerDataLoader) LoadTribes() ([]*twmodel.Tribe, error) {
 	formattedURL := dl.baseURL + EndpointTribe
 	lines, err := dl.getCSVData(formattedURL, true)
 	if err != nil {
-		lines, err = dl.getCSVData(dl.baseURL+EndpointTribeNotGzipped, false)
-		if err != nil {
-			return nil, errors.Wrapf(err, "couldn't load data, url %s", formattedURL)
-		}
+		return nil, errors.Wrapf(err, "couldn't load data, url %s", formattedURL)
 	}
 	var tribes []*twmodel.Tribe
 	for _, line := range lines {
@@ -292,10 +282,7 @@ func (dl *ServerDataLoader) LoadVillages() ([]*twmodel.Village, error) {
 	formattedURL := dl.baseURL + EndpointVillage
 	lines, err := dl.getCSVData(formattedURL, true)
 	if err != nil {
-		lines, err = dl.getCSVData(dl.baseURL+EndpointVillageNotGzipped, false)
-		if err != nil {
-			return nil, errors.Wrapf(err, "couldn't load data, formattedURL %s", formattedURL)
-		}
+		return nil, errors.Wrapf(err, "couldn't load data, formattedURL %s", formattedURL)
 	}
 	var villages []*twmodel.Village
 	for _, line := range lines {
@@ -350,10 +337,7 @@ func (dl *ServerDataLoader) LoadEnnoblements(cfg *LoadEnnoblementsConfig) ([]*tw
 		formattedURL = dl.baseURL + fmt.Sprintf(EndpointGetConquer, cfg.EnnobledAtGT.Unix())
 		compressed = false
 	}
-	lines, err := dl.getCSVData(formattedURL, compressed)
-	if err != nil && compressed {
-		lines, err = dl.getCSVData(dl.baseURL+EndpointConquerNotGzipped, false)
-	}
+	lines, err := d.getCSVData(formattedURL, compressed)
 	if err != nil {
 		return nil, errors.Wrapf(err, "couldn't load data, formattedURL %s", formattedURL)
 	}
