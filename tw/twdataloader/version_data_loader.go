@@ -59,11 +59,21 @@ func (dl *VersionDataLoader) LoadServers() ([]*Server, error) {
 		}
 		return nil, fmtedErr
 	}
+	bodyMap, ok := body.(map[interface{}]interface{})
+	if !ok {
+		return nil, errors.Errorf("expected map, got %T", body)
+	}
 
 	var servers []*Server
-	for serverKey, url := range body.(map[interface{}]interface{}) {
-		serverKeyStr := serverKey.(string)
-		urlStr := url.(string)
+	for serverKey, url := range bodyMap {
+		serverKeyStr, ok := serverKey.(string)
+		if !ok {
+			return nil, errors.Errorf("expected string as the key of the map, got %T", serverKey)
+		}
+		urlStr, ok := url.(string)
+		if !ok {
+			return nil, errors.Errorf("expected string as the value of the map, got %T", url)
+		}
 		if serverKeyStr != "" && urlStr != "" {
 			servers = append(servers, &Server{
 				Key: serverKeyStr,
