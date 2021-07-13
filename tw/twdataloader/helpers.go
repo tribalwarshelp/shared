@@ -47,6 +47,20 @@ func prepareTestServer(h *handlers) *httptest.Server {
 		case EndpointGetServers:
 			h.getServers(w, r)
 			return
+		case EndpointKillAll:
+			return
+		case EndpointKillAtt:
+			return
+		case EndpointKillDef:
+			return
+		case EndpointKillSup:
+			return
+		case EndpointKillAllTribe:
+			return
+		case EndpointKillAttTribe:
+			return
+		case EndpointKillDefTribe:
+			return
 		default:
 			w.WriteHeader(http.StatusNotFound)
 		}
