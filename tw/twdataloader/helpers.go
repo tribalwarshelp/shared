@@ -5,6 +5,7 @@ import (
 	"encoding/csv"
 	"io"
 	"net/http"
+	"net/http/httptest"
 	"time"
 )
 
@@ -21,4 +22,42 @@ func uncompressAndReadCsvLines(r io.Reader) ([][]string, error) {
 	}
 	defer uncompressedStream.Close()
 	return csv.NewReader(uncompressedStream).ReadAll()
+}
+
+type handlers struct {
+	getServers http.HandlerFunc
+}
+
+func (h *handlers) init() {
+	noop := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusNotFound)
+	})
+	if h.getServers == nil {
+		h.getServers = noop
+	}
+}
+
+func prepareTestServer(h *handlers) *httptest.Server {
+	if h == nil {
+		h = &handlers{}
+	}
+	h.init()
+	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		switch r.URL.Path {
+		case EndpointGetServers:
+			h.getServers(w, r)
+			return
+		default:
+			w.WriteHeader(http.StatusNotFound)
+		}
+	}))
+}
+
+func createWriteStringHandler(resp string) http.HandlerFunc {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		_, err := w.Write([]byte(resp))
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+	})
 }
