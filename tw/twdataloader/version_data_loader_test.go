@@ -10,7 +10,7 @@ import (
 )
 
 func prepareTestServer(resp string) *httptest.Server {
-	return httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case EndpointGetServers:
 			_, err := w.Write([]byte(resp))

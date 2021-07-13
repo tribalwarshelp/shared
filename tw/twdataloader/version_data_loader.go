@@ -1,7 +1,6 @@
 package twdataloader
 
 import (
-	"fmt"
 	phpserialize "github.com/Kichiyaki/go-php-serialize"
 	"github.com/pkg/errors"
 	"io/ioutil"
@@ -41,7 +40,7 @@ func NewVersionDataLoader(cfg *VersionDataLoaderConfig) *VersionDataLoader {
 }
 
 func (dl *VersionDataLoader) LoadServers() ([]*Server, error) {
-	resp, err := dl.client.Get(fmt.Sprintf("https://%s%s", dl.host, EndpointGetServers))
+	resp, err := dl.client.Get(dl.host + EndpointGetServers)
 	if err != nil {
 		return nil, errors.Wrap(err, "couldn't load servers")
 	}
