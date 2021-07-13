@@ -337,7 +337,7 @@ func (dl *ServerDataLoader) LoadEnnoblements(cfg *LoadEnnoblementsConfig) ([]*tw
 		formattedURL = dl.baseURL + fmt.Sprintf(EndpointGetConquer, cfg.EnnobledAtGT.Unix())
 		compressed = false
 	}
-	lines, err := d.getCSVData(formattedURL, compressed)
+	lines, err := dl.getCSVData(formattedURL, compressed)
 	if err != nil {
 		return nil, errors.Wrapf(err, "couldn't load data, formattedURL %s", formattedURL)
 	}
