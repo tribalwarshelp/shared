@@ -1,7 +1,6 @@
 package twdataloader
 
 import (
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
@@ -14,7 +13,7 @@ func prepareTestServer(resp string) *httptest.Server {
 	return httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case EndpointGetServers:
-			_, err := fmt.Fprintln(w, resp)
+			_, err := w.Write([]byte(resp))
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 			}
