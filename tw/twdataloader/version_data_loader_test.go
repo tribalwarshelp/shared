@@ -43,7 +43,7 @@ func TestLoadServers(t *testing.T) {
 			})
 
 			dl := NewVersionDataLoader(&VersionDataLoaderConfig{
-				Host:   strings.ReplaceAll(ts.URL, "https://", ""),
+				Host:   ts.URL,
 				Client: ts.Client(),
 			})
 
@@ -66,7 +66,7 @@ func TestLoadServers(t *testing.T) {
 		assert.Nil(t, err)
 
 		dl := NewVersionDataLoader(&VersionDataLoaderConfig{
-			Host:   strings.ReplaceAll(ts.URL, "https://", ""),
+			Host:   ts.URL,
 			Client: ts.Client(),
 		})
 
