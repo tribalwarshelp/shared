@@ -287,3 +287,113 @@ func TestLoadPlayers(t *testing.T) {
 		ts.Close()
 	}
 }
+
+func TestLoadTribes(t *testing.T) {
+	type scenario struct {
+		resp           string
+		expectedResult []*twmodel.Tribe
+		expectedErrMsg string
+	}
+
+	ex := true
+	scenarios := []scenario{
+		{
+			resp:           "1,1,1,1",
+			expectedErrMsg: "invalid line format (should be id,name,tag,members,villages,points,allpoints,rank)",
+		},
+		{
+			resp:           "1,name,1,500,500",
+			expectedErrMsg: "invalid line format (should be id,name,tag,members,villages,points,allpoints,rank)",
+		},
+		{
+			resp:           "asd,name,tag,500,500,500,500,500",
+			expectedErrMsg: "tribe.ID: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp:           "123,name,tag,asd,500,500,500,500",
+			expectedErrMsg: "tribe.TotalMembers: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp:           "123,name,tag,500,asd,500,500,500",
+			expectedErrMsg: "tribe.TotalVillages: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp:           "123,name,tag,500,500,asd,500,500",
+			expectedErrMsg: "tribe.Points: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp:           "123,name,tag,500,500,500,asd,500",
+			expectedErrMsg: "tribe.AllPoints: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp:           "123,name,tag,500,500,500,500,asd",
+			expectedErrMsg: "tribe.Rank: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp: "123,name,tag,500,501,502,503,504\n1234,name2,tag2,5000,5001,5002,5003,5004",
+			expectedResult: []*twmodel.Tribe{
+				{
+					ID:            123,
+					Name:          "name",
+					Tag:           "tag",
+					TotalMembers:  500,
+					TotalVillages: 501,
+					Points:        502,
+					AllPoints:     503,
+					Rank:          504,
+					Exists:        &ex,
+				},
+				{
+					ID:            1234,
+					Name:          "name2",
+					Tag:           "tag2",
+					TotalMembers:  5000,
+					TotalVillages: 5001,
+					Points:        5002,
+					AllPoints:     5003,
+					Rank:          5004,
+					Exists:        &ex,
+				},
+			},
+		},
+	}
+
+	for _, scenario := range scenarios {
+		ts := prepareTestServer(&handlers{
+			getTribes: createWriteCompressedStringHandler(scenario.resp),
+		})
+
+		dl := NewServerDataLoader(&ServerDataLoaderConfig{
+			BaseURL: ts.URL,
+			Client:  ts.Client(),
+		})
+
+		res, err := dl.LoadTribes()
+		if scenario.expectedErrMsg != "" {
+			assert.NotNil(t, err)
+			assert.Contains(t, err.Error(), scenario.expectedErrMsg)
+		} else {
+			assert.Nil(t, err)
+		}
+
+		if scenario.expectedResult != nil {
+			assert.Len(t, res, len(scenario.expectedResult))
+			for _, singleResult := range res {
+				found := false
+				var tribe *twmodel.Tribe
+				for _, expected := range scenario.expectedResult {
+					if expected.ID == singleResult.ID {
+						found = true
+						tribe = expected
+						break
+					}
+				}
+				assert.True(t, found)
+				assert.NotNil(t, tribe)
+				assert.EqualValues(t, tribe, singleResult)
+			}
+		}
+
+		ts.Close()
+	}
+}
