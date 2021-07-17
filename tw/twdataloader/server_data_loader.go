@@ -73,16 +73,16 @@ func (dl *ServerDataLoader) parseODLine(line []string) (*parsedODLine, error) {
 func (dl *ServerDataLoader) LoadOD(tribe bool) (map[int]*twmodel.OpponentsDefeated, error) {
 	m := make(map[int]*twmodel.OpponentsDefeated)
 	formattedURLs := []string{
-		fmt.Sprintf("%s%s", dl.baseURL, EndpointKillAll),
-		fmt.Sprintf("%s%s", dl.baseURL, EndpointKillAtt),
-		fmt.Sprintf("%s%s", dl.baseURL, EndpointKillDef),
-		fmt.Sprintf("%s%s", dl.baseURL, EndpointKillSup),
+		dl.baseURL + EndpointKillAll,
+		dl.baseURL + EndpointKillAtt,
+		dl.baseURL + EndpointKillDef,
+		dl.baseURL + EndpointKillSup,
 	}
 	if tribe {
 		formattedURLs = []string{
-			fmt.Sprintf("%s%s", dl.baseURL, EndpointKillAllTribe),
-			fmt.Sprintf("%s%s", dl.baseURL, EndpointKillAttTribe),
-			fmt.Sprintf("%s%s", dl.baseURL, EndpointKillDefTribe),
+			dl.baseURL + EndpointKillAllTribe,
+			dl.baseURL + EndpointKillAttTribe,
+			dl.baseURL + EndpointKillDefTribe,
 			"",
 		}
 	}
