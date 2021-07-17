@@ -1,8 +1,10 @@
 package twdataloader
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"time"
 
 	"github.com/tribalwarshelp/shared/tw/twmodel"
 )
@@ -496,6 +498,126 @@ func TestLoadVillages(t *testing.T) {
 				assert.True(t, found)
 				assert.NotNil(t, village)
 				assert.EqualValues(t, village, singleResult)
+			}
+		}
+
+		ts.Close()
+	}
+}
+
+func TestLoadEnnoblements(t *testing.T) {
+	type scenario struct {
+		respConquer    string
+		respGetConquer string
+		cfg            *LoadEnnoblementsConfig
+		expectedResult []*twmodel.Ennoblement
+		expectedErrMsg string
+	}
+
+	nowMinus5h := time.Now().Add(-5 * time.Hour).Unix()
+	nowMinus6h := time.Now().Add(-6 * time.Hour).Unix()
+	scenarios := []scenario{
+		{
+			respConquer:    "1,1,1",
+			expectedErrMsg: "invalid line format (should be village_id,timestamp,new_owner_id,old_owner_id)",
+		},
+		{
+			respConquer:    "1,name,1,500,500",
+			expectedErrMsg: "invalid line format (should be village_id,timestamp,new_owner_id,old_owner_id)",
+		},
+		{
+			respConquer:    "asd,123,123,123",
+			expectedErrMsg: "ennoblement.VillageID: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			respConquer:    "123,asd,123,123",
+			expectedErrMsg: "timestamp: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			respConquer:    "123,123,asd,123",
+			expectedErrMsg: "ennoblement.NewOwnerID: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			respConquer:    "123,123,123,asd",
+			expectedErrMsg: "ennoblement.OldOwnerID: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			respConquer: "123,124,125,126\n127,128,129,130",
+			expectedResult: []*twmodel.Ennoblement{
+				{
+					VillageID:  123,
+					EnnobledAt: time.Unix(124, 0),
+					NewOwnerID: 125,
+					OldOwnerID: 126,
+				},
+				{
+					VillageID:  127,
+					EnnobledAt: time.Unix(128, 0),
+					NewOwnerID: 129,
+					OldOwnerID: 130,
+				},
+			},
+		},
+		{
+			respGetConquer: "123,124,125,126\n127,128,129,130",
+			cfg: &LoadEnnoblementsConfig{
+				EnnobledAtGT: time.Now().Add(5 * time.Hour),
+			},
+			expectedResult: []*twmodel.Ennoblement{},
+		},
+		{
+			respConquer: fmt.Sprintf("123,%d,125,126\n127,%d,129,130", nowMinus5h, nowMinus6h),
+			expectedResult: []*twmodel.Ennoblement{
+				{
+					VillageID:  123,
+					EnnobledAt: time.Unix(nowMinus5h, 0),
+					NewOwnerID: 125,
+					OldOwnerID: 126,
+				},
+				{
+					VillageID:  127,
+					EnnobledAt: time.Unix(nowMinus6h, 0),
+					NewOwnerID: 129,
+					OldOwnerID: 130,
+				},
+			},
+		},
+	}
+
+	for _, scenario := range scenarios {
+		ts := prepareTestServer(&handlers{
+			conquer:    createWriteCompressedStringHandler(scenario.respConquer),
+			getConquer: createWriteStringHandler(scenario.respGetConquer),
+		})
+
+		dl := NewServerDataLoader(&ServerDataLoaderConfig{
+			BaseURL: ts.URL,
+			Client:  ts.Client(),
+		})
+
+		res, err := dl.LoadEnnoblements(scenario.cfg)
+		if scenario.expectedErrMsg != "" {
+			assert.NotNil(t, err)
+			assert.Contains(t, err.Error(), scenario.expectedErrMsg)
+		} else {
+			assert.Nil(t, err)
+		}
+
+		if scenario.expectedResult != nil {
+			assert.Len(t, res, len(scenario.expectedResult))
+			for _, singleResult := range res {
+				found := false
+				var ennoblement *twmodel.Ennoblement
+				for _, expected := range scenario.expectedResult {
+					if expected.VillageID == singleResult.VillageID {
+						found = true
+						ennoblement = expected
+						break
+					}
+				}
+				assert.True(t, found)
+				assert.NotNil(t, ennoblement)
+				assert.EqualValues(t, ennoblement, singleResult)
 			}
 		}
 

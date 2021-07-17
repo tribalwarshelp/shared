@@ -26,6 +26,7 @@ const (
 	EndpointKillAllTribeNotGzipped = "/map/kill_all_tribe.txt"
 	EndpointConquer                = "/map/conquer.txt.gz"
 	EndpointConquerNotGzipped      = "/map/conquer.txt"
-	EndpointGetConquer             = "/interface.php?func=get_conquer&since=%d"
+	endpointInterface              = "/interface.php"
+	EndpointGetConquer             = endpointInterface + "?func=get_conquer&since=%d"
 	EndpointGetServers             = "/backend/get_servers.php"
 )

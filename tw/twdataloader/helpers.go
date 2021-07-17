@@ -133,7 +133,7 @@ func prepareTestServer(h *handlers) *httptest.Server {
 		case EndpointConquer:
 			h.conquer(w, r)
 			return
-		case EndpointGetConquer:
+		case endpointInterface:
 			h.getConquer(w, r)
 			return
 		default:
