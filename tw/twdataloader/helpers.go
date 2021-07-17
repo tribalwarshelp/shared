@@ -35,6 +35,7 @@ type handlers struct {
 	killDefTribe http.HandlerFunc
 	getPlayers   http.HandlerFunc
 	getTribes    http.HandlerFunc
+	getVillages  http.HandlerFunc
 }
 
 func (h *handlers) init() {
@@ -70,6 +71,9 @@ func (h *handlers) init() {
 	}
 	if h.getTribes == nil {
 		h.getTribes = noop
+	}
+	if h.getVillages == nil {
+		h.getVillages = noop
 	}
 }
 
@@ -114,6 +118,9 @@ func prepareTestServer(h *handlers) *httptest.Server {
 			return
 		case EndpointTribe:
 			h.getTribes(w, r)
+			return
+		case EndpointVillage:
+			h.getVillages(w, r)
 			return
 		default:
 			w.WriteHeader(http.StatusNotFound)

@@ -397,3 +397,108 @@ func TestLoadTribes(t *testing.T) {
 		ts.Close()
 	}
 }
+
+func TestLoadVillages(t *testing.T) {
+	type scenario struct {
+		resp           string
+		expectedResult []*twmodel.Village
+		expectedErrMsg string
+	}
+
+	scenarios := []scenario{
+		{
+			resp:           "1,1,1,1",
+			expectedErrMsg: "invalid line format (should be id,name,x,y,playerID,points,bonus)",
+		},
+		{
+			resp:           "1,name,1,500,500",
+			expectedErrMsg: "invalid line format (should be id,name,x,y,playerID,points,bonus)",
+		},
+		{
+			resp:           "asd,name,500,500,500,500,0",
+			expectedErrMsg: "village.ID: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp:           "123,name,asd,500,500,500,0",
+			expectedErrMsg: "village.X: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp:           "123,name,500,asd,500,500,0",
+			expectedErrMsg: "village.Y: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp:           "123,name,500,500,asd,500,0",
+			expectedErrMsg: "village.PlayerID: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp:           "123,name,500,500,500,asd,0",
+			expectedErrMsg: "village.Points: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp:           "123,name,500,500,500,500,asd",
+			expectedErrMsg: "village.Bonus: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp: "123,village 1,500,501,502,503,504\n124,village 2,100,101,102,103,104",
+			expectedResult: []*twmodel.Village{
+				{
+					ID:       123,
+					Name:     "village 1",
+					X:        500,
+					Y:        501,
+					PlayerID: 502,
+					Points:   503,
+					Bonus:    504,
+				},
+				{
+					ID:       124,
+					Name:     "village 2",
+					X:        100,
+					Y:        101,
+					PlayerID: 102,
+					Points:   103,
+					Bonus:    104,
+				},
+			},
+		},
+	}
+
+	for _, scenario := range scenarios {
+		ts := prepareTestServer(&handlers{
+			getVillages: createWriteCompressedStringHandler(scenario.resp),
+		})
+
+		dl := NewServerDataLoader(&ServerDataLoaderConfig{
+			BaseURL: ts.URL,
+			Client:  ts.Client(),
+		})
+
+		res, err := dl.LoadVillages()
+		if scenario.expectedErrMsg != "" {
+			assert.NotNil(t, err)
+			assert.Contains(t, err.Error(), scenario.expectedErrMsg)
+		} else {
+			assert.Nil(t, err)
+		}
+
+		if scenario.expectedResult != nil {
+			assert.Len(t, res, len(scenario.expectedResult))
+			for _, singleResult := range res {
+				found := false
+				var village *twmodel.Village
+				for _, expected := range scenario.expectedResult {
+					if expected.ID == singleResult.ID {
+						found = true
+						village = expected
+						break
+					}
+				}
+				assert.True(t, found)
+				assert.NotNil(t, village)
+				assert.EqualValues(t, village, singleResult)
+			}
+		}
+
+		ts.Close()
+	}
+}
