@@ -73,40 +73,40 @@ func TestLoadOD(t *testing.T) {
 			tribe:            true,
 		},
 		{
-			respKillAll: "1,1,1\n2,2,2\n3,3,3",
-			respKillAtt: "1,1,1\n2,2,2\n3,3,3",
-			respKillDef: "1,1,1\n2,2,2\n3,3,3",
-			respKillSup: "1,1,1\n2,2,2\n3,3,3",
+			respKillAll: "1,1,1\n4,2,4\n2,3,2",
+			respKillAtt: "2,1,2\n3,2,3\n1,3,1",
+			respKillDef: "3,1,3\n2,2,2\n4,3,4",
+			respKillSup: "4,1,4\n1,2,1\n3,3,3",
 			expectedResult: map[int]*twmodel.OpponentsDefeated{
 				1: {
-					RankAtt:    1,
-					ScoreAtt:   1,
-					RankDef:    1,
-					ScoreDef:   1,
-					RankSup:    1,
-					ScoreSup:   1,
+					RankAtt:    2,
+					ScoreAtt:   2,
+					RankDef:    3,
+					ScoreDef:   3,
+					RankSup:    4,
+					ScoreSup:   4,
 					RankTotal:  1,
 					ScoreTotal: 1,
 				},
 				2: {
-					RankAtt:    2,
-					ScoreAtt:   2,
-					RankDef:    2,
-					ScoreDef:   2,
-					RankSup:    2,
-					ScoreSup:   2,
-					ScoreTotal: 2,
-					RankTotal:  2,
-				},
-				3: {
 					RankAtt:    3,
 					ScoreAtt:   3,
-					RankDef:    3,
-					ScoreDef:   3,
+					RankDef:    2,
+					ScoreDef:   2,
+					RankSup:    1,
+					ScoreSup:   1,
+					ScoreTotal: 4,
+					RankTotal:  4,
+				},
+				3: {
+					RankAtt:    1,
+					ScoreAtt:   1,
+					RankDef:    4,
+					ScoreDef:   4,
 					RankSup:    3,
 					ScoreSup:   3,
-					ScoreTotal: 3,
-					RankTotal:  3,
+					ScoreTotal: 2,
+					RankTotal:  2,
 				},
 			},
 		},
@@ -189,6 +189,7 @@ func TestLoadPlayers(t *testing.T) {
 		expectedErrMsg string
 	}
 
+	exists := true
 	scenarios := []scenario{
 		{
 			resp:           "1,1,1,1",
@@ -197,6 +198,53 @@ func TestLoadPlayers(t *testing.T) {
 		{
 			resp:           "1,name,1,500,500",
 			expectedErrMsg: "invalid line format (should be id,name,tribeid,villages,points,rank)",
+		},
+		{
+			resp:           "asd,name,1,500,500,500",
+			expectedErrMsg: "player.ID: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp:           "1,name,asd,500,500,500",
+			expectedErrMsg: "player.TribeID: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp:           "1,name,123,asd,500,500",
+			expectedErrMsg: "player.TotalVillages: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp:           "1,name,123,500,asd,500",
+			expectedErrMsg: "player.Points: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp:           "1,name,123,500,123,asd",
+			expectedErrMsg: "player.Rank: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp:           "1,name,123,500,500,asd",
+			expectedErrMsg: "player.Rank: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			resp: "1,name,123,124,125,126\n2,name2,256,257,258,259",
+			expectedResult: []*twmodel.Player{
+				{
+					ID:            1,
+					Name:          "name",
+					TribeID:       123,
+					TotalVillages: 124,
+					Points:        125,
+					Rank:          126,
+					Exists:        &exists,
+				},
+				{
+					ID:            2,
+					Name:          "name2",
+					TribeID:       256,
+					TotalVillages: 257,
+					Points:        258,
+					Rank:          259,
+					Exists:        &exists,
+				},
+			},
 		},
 	}
 
