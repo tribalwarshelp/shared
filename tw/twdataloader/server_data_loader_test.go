@@ -46,6 +46,33 @@ func TestLoadOD(t *testing.T) {
 			tribe:            true,
 		},
 		{
+			respKillAll:    "1,1,asd",
+			expectedErrMsg: "parsedODLine.Score: strconv.Atoi: parsing \"asd\"",
+		},
+		{
+			respKillAll:    "1,asd,1",
+			expectedErrMsg: "parsedODLine.ID: strconv.Atoi: parsing \"asd\":",
+		},
+		{
+			respKillAll:    "asd,1,1",
+			expectedErrMsg: "parsedODLine.Rank: strconv.Atoi: parsing \"asd\":",
+		},
+		{
+			respKillAllTribe: "1,1,asd",
+			expectedErrMsg:   "parsedODLine.Score: strconv.Atoi: parsing \"asd\"",
+			tribe:            true,
+		},
+		{
+			respKillAllTribe: "1,asd,1",
+			expectedErrMsg:   "parsedODLine.ID: strconv.Atoi: parsing \"asd\":",
+			tribe:            true,
+		},
+		{
+			respKillAllTribe: "asd,1,1",
+			expectedErrMsg:   "parsedODLine.Rank: strconv.Atoi: parsing \"asd\":",
+			tribe:            true,
+		},
+		{
 			respKillAll: "1,1,1\n2,2,2\n3,3,3",
 			respKillAtt: "1,1,1\n2,2,2\n3,3,3",
 			respKillDef: "1,1,1\n2,2,2\n3,3,3",
@@ -148,6 +175,64 @@ func TestLoadOD(t *testing.T) {
 				assert.True(t, ok)
 				assert.NotNil(t, expected)
 				assert.EqualValues(t, expected, singleResult)
+			}
+		}
+
+		ts.Close()
+	}
+}
+
+func TestLoadPlayers(t *testing.T) {
+	type scenario struct {
+		resp           string
+		expectedResult []*twmodel.Player
+		expectedErrMsg string
+	}
+
+	scenarios := []scenario{
+		{
+			resp:           "1,1,1,1",
+			expectedErrMsg: "invalid line format (should be id,name,tribeid,villages,points,rank)",
+		},
+		{
+			resp:           "1,name,1,500,500",
+			expectedErrMsg: "invalid line format (should be id,name,tribeid,villages,points,rank)",
+		},
+	}
+
+	for _, scenario := range scenarios {
+		ts := prepareTestServer(&handlers{
+			getPlayers: createWriteCompressedStringHandler(scenario.resp),
+		})
+
+		dl := NewServerDataLoader(&ServerDataLoaderConfig{
+			BaseURL: ts.URL,
+			Client:  ts.Client(),
+		})
+
+		res, err := dl.LoadPlayers()
+		if scenario.expectedErrMsg != "" {
+			assert.NotNil(t, err)
+			assert.Contains(t, err.Error(), scenario.expectedErrMsg)
+		} else {
+			assert.Nil(t, err)
+		}
+
+		if scenario.expectedResult != nil {
+			assert.Len(t, res, len(scenario.expectedResult))
+			for _, singleResult := range res {
+				found := false
+				var player *twmodel.Player
+				for _, expected := range scenario.expectedResult {
+					if expected.ID == singleResult.ID {
+						found = true
+						player = expected
+						break
+					}
+				}
+				assert.True(t, found)
+				assert.NotNil(t, player)
+				assert.EqualValues(t, player, singleResult)
 			}
 		}
 

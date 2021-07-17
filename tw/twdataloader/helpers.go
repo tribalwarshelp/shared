@@ -33,6 +33,7 @@ type handlers struct {
 	killAllTribe http.HandlerFunc
 	killAttTribe http.HandlerFunc
 	killDefTribe http.HandlerFunc
+	getPlayers   http.HandlerFunc
 }
 
 func (h *handlers) init() {
@@ -63,6 +64,9 @@ func (h *handlers) init() {
 	if h.killDefTribe == nil {
 		h.killDefTribe = noop
 	}
+	if h.getPlayers == nil {
+		h.getPlayers = noop
+	}
 }
 
 func prepareTestServer(h *handlers) *httptest.Server {
@@ -72,6 +76,10 @@ func prepareTestServer(h *handlers) *httptest.Server {
 	h.init()
 
 	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "GET" {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
 		switch r.URL.Path {
 		case EndpointGetServers:
 			h.getServers(w, r)
@@ -96,6 +104,9 @@ func prepareTestServer(h *handlers) *httptest.Server {
 			return
 		case EndpointKillDefTribe:
 			h.killDefTribe(w, r)
+			return
+		case EndpointPlayer:
+			h.getPlayers(w, r)
 			return
 		default:
 			w.WriteHeader(http.StatusNotFound)
