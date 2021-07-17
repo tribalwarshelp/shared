@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"time"
 )
 
@@ -163,4 +164,12 @@ func createWriteCompressedStringHandler(resp string) http.HandlerFunc {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
 	})
+}
+
+func buildURL(base, endpoint string) string {
+	url := base + endpoint
+	if !strings.HasPrefix(url, "http") {
+		url = "https://" + url
+	}
+	return url
 }

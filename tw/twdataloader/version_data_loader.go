@@ -40,7 +40,7 @@ func NewVersionDataLoader(cfg *VersionDataLoaderConfig) *VersionDataLoader {
 }
 
 func (dl *VersionDataLoader) LoadServers() ([]*Server, error) {
-	resp, err := dl.client.Get(dl.host + EndpointGetServers)
+	resp, err := dl.client.Get(buildURL(dl.host, EndpointGetServers))
 	if err != nil {
 		return nil, errors.Wrap(err, "couldn't load servers")
 	}
