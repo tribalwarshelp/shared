@@ -33,9 +33,11 @@ type handlers struct {
 	killAllTribe http.HandlerFunc
 	killAttTribe http.HandlerFunc
 	killDefTribe http.HandlerFunc
-	getPlayers   http.HandlerFunc
-	getTribes    http.HandlerFunc
-	getVillages  http.HandlerFunc
+	player       http.HandlerFunc
+	tribe        http.HandlerFunc
+	village      http.HandlerFunc
+	conquer      http.HandlerFunc
+	getConquer   http.HandlerFunc
 }
 
 func (h *handlers) init() {
@@ -66,14 +68,20 @@ func (h *handlers) init() {
 	if h.killDefTribe == nil {
 		h.killDefTribe = noop
 	}
-	if h.getPlayers == nil {
-		h.getPlayers = noop
+	if h.player == nil {
+		h.player = noop
 	}
-	if h.getTribes == nil {
-		h.getTribes = noop
+	if h.tribe == nil {
+		h.tribe = noop
 	}
-	if h.getVillages == nil {
-		h.getVillages = noop
+	if h.village == nil {
+		h.village = noop
+	}
+	if h.conquer == nil {
+		h.conquer = noop
+	}
+	if h.getConquer == nil {
+		h.getConquer = noop
 	}
 }
 
@@ -114,13 +122,19 @@ func prepareTestServer(h *handlers) *httptest.Server {
 			h.killDefTribe(w, r)
 			return
 		case EndpointPlayer:
-			h.getPlayers(w, r)
+			h.player(w, r)
 			return
 		case EndpointTribe:
-			h.getTribes(w, r)
+			h.tribe(w, r)
 			return
 		case EndpointVillage:
-			h.getVillages(w, r)
+			h.village(w, r)
+			return
+		case EndpointConquer:
+			h.conquer(w, r)
+			return
+		case EndpointGetConquer:
+			h.getConquer(w, r)
 			return
 		default:
 			w.WriteHeader(http.StatusNotFound)

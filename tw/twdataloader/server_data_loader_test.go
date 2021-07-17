@@ -250,7 +250,7 @@ func TestLoadPlayers(t *testing.T) {
 
 	for _, scenario := range scenarios {
 		ts := prepareTestServer(&handlers{
-			getPlayers: createWriteCompressedStringHandler(scenario.resp),
+			player: createWriteCompressedStringHandler(scenario.resp),
 		})
 
 		dl := NewServerDataLoader(&ServerDataLoaderConfig{
@@ -360,7 +360,7 @@ func TestLoadTribes(t *testing.T) {
 
 	for _, scenario := range scenarios {
 		ts := prepareTestServer(&handlers{
-			getTribes: createWriteCompressedStringHandler(scenario.resp),
+			tribe: createWriteCompressedStringHandler(scenario.resp),
 		})
 
 		dl := NewServerDataLoader(&ServerDataLoaderConfig{
@@ -465,7 +465,7 @@ func TestLoadVillages(t *testing.T) {
 
 	for _, scenario := range scenarios {
 		ts := prepareTestServer(&handlers{
-			getVillages: createWriteCompressedStringHandler(scenario.resp),
+			village: createWriteCompressedStringHandler(scenario.resp),
 		})
 
 		dl := NewServerDataLoader(&ServerDataLoaderConfig{
