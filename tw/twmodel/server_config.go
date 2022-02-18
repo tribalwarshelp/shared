@@ -39,7 +39,7 @@ type ServerConfigGame struct {
 	Church             int     `xml:"church" json:"church" gqlgen:"church"`
 	Watchtower         int     `xml:"watchtower" json:"watchtower" gqlgen:"watchtower"`
 	Stronghold         int     `xml:"stronghold" json:"stronghold" gqlgen:"stronghold"`
-	FakeLimit          int     `xml:"fake_limit" json:"fake_limit" gqlgen:"fakeLimit"`
+	FakeLimit          float64 `xml:"fake_limit" json:"fake_limit" gqlgen:"fakeLimit"`
 	BarbarianRise      float64 `xml:"barbarian_rise" json:"barbarian_rise" gqlgen:"barbarianRise"`
 	BarbarianShrink    int     `xml:"barbarian_shrink" json:"barbarian_shrink" gqlgen:"barbarianShrink"`
 	BarbarianMaxPoints int     `xml:"barbarian_max_points" json:"barbarian_max_points" gqlgen:"barbarianMaxPoints"`
